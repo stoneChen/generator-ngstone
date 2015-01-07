@@ -1,0 +1,12 @@
+@import '_variable.less';
+//表单校验 error
+div.error,div.validate-error {
+  display: none;
+}
+.has-error{
+  div.error,div.validate-error {
+    display: block;
+    margin-top: 10px;
+    color: @error-clr;
+  }
+}

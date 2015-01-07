@@ -1,0 +1,16 @@
+{<% var ngVer = "1.2.0" %>
+    "name": "<%= appName %>",
+    "version": "0.0.1",
+    "appPath": "app",
+    "dependencies": {
+        "jquery":"~2.1.3",
+        "bootstrap": "~3.3.0",
+        "fontawesome": "~4.2.0",
+        "angular": "~<%= ngVer %>",
+        "angular-sanitize": "~<%= ngVer %>",
+        "angular-animate": "~<%= ngVer %>",
+        "angular-route": "~<%= ngVer %>",
+        "angular-bootstrap":"~0.12.0"
+    }
+}
+

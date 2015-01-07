@@ -1,0 +1,10 @@
+div.error,
+div.validate-error {
+  display: none;
+}
+.has-error div.error,
+.has-error div.validate-error {
+  display: block;
+  margin-top: 10px;
+  color: #a94442;
+}
