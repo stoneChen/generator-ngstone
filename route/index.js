@@ -2,8 +2,8 @@
 var yeoman = require('yeoman-generator');
 var path = require('path');
 var chalk = require('chalk');
-var SubGeneratorBase = require('../sub-gen-base');
-var generatorUtil = require('../gen-util');
+var SubGeneratorBase = require('../subgenerator-base');
+var generatorUtil = require('../generator-util');
 
 module.exports = SubGeneratorBase.extend({
     writing: function () {
