@@ -32,12 +32,28 @@ angular.module('<%= scriptAppName %>')
             }
         }
     })
-    .factory('globalDataService', function () {
+    .factory('globalDataService', function () {//这里存放初始化的全局数据，下面是一些demo
         var globalData = {
-            upload:{
-                url:'/upload',
-                imgTypes:['.jpg','.jpeg','.gif','.bmp','.png']
-            }
+            upload: {
+                url: '/upload',
+                imgTypes: ['.jpg', '.jpeg', '.gif', '.bmp', '.png']
+            },
+            menu: [
+                {"children": [
+                    {"children": [],"href": "#/myinfo/home", "name": "我的主页"},
+                    {"children": [
+                        {"children": [], "href": "#/myinfo/personal1", "name": "个人信息1"},
+                        {"children": [], "href": "#/myinfo/personal2", "name": "个人信息2"}
+                    ], "href": "", "name": "个人信息"},
+                    {"children": [
+                        {"children": [], "href": "#/creditcard", "name": "添加信用卡"}
+                    ], "href": "", "name": "信用卡管理"}
+                ], "name": "demo菜单组1"},
+                {"children": [
+                    {"children": [], "href": "#/submune1", "name": "子菜单1"},
+                    {"children": [], "href": "#/submune2", "name": "子菜单2"}
+                ], "name": "demo菜单组2"}
+            ]
         };
         return {
             get: function (name) {

@@ -22,6 +22,7 @@ module.exports = yeoman.generators.Base.extend({
         this.classedName = this._.classify(this.name);
         this.cameledName = this._.camelize(this.name);
         this.appPath = 'app';
+        this.initBaseServiceAndLayout = true;
         this.hookFor('ngstone:route',{
             args:['main']
         });
@@ -107,6 +108,7 @@ module.exports = yeoman.generators.Base.extend({
             this._templateAndPreinstall('filters');
             this._templateAndPreinstall('services');
             this._templateAndPreinstall('directives');
+            this._templateAndPreinstall('controllers');
             //views
             this.sourceRoot(path.join(__dirname, '../templates/views/_preinstall'));
             this.directory(

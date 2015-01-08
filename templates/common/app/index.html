@@ -18,12 +18,58 @@
 </head>
 <body ng-app="<%= scriptAppName %>">
 
+<% if (!initBaseServiceAndLayout){ %>
 <!-- Add your site or application content here -->
 <div class="container">
     <div ng-view></div>
 </div>
-
-
+<% } else {%>
+<header class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand">圈子后台管理系统</a>
+        </div>
+        <nav class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right" ng-class="{'show':ROOT_loginData.isLogin}">
+                <li>
+                    <a href="#/myinfo/personal">您好，{{ROOT_loginData.loginUser.circleNickName}}</a>
+                </li>
+                <li>
+                    <a ng-click="ROOT_loginData.logout()" href="javascript:void(0)">退出</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<div class="notify">
+    <div
+        class="messages alert alert-{{ROOT_messageData.globalMsg.type}} {{ROOT_messageData.globalMsg.show ? 'show' : ''}}">
+        <p ng-repeat="item in ROOT_messageData.globalMsg.messages" ng-bind="item.msg"></p>
+    </div>
+    <div class="loading alert alert-info" ng-class="{'show':ROOT_loadingStatData.showLoading}" ng-show="showLoading">
+        <i class="fa fa-spinner fa-spin"></i> 通讯中...
+    </div>
+</div>
+<!-- Add your site or application content here -->
+<div class="container main-body" ng-switch on="ROOT_loginData.isLogin">
+    <div class="row" ng-switch-when="undefined">
+        <div class="col-xs-12"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
+    </div>
+    <div class="row" ng-switch-when="false">
+        <div class="col-xs-12">
+            <div ng-include="'views/login.html'"></div>
+        </div>
+    </div>
+    <div class="row" ng-switch-when="true">
+        <div class="col-xs-3">
+            <div ng-include="'views/side-menu.html'"></div>
+        </div>
+        <div class="col-xs-9 main-content">
+            <div ng-view></div>
+        </div>
+    </div>
+</div>
+<% } %>
 
 <!-- build:js(./bower_components) scripts/vendor.js -->
 <!-- bower:js -->

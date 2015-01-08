@@ -1,0 +1,17 @@
+<div class="login-wrapper" ng-controller="LoginCtrl">
+    <div class="login-box">
+        <form class="login-form" name="loginForm" ng-submit="submit()">
+            <h3>用户登录</h3>
+            <div class="alert alert-danger ellipsis login-err" ng-show="loginError">{{loginError}}</div>
+            <div class="form-group">
+                <span class="glyphicon glyphicon-user"></span>
+                <input type="text" class="form-control" name="username" placeholder="请输入用户名" ng-model="user.username" required>
+            </div>
+            <div class="form-group">
+                <span class="glyphicon glyphicon-lock"></span>
+                <input type="password" class="form-control" name="password" ng-model="user.password" placeholder="请输入密码" required>
+            </div>
+            <button class="btn btn-primary btn-block login-btn" ng-disabled="!loginForm.$valid">登 录</button>
+        </form>
+    </div>
+</div>
