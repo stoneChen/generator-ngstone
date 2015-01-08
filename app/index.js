@@ -26,7 +26,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     prompting: function () {
-        this._initModules();
+//        this._initModules();
         return;//暂时先不提示了
         var done = this.async();
 
@@ -78,7 +78,7 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('app/index.html'),
                 this.destinationPath('app/index.html')
             );
-            this.bulkDirectory(
+            this.directory(
                 'app/images',
                 this.destinationPath('app/images')
             );
@@ -92,21 +92,31 @@ module.exports = yeoman.generators.Base.extend({
         },
         styles: function () {
             this.sourceRoot(path.join(__dirname, '../templates'));
-            this.bulkDirectory(
+            this.directory(
                 'styles',
                 this.destinationPath('app/styles')
             );
         },
         views: function () {
             this.sourceRoot(path.join(__dirname, '../templates'));
-            this.bulkDirectory(
+            this.directory(
                 'views/_common',
                 this.destinationPath('app/views/_common')
             );
-            this.bulkDirectory(
+            this.directory(
                 'views/_widgets',
                 this.destinationPath('app/views/_widgets')
             );
+        },
+        preinstall: function () {
+            this.sourceRoot(path.join(__dirname, '../templates/javascripts/_preinstall'));
+            this._templatePreinstall('filters');
+            this._templatePreinstall('services');
+        },
+        _templatePreinstall: function (subDir) {
+            generatorUtil.readFiles(path.join(this.sourceRoot(),subDir), function (f) {
+                this.template(f,this.destinationPath(path.join('app/scripts',subDir)))
+            },this);
         }
     },
 

@@ -54,20 +54,6 @@ function rewriteFile(args) {
     fs.writeFileSync(fullPath, body);
 }
 
-function appName(self) {
-    var counter = 0, suffix = self.options['app-suffix'];
-    // Have to check this because of generator bug #386
-    process.argv.forEach(function (val) {
-        if (val.indexOf('--app-suffix') > -1) {
-            counter++;
-        }
-    });
-    if (counter === 0 || (typeof suffix === 'boolean' && suffix)) {
-        suffix = 'App';
-    }
-    return suffix ? self._.classify(suffix) : '';
-}
-
 function addAppNameSuffix(appname) {
     return appname + 'App';
 }
@@ -94,11 +80,20 @@ function clearDir(path) {
     files.forEach(removeDirRecursiveSync);
 };
 
+function readFiles(directory,handler,context) {
+    var files = fs.readdirSync(directory);
+    files.forEach(function (f) {
+        if(fs.statSync(f).isDirectory()){
+            return;
+        }
+        handler.call(context,f);
+    })
+}
 module.exports = {
     rewrite: rewrite,
     rewriteFile: rewriteFile,
-    appName: appName,
     addAppNameSuffix:addAppNameSuffix,
     addScriptSuffix:addScriptSuffix,
-    clearDir:clearDir
+    clearDir:clearDir,
+    readFiles:readFiles
 };
