@@ -20,7 +20,7 @@ module.exports = yeoman.generators.NamedBase.extend({
             this.templatePath(templateName + '.js'),
             this.destinationPath(path.join(this.appPath,dest,generatorUtil.addScriptSuffix(this.name)))
         );
-        this.addScriptToIndex(path.join(dest, this.name));
+        generatorUtil.addScriptToIndex(this.appPath,path.join(dest, this.name));
         //暂不添加test
     },
     generateHtmlFile: function (viewName,dest) {
@@ -30,22 +30,5 @@ module.exports = yeoman.generators.NamedBase.extend({
             this.templatePath('view.html'),
             this.destinationPath(dest)//创建一层同名的目录，可以在这里创建其他视图，如dialog
         )
-    },
-    addScriptToIndex: function (script) {
-        try {
-            var appPath = this.appPath;
-            var fullPath = path.join(appPath, 'index.html');
-            generatorUtil.rewriteFile({
-                file: fullPath,
-                needle: '<!-- endbuild -->',
-                splicable: [
-                        '<script src="./' + script + '.js"></script>'
-                ]
-            });
-        } catch (e) {
-            this.log.error(chalk.yellow(
-                    '\nUnable to find ' + fullPath + '. Reference to ' + script + '.js ' + 'not added.\n'
-            ));
-        }
     }
 });

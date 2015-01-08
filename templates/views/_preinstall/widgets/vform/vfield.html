@@ -1,0 +1,10 @@
+<div ng-class="{'form-group':true,'has-error':formObj.showError && formObj[options.key].$invalid}">
+    <label class="col-sm-2 control-label">{{options.label}}</label>
+    <div class="col-sm-10 form-control-wrapper">
+        <div ng-repeat="(ruleName,message) in options.validators.messages"
+             ng-show="formObj.showError && formObj[options.key].$error[ruleName]"
+             class="validate-error">
+            <span class="glyphicon glyphicon-remove"></span> {{options.label}}{{message}}
+        </div>
+    </div>
+</div>

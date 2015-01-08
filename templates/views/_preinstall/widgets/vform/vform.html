@@ -1,0 +1,5 @@
+<form class="form-horizontal" ng-submit="onSubmit()" name="vForm" novalidate="">
+    <vfield ng-repeat="fieldOptions in fields"
+            form-obj="vForm" options="fieldOptions"
+            model-value="modelObj[fieldOptions.key]"></vfield>
+</form>

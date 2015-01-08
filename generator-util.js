@@ -58,7 +58,11 @@ function addAppNameSuffix(appname) {
     return appname + 'App';
 }
 function addScriptSuffix(scriptName) {
-    return scriptName + '.js';
+    if(/^.+\.js$/.test(scriptName)){
+        return scriptName;
+    }else{
+        return scriptName + '.js';
+    }
 }
 
 function removeDirRecursiveSync(itemPath) {
@@ -78,16 +82,29 @@ function clearDir(path) {
     }
     var files = fs.readdirSync(path);
     files.forEach(removeDirRecursiveSync);
-};
+}
 
 function readFiles(directory,handler,context) {
     var files = fs.readdirSync(directory);
     files.forEach(function (f) {
-        if(fs.statSync(f).isDirectory()){
+        var fullPath = path.join(directory,f);
+        if(fs.statSync(fullPath).isDirectory()){
             return;
         }
-        handler.call(context,f);
+        handler.call(context,f,fullPath);
     })
+}
+
+function addScriptToIndex(appPath,script) {
+    var fullPath = path.join(appPath, 'index.html');
+    script = addScriptSuffix(script);
+    rewriteFile({
+        file: fullPath,
+        needle: '<!-- endbuild -->',
+        splicable: [
+                '<script src="./' + script + '"></script>'
+        ]
+    });
 }
 module.exports = {
     rewrite: rewrite,
@@ -95,5 +112,6 @@ module.exports = {
     addAppNameSuffix:addAppNameSuffix,
     addScriptSuffix:addScriptSuffix,
     clearDir:clearDir,
-    readFiles:readFiles
+    readFiles:readFiles,
+    addScriptToIndex:addScriptToIndex
 };

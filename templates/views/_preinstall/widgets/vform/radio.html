@@ -1,0 +1,8 @@
+<label ng-repeat="option in options.dataList" class="radio-inline">
+    <input type="radio"
+           ng-model="$parent.modelValue"
+           name="{{options.key}}"
+           ng-value="option.value"
+            > <span ng-bind="option.label"></span>
+</label>
+

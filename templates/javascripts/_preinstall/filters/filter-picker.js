@@ -2,7 +2,7 @@
 
 /**
  * @ngdoc filter
- * @name <%= scriptAppName %>.filter:<%= classedName %>
+ * @name <%= scriptAppName %>.filter:filterPicker
  * @function
  * 当过滤器名称不确定时，根据参数动态获取"过滤器的过滤器",进行值的转化
  * @description

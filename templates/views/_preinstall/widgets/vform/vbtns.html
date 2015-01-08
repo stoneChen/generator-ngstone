@@ -1,0 +1,5 @@
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <button ng-repeat="btn in formBtns" ng-if="!btn.btnPerm" type="{{btn.type}}" class="btn btn-{{btn.style}}" ng-click="btn.action()">{{btn.text}}</button>
+    </div>
+</div>

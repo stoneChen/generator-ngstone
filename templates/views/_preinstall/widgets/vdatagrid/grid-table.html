@@ -1,0 +1,20 @@
+<div class="datagrid-result mrgb10">
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <td>序列</td>
+            <td ng-repeat="col in cols">{{col.text}}</td>
+            <td ng-if="operation">操作</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="rcItem in gridData.resources | filter:keyword" ng-init="beforeItemRender(rcItem)" class="{{rowClass(rcItem)}}">
+            <td>{{$index + 1}}</td>
+            <td ng-repeat="col in cols">{{rcItem[col.property] | filterPicker:col.formatter}}</td>
+            <td ng-if="operation">
+                <grid-operation resource="rcItem" resource-index="$index" options="operation"></grid-operation>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -19,7 +19,9 @@ module.exports = yeoman.generators.Base.extend({
         });
         this.appName = this._.camelize(this.appName);
         this.scriptAppName = generatorUtil.addAppNameSuffix(this.appName);
-
+        this.classedName = this._.classify(this.name);
+        this.cameledName = this._.camelize(this.name);
+        this.appPath = 'app';
         this.hookFor('ngstone:route',{
             args:['main']
         });
@@ -96,30 +98,35 @@ module.exports = yeoman.generators.Base.extend({
                 'styles',
                 this.destinationPath('app/styles')
             );
-        },
-        views: function () {
-            this.sourceRoot(path.join(__dirname, '../templates'));
+        }
+    },
+    preinstall: function () {
+        this.on('end', function () {//不用on end的话，执行addScriptToIndex会报index.html找不到
+            this.sourceRoot(path.join(__dirname, '../templates/javascripts/_preinstall'));
+            //scripts
+            this._templateAndPreinstall('filters');
+            this._templateAndPreinstall('services');
+            this._templateAndPreinstall('directives');
+            //views
+            this.sourceRoot(path.join(__dirname, '../templates/views/_preinstall'));
             this.directory(
-                'views/_common',
+                'common',
                 this.destinationPath('app/views/_common')
             );
             this.directory(
-                'views/_widgets',
+                'widgets',
                 this.destinationPath('app/views/_widgets')
             );
-        },
-        preinstall: function () {
-            this.sourceRoot(path.join(__dirname, '../templates/javascripts/_preinstall'));
-            this._templatePreinstall('filters');
-            this._templatePreinstall('services');
-        },
-        _templatePreinstall: function (subDir) {
-            generatorUtil.readFiles(path.join(this.sourceRoot(),subDir), function (f) {
-                this.template(f,this.destinationPath(path.join('app/scripts',subDir)))
-            },this);
-        }
+        });
     },
+    _templateAndPreinstall: function (subDir) {
+        generatorUtil.readFiles(path.join(this.sourceRoot(),subDir), function (f,fullPath) {
+            var destPath = path.join('app/scripts',subDir,f);
+            this.template(fullPath,this.destinationPath(destPath));
+            generatorUtil.addScriptToIndex(this.appPath,path.join('scripts',subDir,f));
+        },this);
 
+    },
     install: function () {
         if(this.options['skip-install']){
             return;

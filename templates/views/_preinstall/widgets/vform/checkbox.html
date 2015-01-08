@@ -1,0 +1,7 @@
+<label ng-repeat="option in options.dataList" class="checkbox-inline">
+    <input type="checkbox"
+           ng-model="$parent.modelValue[option.value]"
+           ng-value="option.value"
+           name="{{options.key}}"
+            > <span ng-bind="option.label"></span>
+</label>
