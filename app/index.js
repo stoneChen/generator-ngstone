@@ -9,7 +9,7 @@ module.exports = yeoman.generators.Base.extend({
     constructor: function () {
         yeoman.generators.Base.apply(this, arguments);
         //清空当前目录
-        generatorUtil.clearDir(process.cwd());
+//        generatorUtil.clearDir(process.cwd());
 //        this.log('current dir:' + chalk.blue.bold(__dirname));
         this.pkg = require('../package.json');
         this.argument('appName', {
@@ -23,6 +23,10 @@ module.exports = yeoman.generators.Base.extend({
         this.cameledName = this._.camelize(this.name);
         this.appPath = 'app';
         this.initBaseServiceAndLayout = true;
+        this.baseServiceModules = {
+            bower:{},
+            npm:{}
+        };
         this.hookFor('ngstone:route',{
             args:['main']
         });
@@ -52,14 +56,17 @@ module.exports = yeoman.generators.Base.extend({
             done();
         }.bind(this));
     },
-    _initModules: function () {
-        this.appModules = ['bootstrap','fontawesome','jquery','angular','angular-route','angular-sanitize','angular-animate','angular-bootstrap'];
-    },
+//    _initModules: function () {
+//        this.appModules = ['bootstrap','fontawesome','jquery','angular','angular-route','angular-sanitize','angular-animate','angular-bootstrap'];
+//    },
     _pushModule: function (m) {
         this.appModules.push(m);
     },
     writing: {
         common: function () {
+            if(this.initBaseServiceAndLayout){
+                this.baseServiceModules.bower['angular-local-storage'] = true;
+            }
             this.sourceRoot(path.join(__dirname, '../templates/common'));
             this.template(
                 this.templatePath('_package.json'),
