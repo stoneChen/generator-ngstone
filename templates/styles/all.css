@@ -237,7 +237,6 @@ div.validate-error {
   display: block;
 }
 .login-wrapper {
-  background: url('../images/circle.jpeg') no-repeat top center;
   background-size: cover;
   position: fixed;
   left: 0;
