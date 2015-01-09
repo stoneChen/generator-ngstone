@@ -76,12 +76,18 @@ function removeDirRecursiveSync(itemPath) {
         fs.unlinkSync(itemPath);
     }
 }
-function clearDir(path) {
+function clearDir(path,skipBowerAndNpmDir) {
     if( !fs.existsSync(path) ) {
         return;
     }
+    var skip = ['bower_components','node_modules'];
     var files = fs.readdirSync(path);
-    files.forEach(removeDirRecursiveSync);
+    files.forEach(function (path) {
+        if(skipBowerAndNpmDir && (skip.indexOf(path) !== -1)){
+            return;
+        }
+        removeDirRecursiveSync(path)
+    });
 }
 
 function readFiles(directory,handler,context) {

@@ -1,6 +1,6 @@
 <div class="top-operation">
     <div ng-if="btnsGroup" class="btn-group pull-right">
-        <a ng-repeat="btn in btnsGroup" class="btn btn-default" ng-if="!!btn.btnPerm" href="{{btn.href}}" ng-click="btn.action()">{{btn.text}}</a>
+        <a ng-repeat="btn in btnsGroup" class="btn btn-default" href="{{btn.href}}" ng-click="btn.action()">{{btn.text}}</a>
     </div>
     <div ng-if="searchGroup" class="form-inline search-group clearfix">
         <div ng-if="searchGroup.input" class="form-group">

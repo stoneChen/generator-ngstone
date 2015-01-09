@@ -40,19 +40,16 @@ angular.module('<%= scriptAppName %>')
             },
             menu: [
                 {"children": [
-                    {"children": [],"href": "#/myinfo/home", "name": "我的主页"},
+                    {"children": [],"href": "#/main", "name": "我的主页"},
                     {"children": [
                         {"children": [], "href": "#/myinfo/personal1", "name": "个人信息1"},
                         {"children": [], "href": "#/myinfo/personal2", "name": "个人信息2"}
-                    ], "href": "", "name": "个人信息"},
-                    {"children": [
-                        {"children": [], "href": "#/creditcard", "name": "添加信用卡"}
-                    ], "href": "", "name": "信用卡管理"}
-                ], "name": "demo菜单组1"},
+                    ], "href": "", "name": "个人信息"}
+                ], "name": "我的信息"},
                 {"children": [
-                    {"children": [], "href": "#/submune1", "name": "子菜单1"},
-                    {"children": [], "href": "#/submune2", "name": "子菜单2"}
-                ], "name": "demo菜单组2"}
+                    {"children": [], "href": "#/users", "name": "用户管理"},
+                    {"children": [], "href": "#/submenu2", "name": "子菜单2"}
+                ], "name": "demo菜单组"}
             ]
         };
         return {

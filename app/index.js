@@ -9,7 +9,7 @@ module.exports = yeoman.generators.Base.extend({
     constructor: function () {
         yeoman.generators.Base.apply(this, arguments);
         //清空当前目录
-//        generatorUtil.clearDir(process.cwd());
+        generatorUtil.clearDir(process.cwd(),true);
 //        this.log('current dir:' + chalk.blue.bold(__dirname));
         this.pkg = require('../package.json');
         this.argument('appName', {
@@ -88,6 +88,10 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('app/index.html'),
                 this.destinationPath('app/index.html')
             );
+//            this.template(
+//                this.templatePath('app/favicon.ico'),
+//                this.destinationPath('app/favicon.ico')
+//            );
             this.directory(
                 'app/images',
                 this.destinationPath('app/images')
@@ -106,9 +110,19 @@ module.exports = yeoman.generators.Base.extend({
                 'styles',
                 this.destinationPath('app/styles')
             );
+        },
+        mocks: function () {
+            this.sourceRoot(path.join(__dirname, '../templates'));
+            this.directory(
+                'mocks',
+                this.destinationPath('mocks')
+            );
         }
     },
     preinstall: function () {
+        if(!this.initBaseServiceAndLayout){
+            return;
+        }
         this.on('end', function () {//不用on end的话，执行addScriptToIndex会报index.html找不到
             this.sourceRoot(path.join(__dirname, '../templates/javascripts/_preinstall'));
             //scripts
@@ -117,14 +131,10 @@ module.exports = yeoman.generators.Base.extend({
             this._templateAndPreinstall('directives');
             this._templateAndPreinstall('controllers');
             //views
-            this.sourceRoot(path.join(__dirname, '../templates/views/_preinstall'));
+            this.sourceRoot(path.join(__dirname, '../templates/views'));
             this.directory(
-                'common',
-                this.destinationPath('app/views/_common')
-            );
-            this.directory(
-                'widgets',
-                this.destinationPath('app/views/_widgets')
+                '_preinstall',
+                this.destinationPath('app/views')
             );
         });
     },

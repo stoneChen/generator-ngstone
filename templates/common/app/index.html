@@ -5,7 +5,7 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon" />
     <!-- build:css(./bower_components) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
@@ -27,12 +27,12 @@
 <header class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a href="/" class="navbar-brand"><%= appName %>后台管理系统</a>
+            <a href="/" class="navbar-brand"><i class="fa fa-thumbs-up"></i> <%= appName %>后台管理系统</a>
         </div>
         <nav class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right" ng-class="{'show':ROOT_loginData.isLogin}">
                 <li>
-                    <a href="#/myinfo/personal">您好，{{ROOT_loginData.loginUser.circleNickName}}</a>
+                    <a href="#/myinfo/personal">您好，{{ROOT_loginData.loginUser.name}}</a>
                 </li>
                 <li>
                     <a ng-click="ROOT_loginData.logout()" href="javascript:void(0)">退出</a>

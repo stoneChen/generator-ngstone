@@ -1,4 +1,4 @@
-// Generated on <%= (new Date).toISOString().split('T')[0] %> using <%= pkg.name %> <%= pkg.version %>
+// Generated on <%= (new Date).toLocaleString() %> using <%= pkg.name %> <%= pkg.version %>
 'use strict';
 
 // # Globbing
@@ -6,6 +6,7 @@
 // 'test/spec/{,*/}*.js'
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
+var path = require('path');
 
 module.exports = function (grunt) {
 
@@ -69,7 +70,35 @@ module.exports = function (grunt) {
                                 '/bower_components',
                                 connect.static('./bower_components')
                             ),
-                            connect.static(appConfig.app)
+                            connect.static(appConfig.app),
+                            function mockMiddleware(req, res, next) {//用于mock数据
+                                grunt.log.writeln('request from client:' + req.url);
+                                var urlReg = /^\/(.+)\.json\?_method=(GET|POST|PATCH|DELETE|PUT).*$/;// /users/5.json?_method=GET
+                                var match = req.url.match(urlReg);// ['...','users/5','GET']
+                                var fileNameSegments = [];
+                                match[1].split('/').forEach(function (pathName) {
+                                    if(/\D+/.test(pathName)){//非数字
+                                        fileNameSegments.push(pathName)
+                                    }else if(/\d+/.test(pathName)){//数字
+                                        fileNameSegments.push('N')
+                                    }
+                                });
+                                var fileName = fileNameSegments.join('.');// user.N
+                                fileName += '#' + match[2].toUpperCase() + '.json';// user.N#GET.json
+                                grunt.log.writeln('parsed fileName:' + fileName);
+                                var filePath = path.join('mocks',fileName);
+                                var result = '';
+                                if(grunt.file.exists(filePath)){
+                                    result = grunt.file.read(filePath);
+                                }else{
+                                    result = JSON.stringify({
+                                        stat:'ERROR',
+                                        errors:'mock data file:【' + fileName + '】 does not exist!'
+                                    })
+                                }
+                                grunt.log.writeln(result);
+                                res.end(result);
+                            }
                         ];
                     }
                 }

@@ -16,7 +16,11 @@ angular
         'LocalStorageModule'<% } %>
     ])
     .config(function ($routeProvider) {
-        $routeProvider
+        $routeProvider<% if(initBaseServiceAndLayout){ %>
+            .when('/users', {
+                templateUrl: './views/user/user.html',
+                controller: 'UserCtrl'
+            })<% } %>
             .otherwise({
                 redirectTo: '/main'
             });

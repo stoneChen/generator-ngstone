@@ -11,6 +11,7 @@ angular.module('<%= scriptAppName %>')
     .factory('resourcePool', function (resourceService) {
         var rc = resourceService.create;
         return {
-            session: rc('/session')
+            session: rc('/session'),
+            user:rc('/users/{id}')
         }
     });

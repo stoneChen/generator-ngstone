@@ -92,7 +92,7 @@ angular.module('<%= scriptAppName %>')
         return {
             restrict: 'E',
             replace: true,
-            templateUrl: 'views/widgets/vdatagrid/grid-top.html',
+            templateUrl: './views/_widgets/vdatagrid/grid-top.html',
             require: ['^vdatagrid'],
             scope: {
                 options: '='
@@ -124,7 +124,7 @@ angular.module('<%= scriptAppName %>')
         return {
             restrict: 'E',
             replace: true,
-            templateUrl: 'views/widgets/vdatagrid/grid-table.html',
+            templateUrl: './views/_widgets/vdatagrid/grid-table.html',
             transclude: true,
             require: ['^vdatagrid'],
             scope: {

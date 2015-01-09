@@ -19,7 +19,7 @@ angular.module('<%= scriptAppName %>')
         return {
             confirm: function (msg, callback) {
                 $modal.open({
-                    templateUrl: 'views/widgets/dialog/confirm.html',
+                    templateUrl: './views/_widgets/dialog/confirm.html',
                     controller: 'DialogConfirmCtrl',
                     size: 'md',
                     backdrop: 'static',

@@ -1,0 +1,8 @@
+{
+    "stat":"OK",
+    "data":{
+        "model":{
+            "name":"new name after PATCH"
+        }
+    }
+}

@@ -73,7 +73,7 @@ angular.module('<%= scriptAppName %>')
         return {
             restrict: 'EA',
             replace: false,
-//            templateUrl: 'views/vform/vfield.html',
+//            templateUrl: '.views/vform/vfield.html',
             scope: {
                 options: '=',
                 formObj: '=',
@@ -114,7 +114,7 @@ angular.module('<%= scriptAppName %>')
     })
     .factory('vformGetTemplate', function ($q, templateService) {
         var getTemplate = function (templateUrl) {
-            templateUrl = 'views/widgets/vform/' + templateUrl + '.html';
+            templateUrl = './views/_widgets/vform/' + templateUrl + '.html';
             return templateService.get(templateUrl);
         }
         getTemplate.multiple = function (templateUrls) {
