@@ -28,11 +28,11 @@ angular
     .config(function($compileProvider){
         //链接白名单
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|javascript):/);
-    })
+    })<% if(initBaseServiceAndLayout){ %>
     .run(function (sessionService, $rootScope, $modalStack) {
         sessionService.checkLogin();
         $rootScope.$on('$routeChangeSuccess', function (event, current) {
             //路由改变时的回调
         });
-    })
+    })<% } %>
 ;

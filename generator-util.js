@@ -112,6 +112,10 @@ function addScriptToIndex(appPath,script) {
         ]
     });
 }
+function isDirEmpty(dir) {
+    var files = fs.readdirSync(dir);
+    return !files.length;
+}
 module.exports = {
     rewrite: rewrite,
     rewriteFile: rewriteFile,
@@ -119,5 +123,6 @@ module.exports = {
     addScriptSuffix:addScriptSuffix,
     clearDir:clearDir,
     readFiles:readFiles,
+    isDirEmpty:isDirEmpty,
     addScriptToIndex:addScriptToIndex
 };

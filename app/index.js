@@ -8,9 +8,7 @@ var generatorUtil = require('../generator-util');
 module.exports = yeoman.generators.Base.extend({
     constructor: function () {
         yeoman.generators.Base.apply(this, arguments);
-        //清空当前目录
-        generatorUtil.clearDir(process.cwd(),true);
-//        this.log('current dir:' + chalk.blue.bold(__dirname));
+
         this.pkg = require('../package.json');
         this.argument('appName', {
             type: String,
@@ -33,26 +31,44 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     prompting: function () {
-//        this._initModules();
-        return;//暂时先不提示了
         var done = this.async();
-
         // Have Yeoman greet the user.
         this.log(yosay(
                 'Welcome to the swell' + chalk.red('Angular-stone') + ' generator!'
         ));
-
+        var isCwdEmpty = generatorUtil.isDirEmpty(process.cwd());
+//        if(!isCwdEmpty){
+//            this.prompt(, function (props) {
+//                if(props.needEmptyCwd){
+//                    //清空当前目录
+//                    generatorUtil.clearDir(process.cwd(),true);
+//                }
+//            }.bind(this));
+//        }
+//
         var prompts = [
             {
                 type: 'confirm',
-                name: 'bootstrap',
-                message: 'Would you like to use bootstrap?',
+                name: 'needEmptyCwd',
+                message: '当前目录非空，是否清空(bower_components与node_modules将跳过)?\n',
+                default: true
+            },
+            {
+                type: 'confirm',
+                name: 'initBaseServiceAndLayout',
+                message: '是否初始化基础服务与布局?',
                 default: true
             }
         ];
-
+        if(isCwdEmpty){
+            prompts.splice(0,1);
+        }
         this.prompt(prompts, function (props) {
-            props.bootstrap && this._pushModule('bootstrap');
+            if(props.needEmptyCwd){
+                //清空当前目录
+                generatorUtil.clearDir(process.cwd(),true);
+            }
+            this.initBaseServiceAndLayout = props.initBaseServiceAndLayout;
             done();
         }.bind(this));
     },
