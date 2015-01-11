@@ -133,6 +133,13 @@ module.exports = yeoman.generators.Base.extend({
                 'mocks',
                 this.destinationPath('mocks')
             );
+        },
+        biz: function () {
+            this.sourceRoot(path.join(__dirname, '../templates'));
+            this.directory(
+                'biz',
+                this.destinationPath('biz')
+            );
         }
     },
     preinstall: function () {

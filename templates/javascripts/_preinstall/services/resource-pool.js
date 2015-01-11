@@ -9,9 +9,10 @@
  */
 angular.module('<%= scriptAppName %>')
     .factory('resourcePool', function (resourceService) {
-        var rc = resourceService.create;
+        var create = resourceService.create;//do not modify this line.it is used for generator
         return {
-            session: rc('/session'),
-            user:rc('/users/{id}')
+            session: create('/session')
+            ,user: create('/users/{id}')
+            //do not delete this line.it is used for generator to find this line
         }
     });

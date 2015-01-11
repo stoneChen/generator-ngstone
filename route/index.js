@@ -8,12 +8,14 @@ var generatorUtil = require('../generator-util');
 module.exports = SubGeneratorBase.extend({
     writing: function () {
         this._rewriteAppJs();
-        this.invoke('ngstone:controller',{
-            args:[this.name]
-        })
-        this.invoke('ngstone:view',{
-            args:[this.name]
-        })
+        if(!this.options['biz']){
+            this.invoke('ngstone:controller',{
+                args:[this.name]
+            });
+            this.invoke('ngstone:view',{
+                args:[this.name]
+            })
+        }
     },
     _rewriteAppJs:function () {
         this.uri = this.name;

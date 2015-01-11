@@ -11,7 +11,7 @@ function rewrite(args) {
     /* jshint -W044 */
     // check if splicable is already in the body text
     var re = new RegExp(args.splicable.map(function (line) {
-        return '\s*' + escapeRegExp(line);
+        return '\\s*' + escapeRegExp(line);
     }).join('\n'));
 
     if (re.test(args.haystack)) {

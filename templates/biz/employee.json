@@ -1,0 +1,135 @@
+{
+    "type":"origin",
+    "resource":{
+        "urlPattern":"/employees/{id}"
+    },
+    "dataGrid":{
+        "top":{
+            "btnsGroup":[
+                {
+                    "text":"新增",
+                    "method":"newEmp"
+                }
+            ],
+            "searchGroup":{
+                "input": {
+                    "ngModel": "keyword",
+                    "placeholder": "关键字"
+                },
+                "select":{
+                    "ngModel":"select"
+                },
+                "btn": {
+                    "text": "搜索"
+                }
+            },
+            "filterGroup":[
+                {
+
+                }
+            ]
+        },
+        "gridTable": {
+            "cols": [
+                {
+                    "text": "账号",
+                    "property": "loginName"
+                },
+                {
+                    "text": "姓名",
+                    "property": "name"
+                },
+                {
+                    "text": "手机",
+                    "property": "mobile"
+                },
+                {
+                    "text": "邮件",
+                    "property": "email"
+                }
+            ],
+            "operation":[
+                {
+                    "type":"default",
+                    "text":"修改",
+                    "method":"modify"
+                },
+                {
+                    "type":"danger",
+                    "text":"删除",
+                    "method":"del"
+                }
+            ]
+        }
+        
+    },
+    "form":{
+        "fields":[
+            {
+                "key": "loginName",
+                "type": "text",
+                "label": "用户名",
+                "validators": {
+                    "rules": {
+                        "ng-required": true
+                    }
+                }
+            },
+            {
+                "key": "password",
+                "type": "password",
+                "label": "密码",
+                "validators": {
+                    "rules": {
+                        "ng-required": true
+                    }
+                }
+            },
+            {
+                "key": "repassword",
+                "type": "password",
+                "label": "确认密码",
+                "validators": {
+                    "rules": {
+                        "ng-required": true,
+                        "equalto": "password"
+                    },
+                    "messages": {
+                        "equalto": "与密码不一致"
+                    }
+                }
+            },
+            {
+                "key": "name",
+                "type": "text",
+                "label": "姓名",
+                "validators": {
+                    "rules": {
+                        "ng-required": true
+                    }
+                }
+            },
+            {
+                "key": "mobile",
+                "type": "text",
+                "label": "手机",
+                "validators": {
+                    "rules": {
+                        "ng-required": true,
+                        "mobile": true
+                    }
+                }
+            },
+            {
+                "key": "email",
+                "type": "email",
+                "label": "邮箱",
+                "validators": {
+                    "rules": {
+                        "ng-required": true
+                    }
+                }
+            }
+        ]
+    }
+}
