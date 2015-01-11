@@ -60,7 +60,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="rcItem in gridData.resources">
+            <tr ng-repeat="rcItem in resources">
                 <td>{{$index + 1}}</td><%
                 for(var i = 0,l = tableCfg.cols.length;i < l;i++){ %>
                 <td>{{rcItem.<%= tableCfg.cols[i].property %>}}</td><%

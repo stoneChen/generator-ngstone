@@ -135,9 +135,9 @@ module.exports = yeoman.generators.Base.extend({
             );
         },
         biz: function () {
-            this.sourceRoot(path.join(__dirname, '../templates'));
+            this.sourceRoot(path.join(__dirname, '../templates/biz'));
             this.directory(
-                'biz',
+                '_preinstall',
                 this.destinationPath('biz')
             );
         }

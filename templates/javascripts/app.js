@@ -17,7 +17,7 @@ angular
     ])
     .config(function ($routeProvider) {
         $routeProvider<% if(initBaseServiceAndLayout){ %>
-            .when('/users', {
+            .when('/user', {
                 templateUrl: './views/user/user.html',
                 controller: 'UserCtrl'
             })<% } %>

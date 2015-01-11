@@ -1,0 +1,57 @@
+{
+    "type":"origin",
+    "resource":{
+        "urlPattern":""
+    },
+    "dataGrid":{
+        "top":{
+            "searchGroup":{
+                "input": {
+                    "ngModel": "keyword",
+                    "placeholder": "关键字"
+                },
+                "select":{
+                    "ngModel":"select"
+                },
+                "btn": {
+                    "text": "搜索"
+                }
+            },
+            "filterGroup":[
+                {
+
+                }
+            ]
+        },
+        "gridTable": {
+            "cols": [
+                {
+                    "text": "",
+                    "property": ""
+                }
+            ],
+            "operation":[
+                {
+                    "type":"",
+                    "text":"",
+                    "method":""
+                }
+            ]
+        }
+        
+    },
+    "form":{
+        "fields":[
+            {
+                "key": "",
+                "type": "",
+                "label": "",
+                "validators": {
+                    "rules": {
+                        "": true
+                    }
+                }
+            }
+        ]
+    }
+}

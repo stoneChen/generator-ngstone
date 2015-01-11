@@ -5,12 +5,6 @@
     },
     "dataGrid":{
         "top":{
-            "btnsGroup":[
-                {
-                    "text":"新增",
-                    "method":"newEmp"
-                }
-            ],
             "searchGroup":{
                 "input": {
                     "ngModel": "keyword",
@@ -22,12 +16,7 @@
                 "btn": {
                     "text": "搜索"
                 }
-            },
-            "filterGroup":[
-                {
-
-                }
-            ]
+            }
         },
         "gridTable": {
             "cols": [

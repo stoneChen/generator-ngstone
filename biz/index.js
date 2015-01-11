@@ -24,12 +24,16 @@ module.exports = SubGeneratorBase.extend({
             path.join(this.bizCfg.type,generatorUtil.addScriptSuffix('controller')),
             this.destinationPath('app/scripts/controllers',generatorUtil.addScriptSuffix(this.name))
         );
+        generatorUtil.addScriptToIndex(this.appPath,'scripts/controllers/' + generatorUtil.addScriptSuffix(this.name));
         this._rewriteResourcePool();
         this.on('end', function () {//如果直接用invoke，会出现三次overwrite的提示，未查出原因
             this.invoke('ngstone:route',{
                 args:[this.name,'--biz']
             });
         })
+    },
+    _addBizJson: function () {
+
     },
     _rewriteResourcePool:function () {
         var resourceCfg = this.bizCfg.resource;

@@ -47,7 +47,7 @@ angular.module('<%= scriptAppName %>')
                     ], "href": "", "name": "个人信息"}
                 ], "name": "我的信息"},
                 {"children": [
-                    {"children": [], "href": "#/users", "name": "用户管理"},
+                    {"children": [], "href": "#/user", "name": "用户管理"},
                     {"children": [], "href": "#/submenu2", "name": "子菜单2"}
                 ], "name": "demo菜单组"}
             ]
