@@ -1,5 +1,6 @@
 {
     "type":"origin",
+    "caption":"",
     "resource":{
         "urlPattern":"<%= name%>s/{id}"
     },
@@ -34,9 +35,14 @@
             ],
             "operation":[
                 {
-                    "type":"",
-                    "text":"",
-                    "method":""
+                    "type":"default",
+                    "text":"修改",
+                    "method":"modify"
+                },
+                {
+                    "type":"danger",
+                    "text":"删除",
+                    "method":"del"
                 }
             ]
         }

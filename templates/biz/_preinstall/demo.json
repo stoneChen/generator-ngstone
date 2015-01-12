@@ -1,14 +1,15 @@
 {
     "type":"origin",
+    "caption":"用户",
     "resource":{
-        "urlPattern":"/employees/{id}"
+        "urlPattern":"/demos/{id}"
     },
     "mock":[
-        "employee/employees#GET.json",
-        "employee/employees#POST.json",
-        "employee/employees.N#GET.json",
-        "employee/employees.status.N#PATCH.json",
-        "employee/employees.N#DELETE.json"
+        "demo/demos#GET.json",
+        "demo/demos#POST.json",
+        "demo/demos.N#GET.json",
+        "demo/demos.status.N#PATCH.json",
+        "demo/demos.N#DELETE.json"
     ],
     "dataGrid":{
         "top":{
@@ -87,11 +88,21 @@
                 "label": "确认密码",
                 "validators": {
                     "rules": {
-                        "ng-required": true,
-                        "equalto": "password"
+                        "ng-required": true
                     },
                     "messages": {
                         "equalto": "与密码不一致"
+                    }
+                }
+            },
+            {
+                "key": "name",
+                "type": "select",
+                "label": "省份",
+                "dataListName":"provinceList",
+                "validators": {
+                    "rules": {
+                        "ng-required": true
                     }
                 }
             },
@@ -120,6 +131,28 @@
                 "key": "email",
                 "type": "email",
                 "label": "邮箱",
+                "validators": {
+                    "rules": {
+                        "ng-required": true
+                    }
+                }
+            },
+            {
+                "key": "difficulty",
+                "type": "radio",
+                "label": "难度",
+                "dataListName":"difficultyList",
+                "validators": {
+                    "rules": {
+                        "ng-required": true
+                    }
+                }
+            },
+            {
+                "key": "favor",
+                "type": "checkbox",
+                "label": "爱好",
+                "dataListName":"favorList",
                 "validators": {
                     "rules": {
                         "ng-required": true

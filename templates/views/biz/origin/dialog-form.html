@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{isEdit ? '修改' : '新增'}}<%= bizCfg.caption %></h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" name="dialogForm" novalidate><%
+        var fields = bizCfg.form.fields,fieldOption,fieldRules,attrs,spacedAttrs;
+        var inputs = ['text','password','number','url','email'];
+        for(var i = 0,l = fields.length;i < l;i++){
+            fieldOption = fields[i];
+            fieldRules = [];
+            Object.keys(fieldOption.validators.rules).forEach(function(rule){
+                fieldRules.push(rule + '="' + fieldOption.validators.rules[rule] + '"')
+            })
+            attrs = [
+                'class="form-control"',
+                'name="' + fieldOption.key + '"',
+                'ng-model="' + cameledName + '.' + fieldOption.key + '"',
+                fieldRules.join(' ')
+            ];
+            if(fieldOption.type === 'radio' || fieldOption.type === 'checkbox'){
+                attrs.splice(0,1);
+            }
+            spacedAttrs = attrs.join(' ');
+        %>
+        <div class="form-group" ng-class="{'has-error':showError && dialogForm.<%= fieldOption.key %>.$invalid}">
+            <label class="col-sm-2 control-label"><%= fieldOption.label %></label>
+            <div class="col-sm-10"><%
+                if(inputs.indexOf(fieldOption.type) !== -1){ %>
+                <input type="<%= fieldOption.type %>" <%= spacedAttrs %> /><%
+                } else if(fieldOption.type === 'radio'){ %>
+                <label class="radio-inline"  ng-repeat="item in <%= fieldOption.dataListName %>">
+                    <input type="radio" <%= spacedAttrs %> /> {{item.label}}
+                </label><%
+                } else if(fieldOption.type === 'checkbox'){ %>
+                <label class="checkbox-inline"   ng-repeat="item in <%= fieldOption.dataListName %>">
+                    <input type="checkbox" <%= spacedAttrs %> /> {{item.label}}
+                </label><%
+                } else if(fieldOption.type === 'select'){ %>
+                <select <%= spacedAttrs %> ng-options="item.value as item.label for item in <%= fieldOption.dataListName %>">
+                    <option value="">-请选择-</option>
+                </select><%
+                } %>
+                <div class="validate-error" ng-show="dialogForm.<%= fieldOption.key %>.$error.required"><i class="fa fa-remove"></i> <%= fieldOption.label %>不能为空</div>
+            </div>
+        </div><%
+        } %>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+    <button type="button" class="btn btn-primary" ng-click="showError = true;ok()">确定</button>
+</div>

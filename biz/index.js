@@ -34,6 +34,10 @@ module.exports = SubGeneratorBase.extend({
             path.join(this.bizCfg.type,'data-grid.html'),
             this.destinationPath('app/views',this.name,(this.name + '.html'))
         );
+        this.template(
+            path.join(this.bizCfg.type,'dialog-form.html'),
+            this.destinationPath('app/views',this.name,'dialog-form.html')
+        );
     },
     _addController: function () {
         this.sourceRoot(path.join(__dirname, '../templates/javascripts/biz'));
