@@ -116,6 +116,9 @@ function isDirEmpty(dir) {
     var files = fs.readdirSync(dir);
     return !files.length;
 }
+function isBadBusinessName(name) {
+    return !(/^[a-z]+?[^sx0-9]$/i).test(name);//每位非数字，且最后一位不能含有s|x
+}
 module.exports = {
     rewrite: rewrite,
     rewriteFile: rewriteFile,
@@ -124,5 +127,6 @@ module.exports = {
     clearDir:clearDir,
     readFiles:readFiles,
     isDirEmpty:isDirEmpty,
-    addScriptToIndex:addScriptToIndex
+    addScriptToIndex:addScriptToIndex,
+    isBadBusinessName:isBadBusinessName
 };

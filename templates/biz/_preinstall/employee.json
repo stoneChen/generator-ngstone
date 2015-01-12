@@ -3,6 +3,13 @@
     "resource":{
         "urlPattern":"/employees/{id}"
     },
+    "mock":[
+        "employee/employees#GET.json",
+        "employee/employees#POST.json",
+        "employee/employees.N#GET.json",
+        "employee/employees.status.N#PATCH.json",
+        "employee/employees.N#DELETE.json"
+    ],
     "dataGrid":{
         "top":{
             "searchGroup":{

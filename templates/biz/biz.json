@@ -1,8 +1,15 @@
 {
     "type":"origin",
     "resource":{
-        "urlPattern":""
+        "urlPattern":"<%= name%>s/{id}"
     },
+    "mock":[
+        "<%= name%>/<%= name%>s#GET.json",
+        "<%= name%>/<%= name%>s#POST.json",
+        "<%= name%>/<%= name%>s.N#GET.json",
+        "<%= name%>/<%= name%>s.N#PATCH.json",
+        "<%= name%>/<%= name%>s.N#DELETE.json"
+    ],
     "dataGrid":{
         "top":{
             "searchGroup":{
@@ -11,17 +18,12 @@
                     "placeholder": "关键字"
                 },
                 "select":{
-                    "ngModel":"select"
+                    "ngModel":""
                 },
                 "btn": {
                     "text": "搜索"
                 }
-            },
-            "filterGroup":[
-                {
-
-                }
-            ]
+            }
         },
         "gridTable": {
             "cols": [

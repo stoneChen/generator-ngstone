@@ -128,10 +128,10 @@ module.exports = yeoman.generators.Base.extend({
             );
         },
         mocks: function () {
-            this.sourceRoot(path.join(__dirname, '../templates'));
+            this.sourceRoot(path.join(__dirname, '../templates/mock'));
             this.directory(
-                'mocks',
-                this.destinationPath('mocks')
+                '_preinstall',
+                this.destinationPath('mock')
             );
         },
         biz: function () {

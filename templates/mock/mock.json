@@ -1,0 +1,19 @@
+{
+    "stat":"OK",
+    "data":{<%
+        if(mockFileCfg.mockCollection){ %>
+        "currentPage": 1,
+        "totalPages": 3,
+        "totalCount": 30,
+        "collection": [
+            {
+
+            }
+        ]<%
+        } else { %>
+        "model":{
+
+        }<%
+        } %>
+    }
+}

@@ -7,6 +7,10 @@ var generatorUtil = require('../generator-util');
 
 module.exports = SubGeneratorBase.extend({
     writing: function () {
+        if(generatorUtil.isBadBusinessName(this.name)){
+            this.log.error(chalk.red('请使用非数字且最后一位不包含s、x的名称！'));
+            return;
+        }
         this._rewriteAppJs();
         if(!this.options['biz']){
             this.invoke('ngstone:controller',{

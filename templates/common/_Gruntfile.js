@@ -76,7 +76,8 @@ module.exports = function (grunt) {
                                 var urlReg = /^\/(.+)\.json\?_method=(GET|POST|PATCH|DELETE|PUT).*$/;// /users/5.json?_method=GET
                                 var match = req.url.match(urlReg);// ['...','users/5','GET']
                                 var fileNameSegments = [];
-                                match[1].split('/').forEach(function (pathName) {
+                                var segments = match[1].split('/');
+                                segments.forEach(function (pathName) {
                                     if(/\D+/.test(pathName)){//非数字
                                         fileNameSegments.push(pathName)
                                     }else if(/\d+/.test(pathName)){//数字
@@ -86,14 +87,16 @@ module.exports = function (grunt) {
                                 var fileName = fileNameSegments.join('.');// user.N
                                 fileName += '#' + match[2].toUpperCase() + '.json';// user.N#GET.json
                                 grunt.log.writeln('parsed fileName:' + fileName);
-                                var filePath = path.join('mocks',fileName);
+                                var bizSubDir = (match[1] === 'session') ? '' : segments[0].match(/^(\w+?)s$/)[1];//session特殊对待，提取子目录名，去掉最后的s
+                                var filePath = path.join('mock',bizSubDir,fileName);
+                                grunt.log.writeln('parsed filePath:' + filePath);
                                 var result = '';
                                 if(grunt.file.exists(filePath)){
                                     result = grunt.file.read(filePath);
                                 }else{
                                     result = JSON.stringify({
                                         stat:'ERROR',
-                                        errors:'mock data file:【' + fileName + '】 does not exist!'
+                                        errors:'mock data file:【' + filePath + '】 does not exist!'
                                     })
                                 }
                                 grunt.log.writeln(result);
@@ -278,12 +281,6 @@ module.exports = function (grunt) {
                     //more copies
                 ]
             },
-            appmocks: {
-                expand: true,
-                cwd: '<%%= yeoman.app %>',
-                src: 'scripts/app-mocks.js',
-                dest: '<%%= yeoman.dist %>'
-            },
             styles: {
                 expand: true,
                 cwd: '<%%= yeoman.app %>/styles',
@@ -397,7 +394,6 @@ module.exports = function (grunt) {
         'usemin',
         'htmlmin'
     ]);
-    grunt.registerTask('build-mock', ['build', 'copy:appmocks']);
     grunt.registerTask('default', [
         'test',
         'build'

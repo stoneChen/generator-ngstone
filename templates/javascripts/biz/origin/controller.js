@@ -8,7 +8,7 @@
  */
 angular.module('<%= scriptAppName %>')
     .controller('<%= classedName %>Ctrl', function ($scope,resourcePool,msgService,dialogService) {
-        var resourceClass = resourcePool.<%= name %>;
+        var resourceClass = resourcePool.<%= cameledName %>;
         $scope.searchParams = {
             currentPage:$scope.currentPage
         };
