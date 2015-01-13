@@ -96,7 +96,7 @@
                 }
             },
             {
-                "key": "name",
+                "key": "province",
                 "type": "select",
                 "label": "省份",
                 "dataListName":"provinceList",
@@ -124,6 +124,9 @@
                     "rules": {
                         "ng-required": true,
                         "mobile": true
+                    },
+                    "messages": {
+                        "mobile": "格式不正确(可省略)"
                     }
                 }
             },

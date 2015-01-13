@@ -34,20 +34,16 @@ module.exports = function (grunt) {
             gruntfile: {
                 files: ['Gruntfile.js']
             },
-            js: {
-                files: ['<%%= yeoman.app %>/scripts/**/*.js'],
-                options: {
-                    livereload: '<%%= connect.options.livereload %>'
-                }
-            },
             livereload: {
                 options: {
                     livereload: '<%%= connect.options.livereload %>'
                 },
                 files: [
                     '<%%= yeoman.app %>/**/*.html',
+                    '<%%= yeoman.app %>/scripts/**/*.js',
                     '<%%= yeoman.app %>/styles/**/*.css',
-                    '<%%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+                    '<%%= yeoman.app %>/images/**/*.*',
+                    'mock/**/*.json'
                 ]
             }
         },

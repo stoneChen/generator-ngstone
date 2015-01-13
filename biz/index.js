@@ -45,7 +45,7 @@ module.exports = SubGeneratorBase.extend({
             path.join(this.bizCfg.type,generatorUtil.addScriptSuffix('controller')),
             this.destinationPath('app/scripts/controllers',generatorUtil.addScriptSuffix(this.name))
         );
-        generatorUtil.addScriptToIndex(this.appPath,'scripts/controllers/' + generatorUtil.addScriptSuffix(this.name));
+        generatorUtil.addScriptToIndex(this.appPath,'scripts/controllers/' + generatorUtil.addScriptSuffix(this.name),this);
     },
     _rewriteResourcePool:function () {
         var resourceCfg = this.bizCfg.resource;

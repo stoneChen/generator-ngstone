@@ -142,11 +142,11 @@ module.exports = yeoman.generators.Base.extend({
             );
         }
     },
-    preinstall: function () {
+    _preinstall: function () {
         if(!this.initBaseServiceAndLayout){
             return;
         }
-        this.on('end', function () {//不用on end的话，执行addScriptToIndex会报index.html找不到
+//        this.on('end', function () {//不用on end的话，执行addScriptToIndex会报index.html找不到
             this.sourceRoot(path.join(__dirname, '../templates/javascripts/_preinstall'));
             //scripts
             this._templateAndPreinstall('filters');
@@ -159,17 +159,18 @@ module.exports = yeoman.generators.Base.extend({
                 '_preinstall',
                 this.destinationPath('app/views')
             );
-        });
+//        });
     },
     _templateAndPreinstall: function (subDir) {
         generatorUtil.readFiles(path.join(this.sourceRoot(),subDir), function (f,fullPath) {
             var destPath = path.join('app/scripts',subDir,f);
             this.template(fullPath,this.destinationPath(destPath));
-            generatorUtil.addScriptToIndex(this.appPath,path.join('scripts',subDir,f));
+            generatorUtil.addScriptToIndex(this.appPath,path.join('scripts',subDir,f),this);
         },this);
 
     },
     install: function () {
+        this._preinstall();
         if(this.options['skip-install']){
             return;
         }

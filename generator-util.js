@@ -1,6 +1,7 @@
 'use strict';
 var path = require('path');
 var fs = require('fs');
+var chalk = require('chalk');
 var child_process = require('child_process');
 
 function escapeRegExp(str) {
@@ -101,7 +102,7 @@ function readFiles(directory,handler,context) {
     })
 }
 
-function addScriptToIndex(appPath,script) {
+function addScriptToIndex(appPath,script,generatorInst) {
     var fullPath = path.join(appPath, 'index.html');
     script = addScriptSuffix(script);
     rewriteFile({
@@ -111,6 +112,7 @@ function addScriptToIndex(appPath,script) {
                 '<script src="./' + script + '"></script>'
         ]
     });
+    generatorInst.log(chalk.green('script added into index.html: ') + script);
 }
 function isDirEmpty(dir) {
     var files = fs.readdirSync(dir);

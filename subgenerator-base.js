@@ -20,7 +20,7 @@ module.exports = yeoman.generators.NamedBase.extend({
             this.templatePath(templateName + '.js'),
             this.destinationPath(path.join(this.appPath,dest,generatorUtil.addScriptSuffix(this.name)))
         );
-        generatorUtil.addScriptToIndex(this.appPath,path.join(dest, this.name));
+        generatorUtil.addScriptToIndex(this.appPath,path.join(dest, this.name),this);
         //暂不添加test
     },
     generateHtmlFile: function (viewName,dest) {

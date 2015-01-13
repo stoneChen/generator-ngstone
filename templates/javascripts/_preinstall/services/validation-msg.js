@@ -9,9 +9,10 @@
  */
 angular.module('<%= scriptAppName %>')
     .factory('validationMsgService', function ($log) {
-        var messsages = {
+        var messages = {
             required: '不能为空',
             email: '格式不正确',
+            url: '格式不正确',
             number: '只能为数字',
             minlength: '长度不能小于{0}',
             maxlength: '长度不能大于{0}'
@@ -20,7 +21,7 @@ angular.module('<%= scriptAppName %>')
         var REG_VARS = /\{\d+\}/g;
 
         function formatVars(ruleName, ruleValue) {//目前只支持一个参数
-            var msg = messsages[ruleName] || '';
+            var msg = messages[ruleName] || '';
             if (!msg) {
                 $log.error(ruleName + '校验信息未找到，请检查！');
                 return msg;
@@ -33,15 +34,15 @@ angular.module('<%= scriptAppName %>')
 
         return {
             add: function (ruleName, message) {
-                if (messsages[ruleName]) {
+                if (messages[ruleName]) {
                     $log.error(ruleName + '已存在!');
                     return;
                 }
-                messsages[ruleName] = message;
+                messages[ruleName] = message;
             },
             format: function (validators, type) {
                 var rules = validators.rules || (validators.rules = {}), messages = validators.messages || (validators.messages = {});
-                if (messsages[type]) {//处理input的特殊type(如email，number等)
+                if (messages[type]) {//处理input的特殊type(如email，number等)
                     rules[type] = true;
                 }
                 angular.forEach(rules, function (ruleValue, ruleName) {
@@ -50,6 +51,7 @@ angular.module('<%= scriptAppName %>')
                         messages[ruleName] = formatVars(ruleName, ruleValue);
                     }
                 })
-            }
+            },
+            getMsg: formatVars
         };
     });
