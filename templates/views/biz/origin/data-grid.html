@@ -20,8 +20,7 @@
             <div class="form-group">
                 <select class="form-control"
                         ng-model="searchParams.<%= topCfg.searchGroup.select.ngModel %>"
-                        ng-options="item.value as item.label for item in dataList"
-                        ng-change="doSearch()">
+                        ng-options="item.value as item.label for item in dataList">
                     <option value="">-请选择-</option>
                 </select>
             </div><%
@@ -76,5 +75,5 @@
             </tbody>
         </table>
     </div>
-    <pagination class="mrg0 pull-right" total-items="totalItems" previous-text="&lt;&lt;" next-text="&gt;&gt;" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination>
+    <pagination class="mrg0 pull-right" total-items="totalItems" previous-text="&lt;&lt;" next-text="&gt;&gt;" ng-model="currentPage" ng-change="doSearch()"></pagination>
 </div>

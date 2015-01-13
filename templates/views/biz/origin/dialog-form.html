@@ -27,7 +27,7 @@
             <label class="col-sm-2 control-label"><%= fieldOption.label %></label>
             <div class="col-sm-10"><%
                 if(inputs.indexOf(fieldOption.type) !== -1){ %>
-                <input type="<%= fieldOption.type %>" <%= spacedAttrs %> /><%
+                <input type="<%= fieldOption.type %>" <%= spacedAttrs %> placeholder="<%= fieldOption.label %>" /><%
                 } else if(fieldOption.type === 'radio'){ %>
                 <label class="radio-inline" ng-repeat="item in <%= fieldOption.dataListName %>">
                     <input type="radio" ng-value="item.value" <%= spacedAttrs %> /> {{item.label}}

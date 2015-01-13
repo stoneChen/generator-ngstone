@@ -34,40 +34,49 @@ angular.module('<%= scriptAppName %>')
                 }
             })
         }
-        $scope.searchParams = {
-            currentPage:$scope.currentPage
-        };
-        resourceClass.query($scope.searchParams, function (resources,data) {
-            $scope.resources = resources;
-            $scope.totalItems = data.totalCount;
-        });
-        $scope.newRc = function () {
-            openDialogForm(null, function (newReource) {
-                $scope.resources.unshift(newReource);
-                msgService.success('新增成功');
+        $scope.currentPage = 1;
+        $scope.searchParams = {};
+        $scope.doSearch = function () {
+            $scope.searchParams.currentPage = $scope.currentPage;
+            resourceClass.query($scope.searchParams, function (resources,data) {
+                $scope.resources = resources;
+                $scope.totalItems = data.totalCount;
             })
-        };<%
-        var tableCfg = bizCfg.dataGrid.gridTable,
-            operation = tableCfg.operation,
-            opBtn;
-        for(var i = 0,l = operation.length;i < l;i++){
-            opBtn = operation[i]; %>
-        $scope.<%= opBtn.method  || ('opMethod' + i) %> = function(rcItem,index) {<%
-            if(opBtn.method === 'modify'){ %>
-            openDialogForm(rcItem, function (newResource) {
-                $scope.resources[index] = newResource;
-                msgService.success('修改成功');
-            })<%
-            }%><%
-            if(opBtn.method === 'del'){ %>
-            dialogService.confirm('确定删除吗？', function () {
-                rcItem.$delete(function () {
-                    $scope.resources.splice(index, 1);
-                    msgService.success('删除成功');
+        };
+        angular.extend($scope,{
+            inputKeyup: function (ev) {
+                if(ev.keyCode === 13){
+                    $scope.doSearch();
+                }
+            },
+            newRc: function () {
+                openDialogForm(null, function (newReource) {
+                    $scope.resources.unshift(newReource);
+                    msgService.success('新增成功');
                 })
-            })<%
+            }<%
+        var tableCfg = bizCfg.dataGrid.gridTable,
+        operation = tableCfg.operation,
+        opBtn;
+        for(var i = 0,l = operation.length;i < l;i++){
+                opBtn = operation[i]; %>,
+            <%= opBtn.method  || ('opMethod' + i) %>: function(rcItem,index) {<%
+            if(opBtn.method === 'modify'){ %>
+                openDialogForm(rcItem, function (newResource) {
+                    $scope.resources[index] = newResource;
+                    msgService.success('修改成功');
+                })<%
+                }%><%
+                if(opBtn.method === 'del'){ %>
+                dialogService.confirm('确定删除吗？', function () {
+                    rcItem.$delete(function () {
+                        $scope.resources.splice(index, 1);
+                        msgService.success('删除成功');
+                    })
+                })<%
             }%>
-        };<%
+            }<%
         } %>
-
+        });
+        $scope.doSearch();
     });

@@ -73,25 +73,12 @@
                 }
             },
             {
-                "key": "password",
-                "type": "password",
-                "label": "密码",
+                "key": "name",
+                "type": "text",
+                "label": "姓名",
                 "validators": {
                     "rules": {
                         "ng-required": true
-                    }
-                }
-            },
-            {
-                "key": "repassword",
-                "type": "password",
-                "label": "确认密码",
-                "validators": {
-                    "rules": {
-                        "ng-required": true
-                    },
-                    "messages": {
-                        "equalto": "与密码不一致"
                     }
                 }
             },
@@ -100,16 +87,6 @@
                 "type": "select",
                 "label": "省份",
                 "dataListName":"provinceList",
-                "validators": {
-                    "rules": {
-                        "ng-required": true
-                    }
-                }
-            },
-            {
-                "key": "name",
-                "type": "text",
-                "label": "姓名",
                 "validators": {
                     "rules": {
                         "ng-required": true
@@ -141,10 +118,10 @@
                 }
             },
             {
-                "key": "difficulty",
+                "key": "gender",
                 "type": "radio",
-                "label": "难度",
-                "dataListName":"difficultyList",
+                "label": "性别",
+                "dataListName":"genderList",
                 "validators": {
                     "rules": {
                         "ng-required": true
@@ -158,7 +135,6 @@
                 "dataListName":"favorList",
                 "validators": {
                     "rules": {
-                        "ng-required": true
                     }
                 }
             }
