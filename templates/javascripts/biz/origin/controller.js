@@ -33,17 +33,17 @@ angular.module('<%= scriptAppName %>')
                     };
                 }
             })
-        }
-        $scope.currentPage = 1;
-        $scope.searchParams = {};
-        $scope.doSearch = function () {
-            $scope.searchParams.currentPage = $scope.currentPage;
-            resourceClass.query($scope.searchParams, function (resources,data) {
-                $scope.resources = resources;
-                $scope.totalItems = data.totalCount;
-            })
         };
         angular.extend($scope,{
+            currentPage: 1,
+            searchParams:{},
+            doSearch:function () {
+                $scope.searchParams.currentPage = $scope.currentPage;
+                resourceClass.query($scope.searchParams, function (resources,data) {
+                    $scope.resources = resources;
+                    $scope.totalItems = data.totalCount;
+                })
+            },
             inputKeyup: function (ev) {
                 if(ev.keyCode === 13){
                     $scope.doSearch();
