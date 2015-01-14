@@ -121,9 +121,13 @@ module.exports = yeoman.generators.Base.extend({
             );
         },
         styles: function () {
-            this.sourceRoot(path.join(__dirname, '../templates'));
+            this.sourceRoot(path.join(__dirname, '../templates/styles'));
+            var sourceDir = '_preinstall';
+            if(!this.initBaseServiceAndLayout){
+                sourceDir = 'simple';
+            }
             this.directory(
-                'styles',
+                sourceDir,
                 this.destinationPath('app/styles')
             );
         },
