@@ -26,7 +26,7 @@ module.exports = yeoman.generators.Base.extend({
             npm:{}
         };
         this.hookFor('ngstone:route',{
-            args:['main']
+            args:['main','']
         });
     },
 
