@@ -22,7 +22,7 @@ module.exports = yeoman.generators.NamedBase.extend({
             this.templatePath(sourceFileName),
             this.destinationPath(this.appPath,'scripts',dest,targetFileName)
         );
-        generatorUtil.addScriptToIndex(this.appPath,path.join(dest, this.name),this);
+        generatorUtil.addScriptToIndex(this.appPath,path.join('scripts',dest, this.name),this);
         //add test file
         if(!skipTestFile){
             if(templateName === 'factory'){
