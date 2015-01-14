@@ -42,6 +42,7 @@
     "mocha": "*"
   },
   "peerDependencies": {
-    "yo": ">=1.0.0"
+    "yo": ">=1.0.0",
+    "generator-karma": ">=0.8.2"
   }
 }

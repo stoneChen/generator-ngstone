@@ -171,6 +171,26 @@ module.exports = yeoman.generators.Base.extend({
     },
     install: function () {
         this._preinstall();
+        var enabledComponents = [
+            'angular/angular.js',
+            'angular-mocks/angular-mocks.js',
+            'angular-animate/angular-animate.js',
+            'angular-route/angular-route.js',
+            'angular-sanitize/angular-sanitize.js'
+        ].join(',');
+        this.invoke('karma:app', {
+            options: {
+//                'skip-install': this.options['skip-install'],
+                'base-path': '../',
+                'bower-components': enabledComponents,
+                'app-files': 'app/scripts/**/*.js',
+                'test-files': [
+                        'test/mock/**/*.js',
+                        'test/spec/**/*.js'
+                ].join(','),
+                'bower-components-path': 'bower_components'
+            }
+        });
         if(this.options['skip-install']){
             return;
         }

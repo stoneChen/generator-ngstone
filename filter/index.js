@@ -8,7 +8,7 @@ module.exports = SubGeneratorBase.extend({
     writing: function () {
         this.generateSourceAndTest(
             'filter',
-            'scripts/filters'
+            'filters'
         )
     }
 });

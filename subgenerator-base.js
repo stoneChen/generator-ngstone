@@ -14,14 +14,25 @@ module.exports = yeoman.generators.NamedBase.extend({
         this.cameledName = this._.camelize(this.name);
         this.appPath = bowerConfig.appPath;
     },
-    generateSourceAndTest: function (templateName,dest) {
-        this.sourceRoot(path.join(__dirname, './templates/javascripts'))
+    generateSourceAndTest: function (templateName,dest,skipTestFile) {
+        this.sourceRoot(path.join(__dirname, './templates/javascripts'));
+        var sourceFileName = generatorUtil.addScriptSuffix(templateName);
+        var targetFileName = generatorUtil.addScriptSuffix(this.name);
         this.template(
-            this.templatePath(templateName + '.js'),
-            this.destinationPath(path.join(this.appPath,dest,generatorUtil.addScriptSuffix(this.name)))
+            this.templatePath(sourceFileName),
+            this.destinationPath(this.appPath,'scripts',dest,targetFileName)
         );
         generatorUtil.addScriptToIndex(this.appPath,path.join(dest, this.name),this);
-        //暂不添加test
+        //add test file
+        if(!skipTestFile){
+            if(templateName === 'factory'){
+                sourceFileName = generatorUtil.addScriptSuffix('service');
+            }
+            this.template(
+                this.templatePath('spec',sourceFileName),
+                this.destinationPath('test/spec',dest,targetFileName)
+            );
+        }
     },
     generateHtmlFile: function (viewName,dest) {
         this.sourceRoot(path.join(__dirname, './templates/views'));

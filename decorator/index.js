@@ -6,9 +6,11 @@ var SubGeneratorBase = require('../subgenerator-base');
 
 module.exports = SubGeneratorBase.extend({
     writing: function () {
+        var skipTestFile = true;//decorator没有测试文件
         this.generateSourceAndTest(
             'decorator',
-            'scripts/services'
+            'services',
+            skipTestFile
         )
     }
 });

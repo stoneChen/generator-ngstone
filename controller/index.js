@@ -9,7 +9,7 @@ module.exports = SubGeneratorBase.extend({
     writing: function () {
         this.generateSourceAndTest(
             'controller',
-            'scripts/controllers'
+            'controllers'
         )
     }
 });

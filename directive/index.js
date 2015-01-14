@@ -18,7 +18,7 @@ module.exports = SubGeneratorBase.extend({
         }
         this.generateSourceAndTest(
             'directive',
-            'scripts/directives'
+            'directives'
         )
     }
 });
