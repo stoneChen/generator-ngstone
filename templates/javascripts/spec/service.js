@@ -12,7 +12,7 @@ describe('Service: <%= cameledName %>', function () {
     }));
 
     it('should do something', function () {
-        expect(!!<%= cameledName %>).toBe(true);
+        expect(!!<%= cameledName %>).not.toBe(true);
     });
 
 });

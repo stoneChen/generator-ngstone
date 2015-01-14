@@ -302,7 +302,7 @@ module.exports = function (grunt) {
         karma: {
             unit: {
                 configFile: 'test/karma.conf.js',
-                singleRun: false
+                singleRun: true
             },
             e2e: {
                 configFile: 'test/karma-e2e.conf.js',
@@ -390,8 +390,5 @@ module.exports = function (grunt) {
         'usemin',
         'htmlmin'
     ]);
-    grunt.registerTask('default', [
-        'test',
-        'build'
-    ]);
+    grunt.registerTask('default', ['test:unit','build']);
 };

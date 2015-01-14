@@ -176,13 +176,18 @@ module.exports = yeoman.generators.Base.extend({
             'angular-mocks/angular-mocks.js',
             'angular-animate/angular-animate.js',
             'angular-route/angular-route.js',
-            'angular-sanitize/angular-sanitize.js'
-        ].join(',');
+            'angular-sanitize/angular-sanitize.js',
+            'angular-bootstrap/ui-bootstrap-tpls.js',
+            'angular-local-storage/dist/angular-local-storage.js'
+        ];
+        if(!this.initBaseServiceAndLayout){
+            enabledComponents.pop();
+        }
         this.invoke('karma:app', {
             options: {
 //                'skip-install': this.options['skip-install'],
                 'base-path': '../',
-                'bower-components': enabledComponents,
+                'bower-components': enabledComponents.join(','),
                 'app-files': 'app/scripts/**/*.js',
                 'test-files': [
                         'test/mock/**/*.js',

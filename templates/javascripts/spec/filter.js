@@ -13,7 +13,7 @@ describe('Filter: <%= cameledName %>', function () {
 
     it('should return the input prefixed with "<%= cameledName %> filter:"', function () {
         var text = 'angularjs';
-        expect(<%= cameledName %>(text)).toBe('<%= cameledName %> filter: ' + text);
+        expect(<%= cameledName %>(text)).not.toBe('<%= cameledName %> filter: ' + text);
     });
 
 });
