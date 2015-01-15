@@ -25,9 +25,7 @@ module.exports = yeoman.generators.Base.extend({
             bower:{},
             npm:{}
         };
-        this.hookFor('ngstone:route',{
-            args:['main','']
-        });
+
     },
 
     prompting: function () {
@@ -178,6 +176,17 @@ module.exports = yeoman.generators.Base.extend({
     },
     install: function () {
         this._preinstall();
+        if(this.options['skip-install']){
+            return;
+        }
+        var self = this;
+        this.log(chalk.yellow('start to install bower dependencies:'));
+        this.bowerInstall([],{},function () {
+            self.log(chalk.yellow('start to install npm dependencies:'));
+            self.npmInstall();
+        });
+    },
+    end: function () {
         var enabledComponents = [
             'angular/angular.js',
             'angular-mocks/angular-mocks.js',
@@ -197,20 +206,14 @@ module.exports = yeoman.generators.Base.extend({
                 'bower-components': enabledComponents.join(','),
                 'app-files': 'app/scripts/**/*.js',
                 'test-files': [
-                        'test/mock/**/*.js',
-                        'test/spec/**/*.js'
+                    'test/mock/**/*.js',
+                    'test/spec/**/*.js'
                 ].join(','),
                 'bower-components-path': 'bower_components'
             }
         });
-        if(this.options['skip-install']){
-            return;
-        }
-        var self = this;
-        this.log(chalk.yellow('start to install bower dependencies:'));
-        this.bowerInstall([],{},function () {
-            self.log(chalk.yellow('start to install npm dependencies:'));
-            self.npmInstall();
+        this.invoke('ngstone:route',{
+            args:['main']
         });
     }
 });

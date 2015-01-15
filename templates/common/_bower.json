@@ -12,6 +12,10 @@
         "angular-route": "~<%= ngVer %>",
         "angular-bootstrap":"~0.12.0"<% if(baseServiceModules.bower['angular-local-storage']){ %>,
         "angular-local-storage":"*"<% } %>
+    },
+    "devDependencies": {
+        "angular-mocks": "~<%= ngVer %>",
+        "angular-scenario": "~<%= ngVer %>"
     }
 }
 
