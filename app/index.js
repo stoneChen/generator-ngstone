@@ -130,6 +130,9 @@ module.exports = yeoman.generators.Base.extend({
             );
         },
         mocks: function () {
+            if(!this.initBaseServiceAndLayout){
+                return;
+            }
             this.sourceRoot(path.join(__dirname, '../templates/mock'));
             this.directory(
                 '_preinstall',
