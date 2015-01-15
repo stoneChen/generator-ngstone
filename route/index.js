@@ -17,7 +17,7 @@ module.exports = SubGeneratorBase.extend({
                 args:[this.name]
             });
             this.invoke('ngstone:view',{
-                args:[this.name]
+                args:[this.name,'--route']
             })
         }
     },
