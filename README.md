@@ -477,6 +477,8 @@ grunt serve
 
 
 
+##未完待续。。。  
+
 
 
 
@@ -504,4 +506,4 @@ grunt serve
 <script src="../bower_components/angular/angular.js"></script>
 ```
 这样，到了部署的时候也不会有问题了，省去nginx额外的配置。  
-2. 大大
+2. 未完待续。。。
