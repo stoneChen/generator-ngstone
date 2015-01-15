@@ -12,8 +12,8 @@ describe('Controller: <%= classedName %>Ctrl', function () {
     beforeEach(inject(function ($controller, $rootScope) {
         scope = $rootScope.$new();
         <%= classedName %>Ctrl = $controller('<%= classedName %>Ctrl', {
-        $scope: scope
-    });
+            $scope: scope
+        });
     }));
 
     it('should attach a list of awesomeThings to the scope', function () {
