@@ -745,7 +745,8 @@ yo ngstone:biz student
 
 ```javascript
 var genderList = [{value:1,label:'男'},{value:2,label:'女'}]; //手动添加
-var gradeList = [{value:1,label:'一年级'},{value:2,label:'二年级'},{value:3,label:'三年级'}];  //手动添加```
+var gradeList = [{value:1,label:'一年级'},{value:2,label:'二年级'},{value:3,label:'三年级'}];  //手动添加
+```
 
 在第19行后面插入：  
 
