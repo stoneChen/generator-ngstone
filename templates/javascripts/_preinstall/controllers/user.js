@@ -45,11 +45,7 @@ angular.module('<%= scriptAppName %>')
                             label: '确认密码',
                             validators: {
                                 rules: {
-                                    'ng-required': true,
-                                    'equalto': 'password'
-                                },
-                                messages: {
-                                    equalto: '与密码不一致'
+                                    'ng-required': true
                                 }
                             }
                         },
@@ -72,8 +68,8 @@ angular.module('<%= scriptAppName %>')
                                     'ng-required': true,
                                     'mobile': true
                                 },
-                                messages: {
-                                    mobile: '格式不正确'
+                                messages:{
+                                    mobile:'格式不正确（校验信息若不指定，则使用默认值，大部分情况使用默认值即可）'
                                 }
                             }
                         },
@@ -84,9 +80,6 @@ angular.module('<%= scriptAppName %>')
                             validators: {
                                 rules: {
                                     'ng-required': true
-                                },
-                                messages: {
-                                    email: '格式不正确'
                                 }
                             }
                         }

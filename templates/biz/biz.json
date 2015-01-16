@@ -19,7 +19,8 @@
                     "placeholder": "关键字"
                 },
                 "select":{
-                    "ngModel":""
+                    "ngModel":"",
+                    "dataListName":""
                 },
                 "btn": {
                     "text": "搜索"
@@ -46,7 +47,6 @@
                 }
             ]
         }
-        
     },
     "form":{
         "fields":[

@@ -20,7 +20,7 @@
             <div class="form-group">
                 <select class="form-control"
                         ng-model="searchParams.<%= topCfg.searchGroup.select.ngModel %>"
-                        ng-options="item.value as item.label for item in dataList">
+                        ng-options="item.value as item.label for item in <%= topCfg.searchGroup.select.dataListName %>">
                     <option value="">-请选择-</option>
                 </select>
             </div><%
