@@ -6,7 +6,9 @@ used to build a **AngularJS** project scaffolding.
 
 ##这是个什么东东？
 
-这是一个用于生成Angular项目工程脚手架的**工具**，在你项目的整个生命周期都可以使用它，包括初始化，生成指定模块，就是用命令行完成我们以前需要人肉完成的重复劳动。目的就是大大提高我们的开发效率,且有利于统一代码风格。它本质上也是一个nodejs的程序包，由yo调用，那yo又是什么呢?  
+这是一个用于生成Angular项目工程脚手架的**工具**，在你项目的整个生命周期都可以使用它，包括初始化，生成指定模块，就是用命令行完成我们以前需要人肉完成的重复劳动。目的就是大大提高我们的开发效率,且有利于统一代码风格。它将带你进入 *前端工业化时代* ！  
+
+它本质上也是一个nodejs的程序包，由yo调用，那yo又是什么呢?  
 yo是用于各种generator的基础工具，不仅仅可以用于Angular，甚至其他语言的项目脚手架也可以生成。在你用过之后，很可能也会有激情自己也去写一个generator.
 
 ##它是怎么来的
@@ -88,12 +90,29 @@ yo ngstone
 简单介绍一下：  
 
 ```
-app/ //项目的html，js，less，css都在这里    mock/  //无后端开发时，需要模拟数据，所有的数据模拟文件都在这里test/  //所有的测试文件与配置都在这里  bower_components/  //bower安装的组件都在这里  node_modules/ //所有node模块都在这里 bower.json //bower配置文件  Gruntfile.js  //不解释了~  package.json  //不解释了~README.md  //不解释了~  
+app/ //项目的html，js，less，css都在这里    
+mock/  //无后端开发时，需要模拟数据，所有的数据模拟文件都在这里
+test/  //所有的测试文件与配置都在这里  
+bower_components/  //bower安装的组件都在这里  
+node_modules/ //所有node模块都在这里 
+bower.json //bower配置文件  
+Gruntfile.js  //不解释了~  
+package.json  //不解释了~
+README.md  //不解释了~  
 ```
-本来想把.gitignore也添加进来的，想想有些同学不是用git的，那么这个文件也就多余了，有需要的同学就自行添加吧。  
-###3.启动服务器
-还是在bookstore的目录下：
-```grunt serve
+
+本来想把.gitignore也添加进来的，想想有些同学不是用git的，那么这个文件也就多余了，有需要的同学就自行添加吧。  
+
+工具将以你的根目录名称+App作为angular的app应用模块名称，所有后续的指令，服务等，都是基于此名称的模块建立的。那我们这里的app名称就是 `bookstoreApp` 。你可以打开app目录下的任意一个js查看。
+  
+
+###3.启动服务器
+
+
+还是在bookstore的目录下：
+
+```
+grunt serve
 ```
 
 这会调用grunt任务，很快就会调用你的默认浏览器，并打开 http://localhost:9000/ 这个网址。  
@@ -187,9 +206,9 @@ angular.module('bookstoreApp')
 
 ```html
 <ul class="nav nav-pills pull-right">
-            <li class="active"><a ng-href="#/">Home</a></li>
-            <li><a ng-href="#/list">List</a></li>
-        </ul>
+    <li class="active"><a ng-href="#/">Home</a></li>
+    <li><a ng-href="#/list">List</a></li>
+</ul>
 ```
 再回到浏览器，分别点击右上角的Home和List，就可以在主页和list页之前切换了！（这个是Angular的路由功能，已经不是本工具应该讨论的范畴了，就不深入说明了- -）  
 这样一个简单的页面就开发完了，是不是很轻松？  
@@ -288,7 +307,7 @@ angular.module('bookstoreApp')
 ```
 
 省去了人工配置的麻烦~  
-讲完了ngstone:directive的两个选项，接下来让我们完成这个hello指令。假定我使用了外部模板，即使用`--templateUrl` 这个选项创建指令，我们在link函数里写上：  
+讲完了ngstone:directive的两个选项，接下来让我们完成这个hello指令。假定我使用了外部模板，即，使用`--templateUrl` 这个选项创建指令，我们在link函数里写上：  
 
 ```
 $element.after('<p>Hello Directive!</p>')
@@ -315,9 +334,14 @@ Hello Directive!
 
 添加它们的命令和directive类似，只不过没有那两个template选项，就不再演示了。。  
 
-另外，provider，service，value，constant我就不额外添加指令了，因为和factory太相似了，而且我个人认为还是factory用的频度最高，而且也够用了。实在不行，生成factory后再稍微改一改，再者它们本质都属于service，问题不大~
+另外，provider，service，value，constant我就不额外添加命令了，因为和factory太相似了，而且我个人认为还是factory用的频度最高，而且也够用了。实在不行，生成factory后再稍微改一改，再者它们本质都属于service，问题不大~
 
 还有，decorator特殊一点，它不生成测试文件。  
+
+大家可以自行尝试添加。  
+
+文档最后我会把所有可用的命令罗列出来。
+
 
 ###6.单元测试
 
@@ -399,7 +423,7 @@ grunt serve:dist
 ```javascript
 angular.module('bookstoreApp')
     .controller('ListCtrl', function ($scope,$http) {
-        $http.get('books.json?_method=GET').success(function (data) {
+        $http.get('/books.json?_method=GET').success(function (data) {
             $scope.books = data;
         })
 
@@ -441,7 +465,7 @@ grunt serve
 
 再讲一下这里的ajax数据模拟规则：  
 
-之前做到这个功能的时候，本来再弄一个ajax地址与json文件目录的配置文件，想起玉伯曾经说的 *约定大于配置* 原则。还真是有道理，多一个配置文件，岂不是又增加了工作负担？于是我就搞了这么个约定：  
+之前做到这个功能的时候，本来想再弄一个ajax地址与json文件目录的配置文件，想起玉伯曾经说的 *约定大于配置* 原则。还真是有道理，多一个配置文件，岂不是又增加了工作负担？于是我就搞了这么个约定：  
 
 现在RESTful请求大行其道，我们也不能落下，我列出一个映射表，相信效果会比啰嗦的文字效果好：  
 
@@ -468,21 +492,429 @@ grunt serve
 
 
 
-====
+====  
+
 以上是本工具的基本使用方法，下面讲一讲稍高级的用法  
 
+====
 
 
 
 
 
 
-##未完待续。。。  
+
+##安装基础服务与布局  
+
+这次让我们重新建一个工程，比如叫做school：  
+
+```
+mkdir school && cd $_
+```
+
+然后初始化工程，当提示 *是否初始化基础服务与布局？*  选择Y，直接回车也可以：  
+
+```
+yo ngstone
+```
+从控制台输出上，你会看到明显比上次要多创建了很多文件。  
+
+请耐心等待几分钟，大部分时间花费在bower与npm安装模块上。额外说明一下，一旦这些模块安装成功过以后，下次再安装就会快很多，因为本地会有缓存。  
+
+初始化完毕后，我们浏览一下根目录下都创建了哪些文件：  
+
+从根目录的直接子目录上看，比之前多了一个biz目录，是干什么的呢？这是我想了好久的名字，biz代表business，即业务的意思，用business的话太长，拼写不方便，于是想了这么个词出来。所以呢，这个目录一定与具体的业务相关。初始化基础服务很重要或者说很强大的功能就是，可以通过配置文件快速生成一个业务单元的基础功能集（增删改查），那么这个目录就是用来存放这这些配置文件的。是不是很心动？别着急，后面会继续讲解如何操作，我们先继续浏览刚刚的 *初始化基础服务与布局* 到底初始化了什么东东。  
+
+根目录的直接子目录除了biz外的其他目录的作用都与之前的一样，我们往下看，打开app/scripts，你会发现controllers，directives，filters，services下都已经有了若干js模块，这些初始化出来的js模块，都是为快速生成业务单元服务的，所以我称他们为基础服务。包括下面的app/styles和app/views,以及index.html都增加了很多内容，后面我会挑一些比较重要的模块进行讲解。  
+
+细心的同学，应该发现工程里已经初始化了一个user业务单元，它是可以直接运行的，但是请注意，**这个user业务单元并不是我上面说的那个快速生成的结果**！请容许我插入一段angular心得：   
+
+最开始使用angular确实没有使用任何自定义指令神马的，做了好几个业务单元，很多代码都是相似的，都要 *人工* 一遍一遍的拷代码。虽然angular已经给我们带来非凡的编程体验，但我还是觉得需要解放一下生产力，花了有半个多月的时间才勉强写出了vdatagrid指令与vform指令，用于动态创建数据表格展示与表单提交。刚开始用着感觉还不错，可以少写很多类似的代码，尤其是form里的控件，减轻很多人工拷贝代码的痛苦。可是随着业务越来越复杂，指令代码也不断膨胀，调用指令的配置代码也变得越来越长，controller里的代码有一半以上都是这些配置项，而且越发觉得这指令越来越难以维护了，甚至指令的性能也有所降低。就在前不久，我打算自己写一个generator可以根据配置文件生成 "原始" 的angular代码，即不使用vdatagrid与vform指令。乍一看，是不是回到了解放前？no no no，我们是用命令写代码，而且效率要高的多哦~另外，如果业务上有复杂的需求也会好处理的多。  
+
+好了，心得阐述完毕，让我们先看一下使用vdatagrid与vform的效果如何。启动服务：  
+
+```
+grunt serve
+```
+自动打开浏览器访问http://localhost:9000/ ，你会看到蓝色顶部bar，下方，左侧菜单列表，右侧主体内容，这样的经典管理系统布局。右侧又见到了之前见过的可爱小胡子。我们点击左侧菜单的用户管理，右边就出现了一个数据列表，这样一个界面就包含了user业务的基础增删改查的功能。  
+
+之所以还保留vdatagrid和vform指令，是因为在某种程度上，它们还是挺好用的，留下来给大家参考，听君的喜好来选择！
+
+接下来，我们开始创建一个新业务单元，因为工程名叫school嘛，那我们就来个student：  
+
+```
+yo ngstone:biz-cfg student
+```
+
+这个命令会创建在biz目录下创建student.json，里面是完整的配置内容，你需要做的只是 *填空* ~  
+
+下面解释一下每个配置项的意义：  
+
+```javascript
+{
+    "type":"origin",  //生成代码类型，origin的意思就是我上面提到的*原始*angular代码，这一项暂时先不要动，也许以后我会补上别的选项
+    "caption":"", //业务单元的名称，比如我们这里是"学生",在form标题中会用到
+    "resource":{  //resource资源的配置，暂时只有urlPattern这么一项配置，默认给出的urlPattern能够满足基本需求，后面我会讲解resource的用法
+        "urlPattern":"students/{id}"
+    },
+    "mock":[  //根据这里给出的列表，生成ajax数据模拟json文件，也是省去人工创建文件的麻烦~
+        "student/students#GET.json",
+        "student/students#POST.json",
+        "student/students.N#GET.json",
+        "student/students.N#PATCH.json",
+        "student/students.N#DELETE.json"
+    ],
+    "dataGrid":{  //数据表格的配置
+        "top":{ //新增按钮是内置固定的，如果不需要可以在生成后，删除相关代码
+            "searchGroup":{  //搜索区域的配置
+                "input": {  //模糊搜索，如果不需要，可以去掉这项配置
+                    "ngModel": "keyword",
+                    "placeholder": "关键字"
+                },
+                "select":{  //下拉框搜索，如果不需要，可以去掉这项配置
+                    "ngModel":"",
+                    "dataListName":""
+                },
+                "btn": {  //搜索按钮，如果不需要，可以去掉这项配置
+                    "text": "搜索"
+                }
+            }
+        },
+        "gridTable": {  //表格配置
+            "cols": [  //表头设置
+                {
+                    "text": "",  //显示的表头名称
+                    "property": ""  //ng-repeat里要取值的属性名
+                }
+            ],
+            "operation":[  //操作列配置
+                {
+                    "type":"default",  
+                    "text":"修改",
+                    "method":"modify"  //修改和删除是比较典型的操作，如果配置了这两项，将生成更具体的代码，当然你也可以继续添加其他操作按钮，不过生成的代码就没那么具体，逻辑需要你自己扩充
+                },
+                {
+                    "type":"danger",
+                    "text":"删除",
+                    "method":"del"
+                }
+            ]
+        }
+    },
+    "form":{//表单配置
+        "fields":[  //表单控件配置
+            {
+                "key": "", //控件对应到对象的属性名，比如student.name,那么这里写name
+                "type": "",//控件类型，可选项有text，number,url，email,password,radio,checkbox,select
+                "label": "",//控件名称
+                //dataListName:"",//如果type是radio|checkbox|select，这项配置可以帮你把ng-repeat的数组名生成出来               
+                "validators": {//校验设置
+                    "rules": {
+                        "": true //ng内置的和你后面扩充的都可以，比如"ng-required":true,"ng-minlength":6,可以配置若干项
+                    }
+                    //,messages:{}// 这项配置，可以指定校验信息，key与rules里的key一一对应，如果不指定，则使用默认校验信息，通常使用默认的就可以了，不必配置此项，需要注意，把前缀'ng-'去掉
+                }
+            }
+        ]
+    }
+}
+```  
+
+我这里配置了一份student.json:  
+
+```
+{
+    "type":"origin",
+    "caption":"学生",
+    "resource":{
+        "urlPattern":"students/{id}"
+    },
+    "mock":[
+        "student/students#GET.json",
+        "student/students#POST.json",
+        "student/students.N#GET.json",
+        "student/students.N#PATCH.json",
+        "student/students.N#DELETE.json"
+    ],
+    "dataGrid":{
+        "top":{
+            "searchGroup":{
+                "input": {
+                    "ngModel": "keyword",
+                    "placeholder": "关键字"
+                },
+                "select":{
+                    "ngModel":"grade",
+                    "dataListName":"gradeList"
+                },
+                "btn": {
+                    "text": "搜索"
+                }
+            }
+        },
+        "gridTable": {
+            "cols": [
+                {
+                    "text": "姓名",
+                    "property": "name"
+                },
+                {
+                    "text": "年级",
+                    "property": "grade"
+                },
+                {
+                    "text": "性别",
+                    "property": "gender"
+                }
+            ],
+            "operation":[
+                {
+                    "type":"default",
+                    "text":"修改",
+                    "method":"modify"
+                },
+                {
+                    "type":"danger",
+                    "text":"删除",
+                    "method":"del"
+                },
+                {
+                    "type":"default",
+                    "text":"设为班长",
+                    "method":"monitor"
+                }
+            ]
+        }
+    },
+    "form":{
+        "fields":[
+            {
+                "key": "name",
+                "type": "text",
+                "label": "姓名",
+                "validators": {
+                    "rules": {
+                        "ng-required": true
+                    }
+                }
+            },
+            {
+                "key": "grade",
+                "type": "select",
+                "label": "年级",
+                "validators": {
+                    "rules": {
+                        "ng-required": true
+                    }
+                }
+            },
+            {
+                "key": "gender",
+                "type": "radio",
+                "label": "性别",
+                "dataListName":"genderList",
+                "validators": {
+                    "rules": {
+                        "ng-required": true
+                    }
+                }
+            }
+        ]
+    }
+}
+```
+
+把它拷贝到你的student.json中去，然后执行：  
+
+```
+yo ngstone:biz student
+```
+
+接下来就是见证奇迹的时刻！
+
+看到控制台已经输出了好几行日志，创建了若干文件，可以去看一下生成的文件内容都是什么，是不是符合你的预期。  
+
+不过，我们还是需要手动添加student的菜单，打开app/scripts/services/global-data.js，找到"用户管理"这一行配置，在它下面添加：  
+
+```javascript
+{"children": [], "href": "#/student", "name": "学生管理"},
+```
+回到浏览器，发现菜单中已经有了学生管理，点击它，右侧立刻出现跟用户管理很相似的页面，不过表格只要一行空数据，那是因为我们还没补充ajax模拟数据，下拉框也没有东西，新增表单的性别项也没有数据。然后我们一个个补充完整。
+
+打开app/scripts/controllers/student.js，在第11行后面，插入：  
+
+```javascript
+var genderList = [{value:1,label:'男'},{value:2,label:'女'}]; //手动添加
+var gradeList = [{value:1,label:'一年级'},{value:2,label:'二年级'},{value:3,label:'三年级'}];  //手动添加```
+
+在第19行后面插入：  
+
+```
+dialogScope.genderList = genderList;  //手动添加
+```
+
+在第43行后面插入：  
+
+```
+gradeList:gradeList,  //手动添加
+```
+
+现在完整的app/scripts/controllers/student.js 如下：  
+
+```javascript
+angular.module('schoolApp')
+    .controller('StudentCtrl', function ($scope,resourcePool,msgService,dialogService) {
+        var resourceClass = resourcePool.student;
+        var genderList = [{value:1,label:'男'},{value:2,label:'女'}]; //手动添加
+        var gradeList = [{value:1,label:'一年级'},{value:2,label:'二年级'},{value:3,label:'三年级'}];  //手动添加
+        var openDialogForm = function (resourceInst,done) {
+            dialogService.complexBox({
+                templateUrl: './views/student/dialog-form.html',
+                onComplete: function (dialogScope, dialogInstance) {
+                    dialogScope.isEdit = !!resourceInst;
+                    dialogScope.student = resourceInst ? resourceInst.copy() : {};
+                    dialogScope.genderList = genderList;  //手动添加
+                    dialogScope.gradeList = gradeList;  //手动添加
+                    dialogScope.ok = function () {
+                        if (dialogScope.dialogForm.$invalid) {
+                            return;
+                        }
+                        if (dialogScope.isEdit) {
+                            dialogScope.student.$update(function () {
+                                dialogInstance.close();
+                                done && done(dialogScope.student);
+                            })
+                        } else {
+                            resourceClass.new(dialogScope.student, function (resource) {
+                                dialogInstance.close();
+                                done && done(resource);
+                            })
+                        }
+                    };
+                }
+            })
+        };
+        angular.extend($scope,{
+            currentPage: 1,
+            searchParams:{},
+            gradeList:gradeList,
+            doSearch:function () {
+                $scope.searchParams.currentPage = $scope.currentPage;
+                resourceClass.query($scope.searchParams, function (resources,data) {
+                    $scope.resources = resources;
+                    $scope.totalItems = data.totalCount;
+                })
+            },
+            inputKeyup: function (ev) {
+                if(ev.keyCode === 13){
+                    $scope.doSearch();
+                }
+            },
+            newRc: function () {
+                openDialogForm(null, function (newReource) {
+                    $scope.resources.unshift(newReource);
+                    msgService.success('新增成功');
+                })
+            },
+            modify: function(rcItem,index) {
+                openDialogForm(rcItem, function (newResource) {
+                    $scope.resources[index] = newResource;
+                    msgService.success('修改成功');
+                })
+            },
+            del: function(rcItem,index) {
+                dialogService.confirm('确定删除吗？', function () {
+                    rcItem.$delete(function () {
+                        $scope.resources.splice(index, 1);
+                        msgService.success('删除成功');
+                    })
+                })
+            },
+            monitor: function(rcItem,index) {
+            }
+        });
+        $scope.doSearch();
+    });
+``` 
+
+打开mock/student/students#GET.json,内容替换为：  
+
+```
+{
+    "stat":"OK",
+    "data":{
+        "currentPage": 1,
+        "totalPages": 3,
+        "totalCount": 30,
+        "collection": [
+            {
+                "id":11,
+                "name":"张三",
+                "grade":1,
+                "gender":1
+            },
+            {
+                "id":22,
+                "name":"李四",
+                "grade":2,
+                "gender":1
+            },
+            {
+                "id":33,
+                "name":"王五",
+                "grade":2,
+                "gender":1
+            },
+            {
+                "id":44,
+                "name":"赵六",
+                "grade":2,
+                "gender":1
+            },
+            {
+                "id":55,
+                "name":"李七",
+                "grade":3,
+                "gender":1
+            }
+        ]
+    }
+}
+```
+
+最后，打开mock/student/students#POST.json,内容替换为：  
+
+```
+{
+    "stat":"OK",
+    "data":{
+        "model":{
+            "id":999,
+            "name":"新学生",
+            "grade":2,
+            "gender":2
+        }
+    }
+}
+```
+
+就大功告成啦！  
+
+回到浏览器，你可以尝试查询，分页，新增，删除，修改的操作，看不是都OK了。    
+
+提一句，由于不是真正的后端，数据查询功能暂时无法完整体现出来，因为无论查询条件如何，返回的都是json文件里的数据，没有变化。打包构建的命令，与之前的一样。
+
+感觉如何？是不是很有feel？有些细节这里无法涵盖到，等着你发现哦~快去尝试开发更多功能吧。  
 
 
+##基础服务中的模块说明
+
+未完待续。。。
 
 
+##命令列表  
 
+未完待续。。。
 
 
 
