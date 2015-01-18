@@ -910,16 +910,27 @@ angular.module('schoolApp')
 感觉如何？是不是很有feel？有些细节这里无法涵盖到，等着你发现哦~快去尝试开发更多功能吧。  
 
 
-##基础服务中的模块说明
-
-未完待续。。。
-
-
 ##命令列表  
 
-未完待续。。。
+1. yo ngstone      初始化工程
+2. yo ngstone:directive  {name}    生成directive，插入script标签到index.html,生成测试文件
+3. yo ngstone:factory    {name}    生成factory，插入script标签到index.html,生成测试文件
+4. yo ngstone:filter     {name}    生成filter，插入script标签到index.html,生成测试文件
+5. yo ngstone:decorator  {name}    生成decorator，插入script标签到index.html
+6. yo ngstone:controller {name}    生成controller，插入script标签到index.html,生成测试文件
+7. yo ngstone:view       {name}    生成视图文件
+8. yo ngstone:route      {name}    向app/scripts/app.js中添加路由配置,调用ngstone:controller和ngstone:view
+9. yo ngstone:biz-cfg    {name}    生成business配置文件
+10. yo ngstone:biz        {name}    根据business配置文件生成
 
+##基础服务中的关键模块说明
 
+1. 登陆相关：登陆并没有作为一个路由页面存在，在index.html使用switch指令结合include指令实现登陆 "跳转"，同时ajax服务中对每次请求，后端返回的数据进行状态属性检查，若为 `LOGIN_TIMEOUT` 则 "跳转到"登陆页
+2. ajaxService服务封装了ajax请求，如果用了resource服务，一般不需要直接调用此ajax服务，可修改后端返回状态属性的枚举值（即switch的代码段）
+3. resourceService服务用法大致与官方的resource一致，资源默认方法稍有不同，资源url中的参数格式使用 `{xxx}` 代替 `：xxx` ，资源实例添加了若干方法，去除action方法调用后的返回值（现在是undefined），个人认为这样会简单一些
+4. resourcPool，即资源池，用于存放所有的资源对象
+5. localStorageService服务是第三方的模块，用于实现本地数据持久化，初始化时用于存储菜单组折叠状态，你可以用于更多业务
+6. 更多说明将持续补充。。。
 
 ##与官方版generator-angular的对比
 
