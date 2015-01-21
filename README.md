@@ -951,5 +951,11 @@ angular.module('schoolApp')
 ```
 <script src="../bower_components/angular/angular.js"></script>
 ```
+
 这样，到了部署的时候也不会有问题了，省去nginx额外的配置。  
 2. 未完待续。。。
+
+##结语
+
+本项目为本人 **个人** 第一个开源项目，欢迎大家支持，欢迎交流，共同进步~  
+qq:597719186
