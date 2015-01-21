@@ -1,6 +1,6 @@
 <div class="panel-group menu" ng-controller="SideMenuCtrl">
     <div class="panel panel-default" ng-repeat="menu in menus">
-        <div class="panel-heading" ng-click="menuOpened[$index] = !menuOpened[$index]">
+        <div class="panel-heading" ng-click="menuHeadClick($index)">
             <h4 class="panel-title">
                 {{menu.name}}
             </h4>
