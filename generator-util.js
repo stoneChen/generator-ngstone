@@ -4,6 +4,10 @@ var fs = require('fs');
 var chalk = require('chalk');
 var child_process = require('child_process');
 
+function transformSlash(path) {// windows 下生成的路径是右斜杠
+    return path.replace(/\\/g, '/');
+}
+
 function escapeRegExp(str) {
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
 }
@@ -109,7 +113,7 @@ function addScriptToIndex(appPath,script,generatorInst) {
         file: fullPath,
         needle: '<!-- endbuild -->',
         splicable: [
-                '<script src="./' + script + '"></script>'
+                '<script src="./' + transformSlash(script) + '"></script>'
         ]
     });
     generatorInst.log(chalk.green('script added into index.html: ') + script);
@@ -122,6 +126,7 @@ function isBadBusinessName(name) {
     return !(/^[a-z]+?[^sx0-9]$/i).test(name);//每位非数字，且最后一位不能含有s|x
 }
 module.exports = {
+    transformSlash:transformSlash,
     rewrite: rewrite,
     rewriteFile: rewriteFile,
     addAppNameSuffix:addAppNameSuffix,
