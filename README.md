@@ -702,6 +702,7 @@ yo ngstone:biz-cfg student
                 "key": "grade",
                 "type": "select",
                 "label": "年级",
+                "dataListName":"gradeList",
                 "validators": {
                     "rules": {
                         "ng-required": true
@@ -952,8 +953,10 @@ angular.module('schoolApp')
 <script src="../bower_components/angular/angular.js"></script>
 ```
 
-这样，到了部署的时候也不会有问题了，省去nginx额外的配置。  
-2. 未完待续。。。
+这样，到了部署的时候也不会有问题了，省去nginx额外的配置。
+2.A打包是不会将模板文件打包进js的，B会
+3.A的代码都是2个空格缩进，B的是4个空格缩进，个人比较喜欢4空格缩进
+4. 未完待续。。。
 
 ##结语
 
