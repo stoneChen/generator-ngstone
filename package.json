@@ -1,48 +1,50 @@
 {
-  "name": "generator-ngstone",
-  "version": "0.0.9",
-  "description": "Yeoman generator",
-  "license": "MIT",
-  "main": "app/index.js",
-  "repository": "stoneChen/generator-ngstone",
-  "author": {
-    "name": "cloudstone",
-    "email": "baby31529@aliyun.com",
-    "url": "https://github.com/stoneChen"
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "scripts": {
-    "test": "mocha"
-  },
-  "files": [
-    "app",
-    "controller",
-    "decorator",
-    "directive",
-    "factory",
-    "filter",
-    "route",
-    "templates",
-    "test",
-    "view",
-    "generator-util.js",
-    "subgenerator-base.js"
-  ],
-  "keywords": [
-    "yeoman-generator"
-  ],
-  "dependencies": {
-    "yeoman-generator": "^0.18.0",
-    "chalk": "^0.5.0",
-    "yosay": "^0.3.0"
-  },
-  "devDependencies": {
-    "mocha": "*"
-  },
-  "peerDependencies": {
-    "yo": ">=1.0.0",
-    "generator-karma": ">=0.8.2"
-  }
+    "name": "generator-ngstone",
+    "version": "0.0.11",
+    "description": "Yeoman generator",
+    "license": "MIT",
+    "main": "app/index.js",
+    "repository": "stoneChen/generator-ngstone",
+    "author": {
+        "name": "cloudstone",
+        "email": "baby31529@aliyun.com",
+        "url": "https://github.com/stoneChen"
+    },
+    "engines": {
+        "node": ">=0.10.0"
+    },
+    "scripts": {
+        "test": "mocha"
+    },
+    "files": [
+        "app",
+        "biz",
+        "biz-cfg",
+        "controller",
+        "decorator",
+        "directive",
+        "factory",
+        "filter",
+        "route",
+        "templates",
+        "test",
+        "view",
+        "generator-util.js",
+        "subgenerator-base.js"
+    ],
+    "keywords": [
+        "yeoman-generator"
+    ],
+    "dependencies": {
+        "yeoman-generator": "^0.18.0",
+        "chalk": "^0.5.0",
+        "yosay": "^0.3.0"
+    },
+    "devDependencies": {
+        "mocha": "*"
+    },
+    "peerDependencies": {
+        "yo": ">=1.0.0",
+        "generator-karma": ">=0.8.2"
+    }
 }
