@@ -404,7 +404,7 @@ scripts/  //所有的js，是合并压缩过后的，里面只有两个文件，
 styles/  //所有的css，同上
 index.html //工程首页，是htmlmin过的
 ```
-如果你觉得构建后的js和css还是太多，你完全可以自己动手把它们继续合并~
+如果你觉得构建后的js和css还是太多，你完全可以自己动手，修改构建配置，把它们继续合并~
 然后呢，执行：  
 
 ```
@@ -412,6 +412,9 @@ grunt serve:dist
 ```
 
 就会以dist为webroot启动服务，同样调用你的默认浏览器打开地址：http://localhost:9000  效果是和不打包构建一样的，性能肯定是更高的！随着你的工程越来越大，性能提升会越来越明显。打开浏览器调试工具，查看请求列表，只要寥寥几条请求~够高大上么  
+
+ps：  
+index.html中带有build和endbuild字样的注释是不能删除的，它们是构建时，寻找被打包压缩文件列表的起止标记！！！
 
 ###如何模拟ajax数据
 
@@ -490,7 +493,7 @@ grunt serve
 
 所以呢，我建议业务域取名字，就要避开那些特殊的单词了嘛~~~
 
-
+服务器模拟ajax数据的逻辑代码在Gruntfile.js的mockMiddleware函数中，你也可以根据自己的需求做适当改进。
 
 ====  
 
@@ -959,7 +962,13 @@ angular.module('schoolApp')
 
 3. A的代码都是2个空格缩进，B的是4个空格缩进，个人比较喜欢4空格缩进  
 
-4. 未完待续。。。  
+4. A中启动服务(grunt serve)时，会根据bower.json里的配置，依次查找每个组件的bower配置main文件路径，往index.html中写入bower依赖的script或css引用标签，这本身是个很好的功能。但是，我遇到了两个问题。  
+   比如bootstrap组件，在angular工程中，我只需要它的css，而不需要引用它的js（它不是基于angular指令的组件，而是传统的jquery插件，我使用angular-bootstrap代替它）。而每次启动服务，bootstrap的js总是会被引用进来，这造成了浪费。    
+   再比如，ztree组件，我们通常需要的是jquery.ztree.all-3.5.js,而ztree中的bower配置的是jquery.ztree.core-3.5.js,这就造成引用不正确。  
+   当然，我可以手动修改上述两个组件bower配置的main项，但是我觉得把bower组件提交到版本控制不太好，就像不把本地npm模块提交到版本控制。  
+   所以呢，我就把这个 *本身很好却给我带来些许麻烦* 的功能给去掉了，感觉有点对不起yo团队囧。再所以呢，bower组件的依赖，需要手动写入到index.html。
+
+5. 未完待续。。。  
 
 
 
