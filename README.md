@@ -413,7 +413,7 @@ e2e是 *end-to-end* 的简称，"端到端测试" 或 "场景测试" ，说白�
 npm install -g protractor
 ```
 protractor也是全局的，下次就不用装了~  
-然后，需要下载webdriver。官方的下载是 http://chromedriver.storage.googleapis.com/index.html  ，不过是被墙的，我这里准备了一个，一个mac版，一个win版，你根据需要选择。
+然后，需要下载webdriver。官方的下载是 http://chromedriver.storage.googleapis.com/index.html  ，不过是被墙的，我这里 https://github.com/stoneChen/generator-ngstone/tree/master/webdriver 准备了一个，一个mac版，一个win版，你根据需要选择。
 下过来后，解压缩出来是一个文件，把它放到 /usr/local/lib/node_modules/protractor/selenium下(win用户请自行对号入座，selenium目录可能不存在，自己建一个)  
 
 接下来我们造一个测试效果。  
