@@ -60,7 +60,9 @@ angular.module('<%= scriptAppName %>')
                                 break;
                             default:
                                 if(!res.silent){
-                                    msgService.error((res.errors && res.errors.length && res.errors) || '系统异常：未知原因');
+                                    var msg = (res.errors && res.errors.length && res.errors) || '系统异常：未知原因';
+                                    msgService.error(msg);
+                                    $log.error(msg);
                                 }
                                 deferred.reject(res);
                         }

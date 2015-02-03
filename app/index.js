@@ -32,7 +32,7 @@ module.exports = yeoman.generators.Base.extend({
         var done = this.async();
         // Have Yeoman greet the user.
         this.log(yosay(
-                'Welcome to the swell' + chalk.red('Angular-stone') + ' generator!'
+                'Welcome to the swell ' + chalk.red('Angular-stone') + ' generator!'
         ));
         var isCwdEmpty = generatorUtil.isDirEmpty(process.cwd());
 //        if(!isCwdEmpty){
@@ -53,6 +53,18 @@ module.exports = yeoman.generators.Base.extend({
             },
             {
                 type: 'confirm',
+                name: 'unitTest',
+                message: '是否需要单元测试文件?(运行单元测试需要额外初始化单元测试环境)',
+                default: true
+            },
+            {
+                type: 'confirm',
+                name: 'e2eTest',
+                message: '是否需要e2e测试文件?(运行e2e测试需要自行安装全局protractor)',
+                default: true
+            },
+            {
+                type: 'confirm',
                 name: 'initBaseServiceAndLayout',
                 message: '是否初始化基础服务与布局?',
                 default: true
@@ -67,6 +79,8 @@ module.exports = yeoman.generators.Base.extend({
                 generatorUtil.clearDir(process.cwd(),true);
             }
             this.initBaseServiceAndLayout = props.initBaseServiceAndLayout;
+            this.unitTest = props.unitTest;
+            this.e2eTest = props.e2eTest;
             done();
         }.bind(this));
     },
@@ -110,6 +124,7 @@ module.exports = yeoman.generators.Base.extend({
                 'app/images',
                 this.destinationPath('app/images')
             );
+
         },
         javascripts: function () {
             this.sourceRoot(path.join(__dirname, '../templates/javascripts'));
@@ -117,6 +132,18 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('app.js'),
                 this.destinationPath('app/scripts/app.js')
             );
+            if(this.unitTest){
+                this.template(
+                    this.templatePath('unit-mock/mock.js'),
+                this.destinationPath('test/unit-mock/mock.js')
+            );
+            }
+            if(this.e2eTest){
+                this.template(
+                    this.templatePath('e2e/protractor.conf.js'),
+                    this.destinationPath('test/protractor.conf.js')
+                );
+            }
         },
         styles: function () {
             this.sourceRoot(path.join(__dirname, '../templates/styles'));
@@ -190,31 +217,7 @@ module.exports = yeoman.generators.Base.extend({
         });
     },
     end: function () {
-        var enabledComponents = [
-            'angular/angular.js',
-            'angular-mocks/angular-mocks.js',
-            'angular-animate/angular-animate.js',
-            'angular-route/angular-route.js',
-            'angular-sanitize/angular-sanitize.js',
-            'angular-bootstrap/ui-bootstrap-tpls.js',
-            'angular-local-storage/dist/angular-local-storage.js'
-        ];
-        if(!this.initBaseServiceAndLayout){
-            enabledComponents.pop();
-        }
-        this.invoke('karma:app', {
-            options: {
-//                'skip-install': this.options['skip-install'],
-                'base-path': '../',
-                'bower-components': enabledComponents.join(','),
-                'app-files': 'app/scripts/**/*.js',
-                'test-files': [
-                    'test/mock/**/*.js',
-                    'test/spec/**/*.js'
-                ].join(','),
-                'bower-components-path': 'bower_components'
-            }
-        });
+
         this.invoke('ngstone:route',{
             args:['main']
         });

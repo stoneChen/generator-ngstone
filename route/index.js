@@ -12,6 +12,7 @@ module.exports = SubGeneratorBase.extend({
             return;
         }
         this._rewriteAppJs();
+        this._generateE2ETest();
         if(!this.options['biz']){
             this.invoke('ngstone:controller',{
                 args:[this.name]
@@ -20,6 +21,7 @@ module.exports = SubGeneratorBase.extend({
                 args:[this.name,'--route']
             })
         }
+
     },
     _rewriteAppJs:function () {
         this.uri = this.name;
@@ -40,5 +42,14 @@ module.exports = SubGeneratorBase.extend({
             ]
         };
         generatorUtil.rewriteFile(config);
+    },
+    _generateE2ETest: function () {
+        if(this.e2eTest){
+            this.sourceRoot(path.join(__dirname, '../templates/javascripts'));
+            this.template(
+                this.templatePath('e2e/spec.js'),
+                this.destinationPath(path.join('test/e2e',this.name,generatorUtil.addScriptSuffix(this.name)))
+            )
+        }
     }
 });

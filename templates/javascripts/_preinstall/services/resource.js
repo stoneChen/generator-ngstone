@@ -151,6 +151,7 @@ angular.module('<%= scriptAppName %>')
                     }, function (res) {
                         (error || noop)(res);
                     })
+                    return promise;
                 }
 
                 Resource.prototype['$' + actionName] = function (params, success, error) {

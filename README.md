@@ -72,19 +72,30 @@ npm install -g yo bower generator-ngstone
 
 ###2.初始化你的项目
 
-找一个合适的地方创建你的项目根目录(比如bookstore，本工具所有命令都是在此根目录下执行)：  
+找一个合适的地方创建你的工程根目录并进入此新目录(比如bookstore，本工具所有命令都是在此根目录下执行)：  
 
 ```  
 mkdir bookstore && cd $_
 ```
-
+(win平台的同学可忽略上面的命令，采用其他方式新建目录)
 初始化：  
 ```
 yo ngstone
 ```
-
-这里会提示“是否初始化基础服务与布局?”,如果选择是，将会**深度**创建一系列的基础service和指令供你使用，还会初始化样式，这套基础服务与布局，适合比较开发桌面管理系统，如果是移动端项目，还需要作一些修改。  
-我们这里先选择n，初始化简单版的项目基础。  
+这里会询问三个问题：  
+1. *是否需要单元测试文件?(运行单元测试需要额外初始化单元测试环境)(Y/n)*  
+若选择y，会在初始化时以及创建controller、directive等模块时添加单元测试所需的测试文件  
+选择n则不创建  
+默认y  
+这里直接回车，即选择y
+2. *是否需要e2e测试文件?(运行e2e测试需要自行安装全局protractor)(Y/n)*  
+若选择y，会在创建route模块时添加e2e测试所需的测试文件  
+选择n则不创建  
+默认y  
+这里直接回车，即选择y
+3. *是否初始化基础服务与布局?(Y/n)*  
+若选择y，将会**深度**创建一系列的基础service和指令供你使用，还会初始化样式，这套基础服务与布局，适合比较开发桌面管理系统，如果是移动端项目，还需要作一些修改。  
+我们这里先选择n，初始化简单版的基础工程。  
 由于工具会调用`bower install` 和 `npm install`下载组件和模块，可能过程会比较慢，由你当前的网速而定~  
 初始化完成后，你会发现bookstore下，生成了很多目录与文件。  
 简单介绍一下：  
@@ -344,8 +355,22 @@ Hello Directive!
 
 
 ###6.单元测试
+单元测试需要用到*PhantomJS*，它是一个开源的虚拟浏览器，没有UI界面，其他行为和真正的浏览器一样，用于单元测试再适合不过。
+由于PhantomJS在某些情况下(天朝干的，你懂的)安装较慢，0.1.1版本开始，将单元测试环境初始化从工程初始化中独立出来。  
+你可以先尝试执行  
 
-功能开发完毕后要进行单元测试，我们来测试一下刚才写的controller，打开test/spec/controllers/list.js，把最下面的it(...),改成：  
+```bash
+yo ngstone:karma-init
+```  
+
+这条命令会安装phantomjs、karma-jasmine、grunt-karma、karma-phantomjs-launcher等模块，如果你的机器能够顺利完成的话，可以跳过此段落。
+如果安装不顺利，八成是卡在phantomjs的安装.可以尝试执行 `npm install -g phantomjs` 或者参考官网 http://phantomjs.org/download.html，
+另外，通过homebrew也可以安装 `brew install phantomjs`。安装好phantomjs后，再执行 `yo ngstone:karma-init` ,应该问题都不大了。
+再啰嗦一句，phantomjs装好后，是全局的，以后再次使用它就不用再安装了。  
+
+
+
+单元测试环境安装完毕后，打开test/spec/controllers/list.js，把最下面的it(...),改成：  
 
 ```javascript
 it('should attach a list of books to the scope', function () {
@@ -356,10 +381,10 @@ it('should attach a list of books to the scope', function () {
 命令行执行：  
 
 ```
-grunt test:unit
+grunt test-unit
 ```
 
-这里会启动*PhantomJS*虚拟浏览器，执行我们的代码。  
+这里会启动*PhantomJS*，执行我们的代码。  
 执行完毕后，我们会看到类似如下的提示：  
 
 ```
@@ -378,9 +403,81 @@ PhantomJS 1.9.8 (Mac OS X): Executed 2 of 2 SUCCESS (0.003 secs / 0.018 secs)
 Done, without errors.
 ```
 
- 好了！这样单元测试就通过了。
+ 好了！这样单元测试就通过了。  
  
-###7.打包构建工程 
+###7.执行e2e测试  
+e2e是 *end-to-end* 的简称，"端到端测试" 或 "场景测试" ，说白了就是让代码模拟人工测试，具有非常大的意义，规模大了可节省很多人力成本 
+首先需要安装protractor，它是angular团队开发的专门用于e2e测试的node模块，并针对angularjs做了优化，它会调用webdriver执行我们的测试代码。
+执行  
+```bash
+npm install -g protractor
+```
+protractor也是全局的，下次就不用装了~  
+然后，需要下载webdriver。官方的下载是 http://chromedriver.storage.googleapis.com/index.html  ，不过是被墙的，我这里准备了一个，一个mac版，一个win版，你根据需要选择。
+下过来后，解压缩出来是一个文件，把它放到 /usr/local/lib/node_modules/protractor/selenium下(win用户请自行对号入座，selenium目录可能不存在，自己建一个)  
+
+接下来我们造一个测试效果。  
+打开app/views/list/list.html，  在最下面添加：  
+
+```html
+<input type="text" ng-model="newer" class="form-control"/>
+<p>hello {{newer}}</p>
+```
+
+打开test/e2e/list/list.js，修改it(...)，最后整个文件内容变成：  
+
+```javascript
+'use strict';
+describe('e2e test for page: list', function() {
+    it('should do something', function() {
+        browser.get('http://localhost:9000/#list');
+        var newer = element(by.model('newer'));
+        var newerBinding = element(by.binding('newer'));
+        newer.sendKeys('new comer');
+        expect(newerBinding.getText()).toEqual('hello new comer');
+
+        newer.clear();
+        newer.sendKeys('protractor');
+        expect(newerBinding.getText()).toEqual('hello protractor');
+    });
+});
+```
+
+然后启动服务，执行：  
+
+```bash
+grunt serve
+```
+再打开一个命令行窗口，还是这个目录，执行：  
+
+```bash
+grunt test-e2e
+```
+
+接下来，又是见证奇迹的时刻了！  
+我们可以看到，另一个chrome程序被打开了，自动打开我们指定的url地址（list页面），在最下方的输入框中输入了new comer，清空，再输入protractor，最后自动关闭了窗口。  
+回到命令行界面，我们看到了类似如下的日志：  
+
+```bash
+Running "protractor_invoker:e2e" (protractor_invoker) task
+Using ChromeDriver directly...
+[launcher] Running 1 instances of WebDriver
+.
+
+Finished in 3.248 seconds
+1 test, 2 assertions, 0 failures
+
+[launcher] 0 instance(s) of WebDriver still running
+[launcher] chrome #1 passed
+
+Done, without errors.
+```
+
+表明我们执行了1个测试，2个断言，0个失败。  
+你可以尝试修改测试的输入值，再次运行，就会看到相应的错误信息~是不是很好玩？更多测试代码的语法见 http://angular.github.io/protractor/#/api  我也正在学习中~  
+顺便带一句，上面的protractor_invoker插件，是我第一次写的grunt插件，只是很简单的调用protractor，有问题请速速通知我奥~
+
+###8.打包构建工程 
 
 功能开发好后，需要对静态文件作一系列的加工，这样上线后可以为我们带来加快访问速度，提高性能，减少网络流量等好处。接下来我们开始构建：  
 

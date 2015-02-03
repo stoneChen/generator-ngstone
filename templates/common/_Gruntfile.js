@@ -303,10 +303,11 @@ module.exports = function (grunt) {
             unit: {
                 configFile: 'test/karma.conf.js',
                 singleRun: true
-            },
-            e2e: {
-                configFile: 'test/karma-e2e.conf.js',
-                singleRun: true
+            }
+        },
+        protractor_invoker:{
+            e2e:{
+                configFile:'test/protractor.conf.js'
             }
         },
         concat: {//后期添加，将打包好了模板js，合并到之前的js里，由于useminPrepare通过读取index.html的注释生成concat的列表，无法将此模板文件打包进去，所以只能二次合并
@@ -361,17 +362,12 @@ module.exports = function (grunt) {
         grunt.task.run(['serve:' + target]);
     });
 
-    grunt.registerTask('test:unit', [
+    grunt.registerTask('test-unit', [
         'clean:server',
         'karma:unit'
     ]);
-    grunt.registerTask('test:e2e', [
-        'clean:server',
-        'coffee',
-        'compass',
-        'livereload-start',
-        'connect:livereload',
-        'karma:e2e'
+    grunt.registerTask('test-e2e', [
+        'protractor_invoker'
     ]);
     grunt.registerTask('build', [
         'clean:dist',

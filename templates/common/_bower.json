@@ -2,6 +2,9 @@
     "name": "<%= appName %>",
     "version": "0.0.1",
     "appPath": "<%= appPath %>",
+    "unitTest":<%= unitTest%>,
+    "e2eTest":<%= e2eTest%>,
+    "initBaseServiceAndLayout":<%= initBaseServiceAndLayout %>,
     "dependencies": {
         "jquery":"~2.1.0",
         "bootstrap": "3.3.0",
