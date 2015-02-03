@@ -29,6 +29,7 @@
         "templates",
         "test",
         "view",
+        "karma-init",
         "generator-util.js",
         "subgenerator-base.js"
     ],

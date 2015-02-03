@@ -87,12 +87,12 @@ yo ngstone
 若选择y，会在初始化时以及创建controller、directive等模块时添加单元测试所需的测试文件  
 选择n则不创建  
 默认y  
-这里直接回车，即选择y
+这里直接回车，即选择y  
 2. *是否需要e2e测试文件?(运行e2e测试需要自行安装全局protractor)(Y/n)*  
 若选择y，会在创建route模块时添加e2e测试所需的测试文件  
 选择n则不创建  
 默认y  
-这里直接回车，即选择y
+这里直接回车，即选择y  
 3. *是否初始化基础服务与布局?(Y/n)*  
 若选择y，将会**深度**创建一系列的基础service和指令供你使用，还会初始化样式，这套基础服务与布局，适合比较开发桌面管理系统，如果是移动端项目，还需要作一些修改。  
 我们这里先选择n，初始化简单版的基础工程。  
@@ -406,14 +406,14 @@ Done, without errors.
  好了！这样单元测试就通过了。  
  
 ###7.执行e2e测试  
-e2e是 *end-to-end* 的简称，"端到端测试" 或 "场景测试" ，说白了就是让代码模拟人工测试，具有非常大的意义，规模大了可节省很多人力成本 
+e2e是 *end-to-end* 的简称，"端到端测试" 或 "场景测试" ，说白了就是让代码模拟人工测试，具有非常大的意义，规模大了可节省很多人力成本。   
 首先需要安装protractor，它是angular团队开发的专门用于e2e测试的node模块，并针对angularjs做了优化，它会调用webdriver执行我们的测试代码。
 执行  
 ```bash
 npm install -g protractor
 ```
 protractor也是全局的，下次就不用装了~  
-然后，需要下载webdriver。官方的下载是 http://chromedriver.storage.googleapis.com/index.html  ，不过是被墙的，我这里 https://github.com/stoneChen/generator-ngstone/tree/master/webdriver 准备了一个，一个mac版，一个win版，你根据需要选择。
+然后，需要下载webdriver。官方的下载地址是 http://chromedriver.storage.googleapis.com/index.html  ，不过是被墙的，我这里 https://github.com/stoneChen/generator-ngstone/tree/master/webdriver 准备了一个，一个mac版，一个win版，你可以根据需要选择。
 下过来后，解压缩出来是一个文件，把它放到 /usr/local/lib/node_modules/protractor/selenium下(win用户请自行对号入座，selenium目录可能不存在，自己建一个)  
 
 接下来我们造一个测试效果。  
@@ -1022,7 +1022,8 @@ angular.module('schoolApp')
 7. yo ngstone:view       {name}    生成视图文件
 8. yo ngstone:route      {name}    向app/scripts/app.js中添加路由配置,调用ngstone:controller和ngstone:view
 9. yo ngstone:biz-cfg    {name}    生成business配置文件
-10. yo ngstone:biz        {name}    根据business配置文件生成
+10. yo ngstone:biz       {name}    根据business配置文件生成
+11. yo ngstone:karma-init          初始化单元测试环境
 
 ##基础服务中的关键模块说明
 
@@ -1065,7 +1066,8 @@ angular.module('schoolApp')
    当然，我可以手动修改上述两个组件bower配置的main项，但是我觉得把bower组件提交到版本控制不太好，就像不把本地npm模块提交到版本控制。  
    所以呢，我就把这个 *本身很好却给我带来些许麻烦* 的功能给去掉了，感觉有点对不起yo团队囧。再所以呢，bower组件的依赖，需要手动写入到index.html。
 
-5. 未完待续。。。  
+5. A在初始化中安装单元测试环境，B在本版0.1.1把单元测试环境初始化从工程初始化独立出来，以加快初始化速度  
+6. 未完待续。。。  
 
 
 
