@@ -85,7 +85,8 @@ mkdir bookstore && cd $_
 yo ngstone
 ```
 这里会询问三个问题： 
-1. *希望使用哪一个路由组件?*  
+
+1. *希望使用哪一个路由组件?*    
 提供官方的angular-route和第三方的angular-ui-router连个选项，使用上下箭头选择，然后回车，后面工具会根据选择结果作相应初始化  
 我们这里先选择官方的angular-route，angular-ui-router后续再讲  
 2. *是否需要单元测试文件?(运行单元测试需要额外初始化单元测试环境)(Y/n)*  
