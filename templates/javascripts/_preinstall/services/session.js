@@ -25,13 +25,13 @@ angular.module('<%= scriptAppName %>')
                     $location.path(originRoute || '/main');
                 }
             }
-        });<% } %>
+        });
         $rootScope.$on('$stateChangeStart',function(evt, toState, toParams, fromState, fromParams) {
             if(toState.name !== 'login' && (ROOT_loginData.get('isLogin') === false)){//必须三个等号,拦截未登录的跳转
                 evt.preventDefault();
                 $state.go('login')
             }
-        });
+        });<% } %>
         var sessionAPI = {
             checkLogin: function () {
                 SessionResource.get(function (resource) {
