@@ -591,7 +591,7 @@ grunt serve
 
 /book/77.json?_method=DELETE ==> mock/book/book.N#DELETE.json //删除id为77的数据
 
-怎么样，是不是有点数了？你可能还有个疑问，为什么多出了一个book目录？  
+怎么样，是不是有点谱了？你可能还有个疑问，为什么多出了一个book目录？  
 这又是一个约定，当工程业务域多了以后，每个目录下最好还是以业务域分类的好，所以这里多了个book目录~  
 
 在上个版本，对业务域名称上有些限制，不过每个项目的需求不同，而且也比较麻烦，决定还是取消掉。总的来讲，route名称，rest-ajax一级名称，mock目录名等均取消s后缀的限制。
@@ -665,14 +665,14 @@ yo ngstone:biz-cfg student
     "type":"origin",  //生成代码类型，origin的意思就是我上面提到的*原始*angular代码，这一项暂时先不要动，也许以后我会补上别的选项
     "caption":"", //业务单元的名称，比如我们这里是"学生",在form标题中会用到
     "resource":{  //resource资源的配置，暂时只有urlPattern这么一项配置，默认给出的urlPattern能够满足基本需求，后面我会讲解resource的用法
-        "urlPattern":"students/{id}"
+        "urlPattern":"student/{id}"
     },
     "mock":[  //根据这里给出的列表，生成ajax数据模拟json文件，也是省去人工创建文件的麻烦~
-        "student/students#GET.json",
-        "student/students#POST.json",
-        "student/students.N#GET.json",
-        "student/students.N#PATCH.json",
-        "student/students.N#DELETE.json"
+        "student/student#GET.json",
+        "student/student#POST.json",
+        "student/student.N#GET.json",
+        "student/student.N#PATCH.json",
+        "student/student.N#DELETE.json"
     ],
     "dataGrid":{  //数据表格的配置
         "top":{ //新增按钮是内置固定的，如果不需要可以在生成后，删除相关代码
@@ -995,7 +995,7 @@ angular.module('schoolApp')
 }
 ```
 
-最后，打开mock/student/students#POST.json,内容替换为：  
+最后，打开mock/student/student#POST.json,内容替换为：  
 
 ```
 {
