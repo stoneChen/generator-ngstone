@@ -8,10 +8,24 @@
  * Factory in the <%= scriptAppName %>.
  */
 angular.module('<%= scriptAppName %>')
-    .factory('sessionService', function (rootDataService, resourcePool) {
+    .factory('sessionService', function (rootDataService, resourcePool <% if(uiRouter) {%>, $rootScope, $state<% } %>) {
         var SessionResource = resourcePool.session;
         var ROOT_loginData = rootDataService.data('ROOT_loginData');
+        <% if(uiRouter){ %>
+        rootDataService.addWatcher('ROOT_loginData.isLogin', function (isLogin) {
+            if(isLogin === false){ //必须三个等号，第一次传进来是undefined
+                $state.go('login')
+            }else if(isLogin === true){
+                $state.go('mainland.main');
+            }
+        });
 
+        $rootScope.$on('$stateChangeStart',function(evt, toState, toParams, fromState, fromParams) {
+            if(toState.name !== 'login' && !ROOT_loginData.get('isLogin')){//拦截未登录的跳转
+                evt.preventDefault();
+                $state.go('login')
+            }
+        });<% } %>
         var sessionAPI = {
             checkLogin: function () {
                 SessionResource.get(function (resource) {

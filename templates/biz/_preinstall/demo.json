@@ -2,14 +2,14 @@
     "type":"origin",
     "caption":"用户",
     "resource":{
-        "urlPattern":"/demos/{id}"
+        "urlPattern":"/demo/{id}"
     },
     "mock":[
-        "demo/demos#GET.json",
-        "demo/demos#POST.json",
-        "demo/demos.N#GET.json",
-        "demo/demos.status.N#PATCH.json",
-        "demo/demos.N#DELETE.json"
+        "demo/demo#GET.json",
+        "demo/demo#POST.json",
+        "demo/demo.N#GET.json",
+        "demo/demo.status.N#PATCH.json",
+        "demo/demo.N#DELETE.json"
     ],
     "dataGrid":{
         "top":{

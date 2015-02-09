@@ -83,8 +83,7 @@ module.exports = function (grunt) {
                                 var fileName = fileNameSegments.join('.');// user.N
                                 fileName += '#' + match[2].toUpperCase() + '.json';// user.N#GET.json
                                 grunt.log.writeln('parsed fileName:' + fileName);
-                                var bizSubDir = (match[1] === 'session') ? '' : segments[0].match(/^(\w+?)s$/)[1];//session特殊对待，提取子目录名，去掉最后的s
-                                var filePath = path.join('mock',bizSubDir,fileName);
+                                var filePath = path.join('mock',segments[0],fileName);
                                 grunt.log.writeln('parsed filePath:' + filePath);
                                 var result = '';
                                 if(grunt.file.exists(filePath)){

@@ -2,14 +2,14 @@
     "type":"origin",
     "caption":"",
     "resource":{
-        "urlPattern":"<%= name%>s/{id}"
+        "urlPattern":"<%= name%>/{id}"
     },
     "mock":[
-        "<%= name%>/<%= name%>s#GET.json",
-        "<%= name%>/<%= name%>s#POST.json",
-        "<%= name%>/<%= name%>s.N#GET.json",
-        "<%= name%>/<%= name%>s.N#PATCH.json",
-        "<%= name%>/<%= name%>s.N#DELETE.json"
+        "<%= name%>/<%= name%>#GET.json",
+        "<%= name%>/<%= name%>#POST.json",
+        "<%= name%>/<%= name%>.N#GET.json",
+        "<%= name%>/<%= name%>.N#PATCH.json",
+        "<%= name%>/<%= name%>.N#DELETE.json"
     ],
     "dataGrid":{
         "top":{

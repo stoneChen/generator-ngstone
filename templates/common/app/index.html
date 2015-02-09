@@ -29,8 +29,9 @@
         </ul>
         <h3 class="text-muted"><%= scriptAppName %></h3>
     </div>
-    <br/>
-    <div ng-view=""></div>
+    <br/><% if(uiRouter){ %>
+    <div ui-view></div><% } else { %>
+    <div ng-view></div><% } %>
 </div>
 <% } else {%>
 <header class="navbar navbar-inverse navbar-fixed-top">
@@ -60,6 +61,14 @@
     </div>
 </div>
 <!-- Add your site or application content here -->
+<% if(uiRouter){ %>
+<div class="container main-body">
+    <div ng-if="ROOT_loginData.isLogin === undefined">
+        <i class="fa fa-spinner fa-spin fa-4x"></i>
+    </div>
+    <div ui-view></div>
+</div>
+<% } else { %>
 <div class="container main-body" ng-switch on="ROOT_loginData.isLogin">
     <div class="row" ng-switch-when="undefined">
         <div class="col-xs-12"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
@@ -78,13 +87,15 @@
         </div>
     </div>
 </div>
+<%   } %>
 <% } %>
 
 <!-- build:js(./bower_components) scripts/vendor.js -->
 <!-- bower:js -->
 <script src="../bower_components/jquery/dist/jquery.js"></script>
-<script src="../bower_components/angular/angular.js"></script>
-<script src="../bower_components/angular-route/angular-route.js"></script>
+<script src="../bower_components/angular/angular.js"></script><% if(uiRouter){ %>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script><% } else{ %>
+<script src="../bower_components/angular-route/angular-route.js"></script><% } %>
 <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script src="../bower_components/angular-animate/angular-animate.js"></script>
 <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script><% if(baseServiceModules.bower['angular-local-storage']){ %>

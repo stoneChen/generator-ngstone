@@ -7,11 +7,15 @@ var generatorUtil = require('./generator-util');
 module.exports = yeoman.generators.NamedBase.extend({
     constructor: function () {
         yeoman.generators.NamedBase.apply(this, arguments);
+        var generatorCfg = this.config.getAll();
+
+        this.unitTest = generatorCfg.unitTest;
+        this.e2eTest = generatorCfg.e2eTest;
+        this.uiRouter = generatorCfg.uiRouter;
+        this.initBaseServiceAndLayout = generatorCfg.initBaseServiceAndLayout;
+        //bower config
         var bowerConfig = require(path.join(process.cwd(), 'bower.json'));
         this.appName = bowerConfig.name;
-        this.unitTest = bowerConfig.unitTest;
-        this.e2eTest = bowerConfig.e2eTest;
-        this.initBaseServiceAndLayout = bowerConfig.initBaseServiceAndLayout;
         this.scriptAppName = generatorUtil.addAppNameSuffix(this.appName);
         this.classedName = this._.classify(this.name);
         this.cameledName = this._.camelize(this.name);

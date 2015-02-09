@@ -29,6 +29,9 @@ angular.module('<%= scriptAppName %>')
         return {
             data: function (key) {
                 return $rootScope[key];
+            },
+            addWatcher: function (expression,watcher) {
+                $rootScope.$watch(expression,watcher)
             }
         }
     })

@@ -12,7 +12,7 @@ angular.module('<%= scriptAppName %>')
         var create = resourceService.create;//do not modify this line.it is used for generator
         return {
             session: create('/session')
-            ,user: create('/users/{id}')
+            ,user: create('/user/{id}')
             //do not delete this line.it is used for generator to find this line
         }
     });

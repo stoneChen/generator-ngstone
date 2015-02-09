@@ -7,10 +7,6 @@ var generatorUtil = require('../generator-util');
 
 module.exports = SubGeneratorBase.extend({
     writing: function () {
-        if(generatorUtil.isBadBusinessName(this.name)){
-            this.log.error(chalk.red('请使用非数字且最后一位不包含s、x的名称！'));
-            return;
-        }
         this._rewriteAppJs();
         this._generateE2ETest();
         if(!this.options['biz']){
@@ -28,19 +24,38 @@ module.exports = SubGeneratorBase.extend({
         if (this.options.uri) {
             this.uri = this.options.uri;
         }
-        var config = {
-            file: path.join(
-                this.appPath,
-                'scripts/app.js'
-            ),
-            needle: '.otherwise',
-            splicable: [
-                    ".when('/" + this.uri + "', {",
-                    "    templateUrl: './views/" + (this.name + '/' + this.name) + ".html',",//path.join(this.name,this.name)在windows下斜杠是反的
-                    "    controller: '" + this.classedName + "Ctrl'",
-                "})"
-            ]
-        };
+
+        var config;
+        if(this.uiRouter){
+            config = {
+                file: path.join(
+                    this.appPath,
+                    'scripts/app.js'
+                ),
+                needle: '//DO NOT delete this line,which is used to find the place to insert state config',
+                splicable: [
+                        ".state('mainland." + this.uri + "', {",
+                        "    url:'/" + this.uri + "',",
+                        "    templateUrl: './views/" + (this.name + '/' + this.name) + ".html',",//path.join(this.name,this.name)在windows下斜杠是反的
+                        "    controller: '" + this.classedName + "Ctrl'",
+                    "})"
+                ]
+            };
+        }else{
+            config = {
+                file: path.join(
+                    this.appPath,
+                    'scripts/app.js'
+                ),
+                needle: '.otherwise',
+                splicable: [
+                        ".when('/" + this.uri + "', {",
+                        "    templateUrl: './views/" + (this.name + '/' + this.name) + ".html',",//path.join(this.name,this.name)在windows下斜杠是反的
+                        "    controller: '" + this.classedName + "Ctrl'",
+                    "})"
+                ]
+            };
+        }
         generatorUtil.rewriteFile(config);
     },
     _generateE2ETest: function () {

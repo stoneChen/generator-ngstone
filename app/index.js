@@ -21,6 +21,7 @@ module.exports = yeoman.generators.Base.extend({
         this.cameledName = this._.camelize(this.name);
         this.appPath = 'app';
         this.initBaseServiceAndLayout = true;
+        this.uiRouter = true;
         this.baseServiceModules = {
             bower:{},
             npm:{}
@@ -52,6 +53,24 @@ module.exports = yeoman.generators.Base.extend({
                 default: true
             },
             {
+                type: 'list',
+                name: 'router',
+                message: '希望使用哪一个路由组件?\n',
+                choices: [
+                    {
+                        value: 'uiRouter',
+                        name: 'angular-ui-router',
+                        selected: true
+                    },
+                    {
+                        value: 'ngRoute',
+                        name: 'angular-route',
+                        selected: false
+                    }
+                ],
+                default: 'uiRouter'
+            },
+            {
                 type: 'confirm',
                 name: 'unitTest',
                 message: '是否需要单元测试文件?(运行单元测试需要额外初始化单元测试环境)',
@@ -81,6 +100,13 @@ module.exports = yeoman.generators.Base.extend({
             this.initBaseServiceAndLayout = props.initBaseServiceAndLayout;
             this.unitTest = props.unitTest;
             this.e2eTest = props.e2eTest;
+            this.uiRouter = (props.router === 'uiRouter');
+            this.config.set({
+                initBaseServiceAndLayout:props.initBaseServiceAndLayout,
+                unitTest:props.unitTest,
+                e2eTest:props.e2eTest,
+                uiRouter:(props.router === 'uiRouter')
+            });
             done();
         }.bind(this));
     },
@@ -145,6 +171,16 @@ module.exports = yeoman.generators.Base.extend({
                 );
             }
         },
+        views: function () {
+            if(!this.uiRouter){
+                return;
+            }
+            this.sourceRoot(path.join(__dirname, '../templates/views'));
+            this.template(
+                this.templatePath('_common/mainland.html'),
+                this.destinationPath('app/views/_common/mainland.html')
+            );
+        },
         styles: function () {
             this.sourceRoot(path.join(__dirname, '../templates/styles'));
             var sourceDir = '_preinstall';
@@ -189,7 +225,7 @@ module.exports = yeoman.generators.Base.extend({
             this._templateAndPreinstall('directives');
             this._templateAndPreinstall('controllers');
             //views
-            this.sourceRoot(path.join(__dirname, '../templates/views'));
+        this.sourceRoot(path.join(__dirname, '../templates/views'));
             this.directory(
                 '_preinstall',
                 this.destinationPath('app/views')

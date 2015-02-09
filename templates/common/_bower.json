@@ -2,23 +2,20 @@
     "name": "<%= appName %>",
     "version": "0.0.1",
     "appPath": "<%= appPath %>",
-    "unitTest":<%= unitTest%>,
-    "e2eTest":<%= e2eTest%>,
-    "initBaseServiceAndLayout":<%= initBaseServiceAndLayout %>,
     "dependencies": {
         "jquery":"~2.1.0",
         "bootstrap": "3.3.0",
         "fontawesome": "~4.2.0",
         "angular": "~<%= ngVer %>",
         "angular-sanitize": "~<%= ngVer %>",
-        "angular-animate": "~<%= ngVer %>",
-        "angular-route": "~<%= ngVer %>",
+        "angular-animate": "~<%= ngVer %>",<% if(uiRouter){ %>
+        "angular-ui-router":"~0.2.1",<% } else{ %>
+        "angular-route": "~<%= ngVer %>",<% } %>
         "angular-bootstrap":"~0.12.0"<% if(baseServiceModules.bower['angular-local-storage']){ %>,
-        "angular-local-storage":"*"<% } %>
+        "angular-local-storage":"~0.1.0"<% } %>
     },
     "devDependencies": {
-        "angular-mocks": "~<%= ngVer %>",
-        "angular-scenario": "~<%= ngVer %>"
+        "angular-mocks": "~<%= ngVer %>"
     }
 }
 

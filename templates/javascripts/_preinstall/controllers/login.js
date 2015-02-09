@@ -9,9 +9,9 @@
  */
 angular.module('<%= scriptAppName %>')
     .controller('LoginCtrl', function ($scope, resourcePool, sessionService) {
-        var LoginResource = resourcePool.session;
+        var SessionResource = resourcePool.session;
         $scope.submit = function () {
-            LoginResource.new({
+            SessionResource.new({
                 username: $scope.user.username,
                 password: $scope.user.password
             }, function (data) {
