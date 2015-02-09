@@ -8,24 +8,30 @@
  * Factory in the <%= scriptAppName %>.
  */
 angular.module('<%= scriptAppName %>')
-    .factory('sessionService', function (rootDataService, resourcePool <% if(uiRouter) {%>, $rootScope, $state<% } %>) {
+    .factory('sessionService', function (rootDataService, resourcePool <% if(uiRouter) {%>, $rootScope, $state, $location<% } %>) {
         var SessionResource = resourcePool.session;
         var ROOT_loginData = rootDataService.data('ROOT_loginData');
         <% if(uiRouter){ %>
+        //使用ui-router组件时，对登陆拦截的处理
+        var originRoute = '';
+        var pageInitChecked = false;
         rootDataService.addWatcher('ROOT_loginData.isLogin', function (isLogin) {
             if(isLogin === false){ //必须三个等号，第一次传进来是undefined
-                $state.go('login')
+                pageInitChecked = true;
+                originRoute = $location.path();
+                $location.path('/login')
             }else if(isLogin === true){
-                $state.go('mainland.main');
+                if(pageInitChecked){//true则说明是，页面初始化时未登录，后在本页面登陆，执行至此，如果页面初始化一开始就登陆了，则不作处理，直接路由即可
+                    $location.path(originRoute || '/main');
+                }
             }
-        });
-
+        });<% } %>
         $rootScope.$on('$stateChangeStart',function(evt, toState, toParams, fromState, fromParams) {
-            if(toState.name !== 'login' && !ROOT_loginData.get('isLogin')){//拦截未登录的跳转
+            if(toState.name !== 'login' && (ROOT_loginData.get('isLogin') === false)){//必须三个等号,拦截未登录的跳转
                 evt.preventDefault();
                 $state.go('login')
             }
-        });<% } %>
+        });
         var sessionAPI = {
             checkLogin: function () {
                 SessionResource.get(function (resource) {

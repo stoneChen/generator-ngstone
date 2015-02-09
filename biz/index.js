@@ -7,6 +7,10 @@ var SubGeneratorBase = require('../subgenerator-base');
 
 module.exports = SubGeneratorBase.extend({
     writing: function () {
+        if(!this.initBaseServiceAndLayout){
+            this.log.error(chalk.red('此工程没有初始化基础服务，无法执行此命令。'));
+            return;
+        }
         var jsonPath = path.join(this.destinationPath(),'biz',(this.name + '.json'));
         if(!this.fs.exists(jsonPath)){
             this.log.error(chalk.red(jsonPath + ' 不存在！'));

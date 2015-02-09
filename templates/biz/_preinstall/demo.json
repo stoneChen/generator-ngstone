@@ -19,7 +19,8 @@
                     "placeholder": "关键字"
                 },
                 "select":{
-                    "ngModel":"select"
+                    "ngModel":"select",
+                    "dataListName":""
                 },
                 "btn": {
                     "text": "搜索"

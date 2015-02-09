@@ -66,15 +66,16 @@ angular.module('<%= scriptAppName %>')
                     $scope.resources[index] = newResource;
                     msgService.success('修改成功');
                 })<%
-                }%><%
-                if(opBtn.method === 'del'){ %>
+            } else
+            if(opBtn.method === 'del'){ %>
                 dialogService.confirm('确定删除吗？', function () {
                     rcItem.$delete(function () {
                         $scope.resources.splice(index, 1);
                         msgService.success('删除成功');
                     })
                 })<%
-            }%>
+            } else { %>
+                <% } %>
             }<%
         } %>
         });
