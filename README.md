@@ -13,7 +13,7 @@ yo是用于各种generator的基础工具，不仅仅可以用于Angular，甚�
 
 ##它是怎么来的
 
-拜读过大漠前辈的《用AngularJS开发下一代web应用》，里面提到了yeoman（yo）这个工具。上网查了一下，是一个很牛X的东西。官网提供了angular的generator，我安装后，在实际项目中使用起来非常爽，不过还是有很多地方想要有自己的定制，于是就参照官方的generator-angular花了一个多星期研究，终于诞生了第一版，然后就开始写文档了。欢迎fork，欢迎提出宝贵的意见~
+拜读过大漠前辈的《用AngularJS开发下一代web应用》，里面提到了yeoman（yo）这个工具。上网查了一下，是一个很牛X的东西。官网提供了angular的generator，我安装后，在实际项目中使用起来非常爽，不过还是有很多地方想要有自己的定制，并且天朝的网络状况十分糟糕（你懂的），官方版不太适合在天朝使用，于是就参照官方的generator-angular花了一个多星期研究，终于诞生了第一版，然后就开始写文档了。欢迎fork，欢迎提出宝贵的意见~
 
 ##工具说明
 
@@ -607,7 +607,7 @@ grunt serve
 
 
 ##使用ui-router  
-ngstone:route会自动生成基础的state配置，指定controller和view的路径，你可以继续对其扩展/修改。
+当在初始化工程时，选择使用ui-router,ngstone:route命令会自动生成基础的state配置，指定controller和view的路径，你可以继续对其扩展/修改。
 当选择使用ui-router时，我创建了一个抽象mainland父状态，用于两栏布局，代码详见app/scripts/app.js和app/views/_common/mainland.html。
 此父状态名称不可更改，因为后续的route配置都是基于此名字，你可以适当修改app/views/_common/mainland.html
 
