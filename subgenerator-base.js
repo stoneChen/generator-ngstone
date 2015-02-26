@@ -19,17 +19,18 @@ module.exports = yeoman.generators.NamedBase.extend({
         this.scriptAppName = generatorUtil.addAppNameSuffix(this.appName);
         this.classedName = this._.classify(this.name);
         this.cameledName = this._.camelize(this.name);
+        this.dashedName = this._.dasherize(this.name);
         this.appPath = bowerConfig.appPath;
     },
     generateSourceAndTest: function (templateName,dest,skipTestFile) {
         this.sourceRoot(path.join(__dirname, './templates/javascripts'));
         var sourceFileName = generatorUtil.addScriptSuffix(templateName);
-        var targetFileName = generatorUtil.addScriptSuffix(this.name);
+        var targetFileName = generatorUtil.addScriptSuffix(this.dashedName);
         this.template(
             this.templatePath(sourceFileName),
             this.destinationPath(this.appPath,'scripts',dest,targetFileName)
         );
-        generatorUtil.addScriptToIndex(this.appPath,path.join('scripts',dest, this.name),this);
+        generatorUtil.addScriptToIndex(this.appPath,path.join('scripts',dest, this.dashedName),this);
         //add test file
         if(!skipTestFile && this.unitTest){
             if(templateName === 'factory'){
