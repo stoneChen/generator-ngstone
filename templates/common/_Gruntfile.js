@@ -71,6 +71,11 @@ module.exports = function (grunt) {
                                 grunt.log.writeln('request from client:' + req.url);
                                 var urlReg = /^\/(.+)\.json\?_method=(GET|POST|PATCH|DELETE|PUT).*$/;// /users/5.json?_method=GET
                                 var match = req.url.match(urlReg);// ['...','users/5','GET']
+                                if(!match){
+                                    grunt.log.writeln('not matched,passed...');
+                                    next();
+                                    return;
+                                }
                                 var fileNameSegments = [];
                                 var segments = match[1].split('/');
                                 segments.forEach(function (pathName) {
