@@ -37,7 +37,7 @@
                     <input type="checkbox" ng-value="item.value" name="<%= fieldOption.key %>" ng-model="<%= cameledName + '.' + fieldOption.key + '[item.value]' %>" <%= fieldRules.join(' ') %>/> {{item.label}}
                 </label><%
                 } else if(fieldOption.type === 'textarea'){ %>
-                <textarea <%= spacedAttrs %> cols="30" rows="10"></textarea><%
+                <textarea <%= spacedAttrs %> placeholder="<%= fieldOption.label %>" cols="30" rows="10"></textarea><%
                 } else if(fieldOption.type === 'select'){ %>
                 <select <%= spacedAttrs %> ng-options="item.value as item.label for item in <%= fieldOption.dataListName %>">
                     <option value="">-请选择-</option>
