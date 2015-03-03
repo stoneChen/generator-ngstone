@@ -362,7 +362,7 @@ Hello Directive!
 文档最后我会把所有可用的命令罗列出来。
 
 
-###6.单元测试
+###7.单元测试
 单元测试需要用到*PhantomJS*，它是一个开源的虚拟浏览器，没有UI界面，其他行为和真正的浏览器一样，用于单元测试再适合不过。
 由于PhantomJS在某些情况下(天朝干的，你懂的)安装较慢，0.1.1版本开始，将单元测试环境初始化从工程初始化中独立出来。  
 你可以先尝试执行  
@@ -372,7 +372,7 @@ yo ngstone:karma-init
 ```  
 
 这条命令会安装phantomjs、karma-jasmine、grunt-karma、karma-phantomjs-launcher等模块，如果你的机器能够顺利完成的话，可以跳过此段落。
-如果安装不顺利，八成是卡在phantomjs的安装.可以尝试执行 `npm install -g phantomjs` 或者参考官网 http://phantomjs.org/download.html，
+如果安装不顺利，八成是卡在phantomjs的安装.可以尝试执行 `npm install -g phantomjs` 或者参考官网 http://phantomjs.org/download.html ，
 另外，通过homebrew也可以安装 `brew install phantomjs`。安装好phantomjs后，再执行 `yo ngstone:karma-init` ,应该问题都不大了。
 再啰嗦一句，phantomjs装好后，是全局的，以后再次使用它就不用再安装了。  
 
@@ -413,7 +413,7 @@ Done, without errors.
 
  好了！这样单元测试就通过了。  
  
-###7.执行e2e测试  
+###8.执行e2e测试  
 e2e是 *end-to-end* 的简称，"端到端测试" 或 "场景测试" ，说白了就是让代码模拟人工测试，具有非常大的意义，规模大了可节省很多人力成本。   
 首先需要安装protractor，它是angular团队开发的专门用于e2e测试的node模块，并针对angularjs做了优化，它会调用webdriver执行我们的测试代码。
 执行  
@@ -485,7 +485,7 @@ Done, without errors.
 你可以尝试修改测试的输入值，再次运行，就会看到相应的错误信息~是不是很好玩？更多测试代码的语法见 http://angular.github.io/protractor/#/api  我也正在学习中~  
 顺便带一句，上面的protractor_invoker插件，是我第一次写的grunt插件，只是很简单的调用全局protractor，有问题请速速通知我奥~
 
-###8.打包构建工程 
+###9.打包构建工程 
 
 功能开发好后，需要对静态文件作一系列的加工，这样上线后可以为我们带来加快访问速度，提高性能，减少网络流量等好处。接下来我们开始构建：  
 
