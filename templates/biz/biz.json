@@ -1,15 +1,15 @@
 {
     "type":"origin",
-    "caption":"",
+    "caption":"<%= cameledName%>",
     "resource":{
-        "urlPattern":"<%= name%>/{id}"
+        "urlPattern":"<%= cameledName%>/{id}"
     },
     "mock":[
-        "<%= name%>/<%= name%>#GET.json",
-        "<%= name%>/<%= name%>#POST.json",
-        "<%= name%>/<%= name%>.N#GET.json",
-        "<%= name%>/<%= name%>.N#PATCH.json",
-        "<%= name%>/<%= name%>.N#DELETE.json"
+        "<%= dashedName%>/<%= cameledName%>#GET.json",
+        "<%= dashedName%>/<%= cameledName%>#POST.json",
+        "<%= dashedName%>/<%= cameledName%>.N#GET.json",
+        "<%= dashedName%>/<%= cameledName%>.N#PATCH.json",
+        "<%= dashedName%>/<%= cameledName%>.N#DELETE.json"
     ],
     "dataGrid":{
         "top":{

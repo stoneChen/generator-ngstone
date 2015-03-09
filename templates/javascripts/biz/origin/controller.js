@@ -11,7 +11,7 @@ angular.module('<%= scriptAppName %>')
         var resourceClass = resourcePool.<%= cameledName %>;
         var openDialogForm = function (resourceInst,done) {
             dialogService.complexBox({
-                templateUrl: './views/<%= cameledName %>/dialog-form.html',
+                templateUrl: './views/<%= dashedName %>/dialog-form.html',
                 onComplete: function (dialogScope, dialogInstance) {
                     dialogScope.isEdit = !!resourceInst;
                     dialogScope.<%= cameledName %> = resourceInst ? resourceInst.copy() : {};

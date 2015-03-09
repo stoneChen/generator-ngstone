@@ -11,7 +11,7 @@ module.exports = SubGeneratorBase.extend({
         if(this.options['template']){
             this.directiveTemplateProperty = "\n            template:'<div></div>',"
         }else if(this.options['templateUrl']){
-            var viewName = this.name;
+            var viewName = this.dashedName;
             var subPath = path.join('views/_widgets',viewName,viewName + '.html');
             var directiveTemplatePath = './' + subPath;
             this.directiveTemplateProperty = "\n            templateUrl:'" + generatorUtil.transformSlash(directiveTemplatePath) + "',";
