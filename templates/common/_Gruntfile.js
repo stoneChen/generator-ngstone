@@ -73,8 +73,7 @@ module.exports = function (grunt) {
                                 var match = req.url.match(urlReg);// ['...','users/5','GET']
                                 if(!match){
                                     grunt.log.writeln('not matched,passed...');
-                                    next();
-                                    return;
+                                    return next();
                                 }
                                 var fileNameSegments = [];
                                 var segments = match[1].split('/');
