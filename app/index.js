@@ -53,22 +53,29 @@ module.exports = yeoman.generators.Base.extend({
                 default: true
             },
             {
+                type: 'confirm',
+                name: 'isMobileApp',
+                message: '是否为mobileApp?',
+                default: true
+            },
+            {
                 type: 'list',
                 name: 'router',
                 message: '希望使用哪一个路由组件?\n',
                 choices: [
                     {
-                        value: 'uiRouter',
-                        name: 'angular-ui-router',
-                        selected: true
-                    },
-                    {
                         value: 'ngRoute',
                         name: 'angular-route',
                         selected: false
+                    },
+                    {
+                        value: 'uiRouter',
+                        name: 'angular-ui-router',
+                        selected: true
                     }
+
                 ],
-                default: 'uiRouter'
+                default: 'router'
             },
             {
                 type: 'confirm',
@@ -97,6 +104,7 @@ module.exports = yeoman.generators.Base.extend({
                 //清空当前目录
                 generatorUtil.clearDir(process.cwd(),true);
             }
+            this.isMobileApp = props.isMobileApp;
             this.initBaseServiceAndLayout = props.initBaseServiceAndLayout;
             this.unitTest = props.unitTest;
             this.e2eTest = props.e2eTest;
