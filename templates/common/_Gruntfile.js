@@ -39,15 +39,30 @@ module.exports = function (grunt) {
                     livereload: '<%%= connect.options.livereload %>'
                 },
                 files: [
+                    '<%%= yeoman.app %>/index.html',
                     '<%%= yeoman.app %>/views/**/*.html',
                     '<%%= yeoman.app %>/scripts/**/*.js',
                     '<%%= yeoman.app %>/styles/**/*.css',
                     '<%%= yeoman.app %>/images/**/*.*',
                     'mock/**/*.json'
                 ]
+            },
+            less:{
+                files: "<%%= yeoman.app %>/styles/*.less",
+                tasks: ["less"]
             }
         },
-
+        less: {
+            development: {
+                options: {
+                    paths: ["<%%= yeoman.app %>/styles"],
+                    yuicompress: true
+                },
+                files: {
+                    "<%%= yeoman.app %>/styles/all.css": "<%%= yeoman.app %>/styles/all.less"
+                }
+            }
+        },
         // The actual grunt server settings
         connect: {
             options: {
@@ -354,6 +369,7 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
+            'less',//启动时，编译一次，防止【服务没启动时，less做过修改而不生效】
 //            'concurrent:server',
             'connect:livereload',
             'watch'
@@ -374,6 +390,7 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('build', [
         'clean:dist',
+        'less',//打包时，编译一次，防止【服务没启动时，less做过修改而不生效】
         'ngtemplates',//added by stone
         'useminPrepare',
         'concurrent:dist',

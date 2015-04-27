@@ -8,8 +8,8 @@
  * Main module of the application.
  */
 angular
-    .module('<%= scriptAppName %>', [
-        'ngAnimate',<% if(uiRouter){ %>
+    .module('<%= scriptAppName %>', [<% if(isMobileApp){ %>
+        'ngTouch',<%} if(uiRouter){ %>
         'ui.router',<% } else{ %>
         'ngRoute',<% } %>
         'ngSanitize',

@@ -7,8 +7,8 @@
         "bootstrap": "3.3.0",
         "fontawesome": "~4.2.0",
         "angular": "~<%= ngVer %>",
-        "angular-sanitize": "~<%= ngVer %>",
-        "angular-animate": "~<%= ngVer %>",<% if(uiRouter){ %>
+        "angular-sanitize": "~<%= ngVer %>",<% if(isMobileApp){ %>
+        "angular-touch":"~<%= ngVer %>",<% } if(uiRouter){ %>
         "angular-ui-router":"~0.2.1",<% } else{ %>
         "angular-route": "~<%= ngVer %>",<% } %>
         "angular-bootstrap":"~0.12.0"<% if(baseServiceModules.bower['angular-local-storage']){ %>,
