@@ -9,6 +9,7 @@ module.exports = SubGeneratorBase.extend({
     writing: function () {
         this._rewriteAppJs();
         this._generateE2ETest();
+        this._addLessFile();
         if(!this.options['biz']){
             this.invoke('ngstone:controller',{
                 args:[this.name]
@@ -18,6 +19,14 @@ module.exports = SubGeneratorBase.extend({
             })
         }
 
+    },
+    _addLessFile: function () {
+        this.sourceRoot(path.join(__dirname, '../templates/styles'));
+        this.template(
+            this.templatePath('page.less'),
+            this.destinationPath(path.join(this.appPath,'styles',this.dashedName + '.less'))
+        );
+        generatorUtil.importLess(this.appPath,this.dashedName,this);
     },
     _rewriteAppJs:function () {
         this.uri = this.name;

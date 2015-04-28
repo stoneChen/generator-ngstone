@@ -58,7 +58,13 @@ function rewriteFile(args) {
 
     fs.writeFileSync(fullPath, body);
 }
-
+function importLess(appPath,name,generatorInst) {
+    var filePath = path.join(appPath, 'styles/all.less');
+    var content = fs.readFileSync(filePath, 'utf8');
+    content += "\n@import '" + name + "';"
+    fs.writeFileSync(filePath, content);
+    generatorInst.log(chalk.blue('less imported into all.less: ') + name + '.less');
+}
 function addAppNameSuffix(appname) {
     return appname + 'App';
 }
@@ -118,6 +124,7 @@ function addScriptToIndex(appPath,script,generatorInst) {
     });
     generatorInst.log(chalk.green('script added into index.html: ') + script);
 }
+
 function isDirEmpty(dir) {
     var files = fs.readdirSync(dir);
     return !files.length;
@@ -131,6 +138,7 @@ module.exports = {
     rewriteFile: rewriteFile,
     addAppNameSuffix:addAppNameSuffix,
     addScriptSuffix:addScriptSuffix,
+    importLess:importLess,
     clearDir:clearDir,
     readFiles:readFiles,
     isDirEmpty:isDirEmpty,
