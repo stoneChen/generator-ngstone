@@ -3,6 +3,7 @@ used to build a **AngularJS** project scaffolding.
 
 > [Yeoman](http://yeoman.io) generator
 
+##**此分支用于向移动端迁移，如果你还能看到这句话，说明文档还未更新！！！**
 
 ##这是个什么东东？
 
@@ -66,12 +67,12 @@ yo是用于各种generator的基础工具，不仅仅可以用于Angular，甚�
 
 因为这是一个npm程序包，所以它要运行在nodejs环境，安装nodejs的步骤，这里略过。
 
-###1.安装yo bower generator-ngstone
-
+###1.安装yo bower grunt-cli generator-ngstone
+如果安装过yo bower grunt-cli请忽略，仅安装本工具即可
 ```  
 npm install -g yo bower generator-ngstone
 ```
-
+0.2.8版本后将向移动端迁移
 ###2.初始化你的项目
 
 找一个合适的地方创建你的工程根目录并进入此新目录(比如bookstore，本工具所有命令都是在此根目录下执行)：  
