@@ -35,7 +35,7 @@ angular.module('<%= scriptAppName %>')
                 }
 
                 var method = REST[options.method] || 'GET';
-                options.url += '.json?_method=' + method;
+                options.url += '?_method=' + method;
                 options.method = (method === 'GET' ? 'GET' : 'POST');
                 if (options.method !== 'GET') {
                     options.headers = {
