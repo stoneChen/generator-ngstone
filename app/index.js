@@ -110,6 +110,7 @@ module.exports = yeoman.generators.Base.extend({
             this.e2eTest = props.e2eTest;
             this.uiRouter = (props.router === 'uiRouter');
             this.config.set({
+                isMobileApp:props.isMobileApp,
                 initBaseServiceAndLayout:props.initBaseServiceAndLayout,
                 unitTest:props.unitTest,
                 e2eTest:props.e2eTest,

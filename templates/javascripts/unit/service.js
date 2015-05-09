@@ -7,12 +7,12 @@ describe('Service: <%= cameledName %>', function () {
 
     // instantiate service
     var <%= cameledName %>;
-    beforeEach(inject(function (_<%= cameledName %>_) {
-        <%= cameledName %> = _<%= cameledName %>_;
+    beforeEach(inject(function (_<%= cameledName %>Service_) {
+        <%= cameledName %> = _<%= cameledName %>Service_;
     }));
 
     it('should do something', function () {
-        expect(!!<%= cameledName %>).not.toBe(true);
+        expect(!!<%= cameledName %>).toBe(true);
     });
 
 });
