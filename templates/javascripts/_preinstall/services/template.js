@@ -1,10 +1,9 @@
 'use strict';
-
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.templateService
+ * @name <%= scriptAppName %>.template
  * @description
- * # templateService 提供一个获取模板的简便方式
+ * # template
  * Factory in the <%= scriptAppName %>.
  */
 angular.module('<%= scriptAppName %>')

@@ -1,14 +1,13 @@
 'use strict';
-
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.resourceService
+ * @name <%= scriptAppName %>.resource
  * @description
- * # resourceService 参考angular的resource，简化并重新定制的resource
+ * # resource
  * Factory in the <%= scriptAppName %>.
  */
 angular.module('<%= scriptAppName %>')
-    .factory('resourceService', function (ajaxService) {
+    .factory('resourceService', function (xhrService) {
         var noop = angular.noop,
             forEach = angular.forEach,
             extend = angular.extend,
@@ -42,7 +41,7 @@ angular.module('<%= scriptAppName %>')
         }
         var VARS_RE = /{([^{]+)}/g;
         var defaultResourceConfig = {
-//            requestSufix: '.json',//在elm_ajax里统一加
+//            requestSufix: '.json',//在xhr里统一加
             primaryKey: 'id',
             createResource:true
         }
@@ -75,7 +74,7 @@ angular.module('<%= scriptAppName %>')
                 httpUrl = httpUrl
                     .replace(/\/{2,}/g, '/')
                     .replace(/\/$/, '');
-//                httpUrl += resourceConfig.requestSufix;//在elm_ajax里统一加
+//                httpUrl += resourceConfig.requestSufix;//在xhr里统一加
                 return {
                     url: httpUrl,
                     params: finalParams
@@ -127,26 +126,28 @@ angular.module('<%= scriptAppName %>')
 //          var isNew = actionName === 'save' && (!data[resourceConfig.primaryKey]);//save默认更新
                     httpConfig.method = action.method;//isNew ? 'post' : action.method;
                     hasBody && (httpConfig.data = data);
-                    var promise = ajaxService.send(httpConfig);
+                    var promise = xhrService.send(httpConfig);
                     promise.then(function (data) {
                         if (action.isArray) {
-                            var ret = [];
+                            var retCollection = [];
                             var collection = data['collection'];
                             if (!isArray(collection)) {
                                 throw $resourceMinErr(httpConfig.url + '返回值解析错误', '方法{0}配置为array类型，服务器返回data.collection为: {1}', actionName, data.collection);
                             }
                             if(resourceConfig.createResource){
                                 forEach(collection, function (item) {
-                                    ret.push(new Resource(item));
+                                    retCollection.push(new Resource(item));
                                 });
                             }else{
-                                ret = collection;
+                                retCollection = collection;
                             }
-                            (success || noop)(ret, data);
+                            (success || noop)(retCollection, data);
+                            return retCollection;
                         } else {
                             var retModel = data['model'] || {};
                             var ret = resourceConfig.createResource ? new Resource(retModel) : retModel;
                             (success || noop)(ret);
+                            return ret;
                         }
                     }, function (res) {
                         (error || noop)(res);

@@ -9,10 +9,6 @@ module.exports = yeoman.generators.NamedBase.extend({
         yeoman.generators.NamedBase.apply(this, arguments);
         var generatorCfg = this.config.getAll();
 
-        this.unitTest = generatorCfg.unitTest;
-        this.e2eTest = generatorCfg.e2eTest;
-        this.uiRouter = generatorCfg.uiRouter;
-        this.initBaseServiceAndLayout = generatorCfg.initBaseServiceAndLayout;
         //bower config
         var bowerConfig = require(path.join(process.cwd(), 'bower.json'));
         this.appName = bowerConfig.name;
@@ -32,7 +28,7 @@ module.exports = yeoman.generators.NamedBase.extend({
         );
         generatorUtil.addScriptToIndex(this.appPath,path.join('scripts',dest, this.dashedName),this);
         //add test file
-        if(!skipTestFile && this.unitTest){
+        if(!skipTestFile){
             if(templateName === 'factory'){
                 sourceFileName = generatorUtil.addScriptSuffix('service');
             }

@@ -1,19 +1,20 @@
 'use strict';
-
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.loadingService
+ * @name <%= scriptAppName %>.loading
  * @description
- * # loadingService 通讯提示服务
+ * # loading
  * Factory in the <%= scriptAppName %>.
  */
 angular.module('<%= scriptAppName %>')
     .factory('loadingService', function (rootDataService) {
         var ROOT_loadingStatData = rootDataService.data('ROOT_loadingStatData')
         return {
-            show: function (flag) {
+            show: function (flag,loadingText) {
                 flag = angular.isUndefined(flag) ? true : flag;
-                ROOT_loadingStatData.set('showLoading', flag);
+                //loadingText = loadingText || '请稍后...';
+                ROOT_loadingStatData.set('show', flag);
+                //ROOT_loadingStatData.set('loadingText', loadingText);
             }
         }
     });

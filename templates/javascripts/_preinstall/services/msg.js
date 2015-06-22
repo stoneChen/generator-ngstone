@@ -1,47 +1,36 @@
 'use strict';
-
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.msgService
+ * @name <%= scriptAppName %>.msg
  * @description
- * # msgService 全局提示信息服务
+ * # msg
  * Factory in the <%= scriptAppName %>.
  */
 angular.module('<%= scriptAppName %>')
-    .factory('msgService', function (rootDataService, $timeout) {
-        var ROOT_messageData = rootDataService.data('ROOT_messageData');
-        var timeout = {//提示停顿秒数
-                "info": 2,
-                "success": 2,
-                "warning": 3,
-                "danger": 5,
-                "error": 5
-            },
-            timer,
-            clear = function () {
-                $timeout.cancel(timer);
-                timer = 0;
-            };
+    .factory('msgService', function ($rootScope,$compile) {
+        //var ROOT_msgData = rootDataService.data('ROOT_msgData');
+        //ROOT_msgData.set('hideMsg', function () {
+        //    ROOT_msgData.set('globalMsg', {
+        //        messages: '',
+        //        type: '',
+        //        show:false
+        //    });
+        //});
+        var J_body = angular.element('body');
         return {
             alert: function (messages, type) {
-                clear();
                 type = type || 'info';
                 (type === "error") && (type = "danger");
                 messages = angular.isArray(messages) ? messages : [
                     {msg: messages}
                 ];
-                ROOT_messageData.set('globalMsg', {
+                var msgEl = angular.element('<msg msg-data="msgData"></msg>');
+                var scope = $rootScope.$new();
+                scope.msgData = {
                     messages: messages,
-                    type: type,
-                    show: true
-                });
-                timer = $timeout(function () {
-                    ROOT_messageData.set('globalMsg', {
-                        messages: '',
-                        type: '',
-                        show: false
-                    });
-                }, (timeout[type]) * 1000);
+                    type: type
+                };
+                J_body.append($compile(msgEl)(scope))
             },
             success: function (msgs) {
                 this.alert(msgs, 'success');

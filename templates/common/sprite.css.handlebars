@@ -1,0 +1,18 @@
+/*本文件由grunt-sprite自动化生成，直接调用.iconsp.iconsp-<filename>即可调用相应背景*/
+[class*="iconsp-"]{
+    position:relative;/*填上这个属性只是为了方便调用，如果有需要，请覆盖此属性*/
+    display:block;
+}
+[class*="iconsp-"]:before{
+    content:"";
+    position:absolute;
+    display: block;
+}
+{{#sprites}}
+.iconsp-{{name}}:before {
+    width: {{px.width}};
+    height: {{px.height}};
+    background-image: url({{{escaped_image}}});
+    background-position: {{px.offset_x}} {{px.offset_y}};
+}
+{{/sprites}}

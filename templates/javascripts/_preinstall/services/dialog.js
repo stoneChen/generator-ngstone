@@ -1,60 +1,41 @@
 'use strict';
-
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.dialogService
+ * @name <%= scriptAppName %>.dialog
  * @description
- * # dialogService 对话框组件，包括确认框和复杂对话框
+ * # dialog
  * Factory in the <%= scriptAppName %>.
  */
 angular.module('<%= scriptAppName %>')
-    .factory('dialogService', function ($modal) {
-        var complexBoxDefaultOptions = {
-            templateUrl: '',
-            controller: 'DialogComplexBoxCtrl',
-            size: 'lg',
-            backdrop: 'static',
-            onComplete: angular.noop//在dialog创建成功后被调用，传入dialog的scope和modalInstance
-        };
+    .factory('dialogService', function ($compile,$rootScope,templateService) {
+        var J_body = angular.element('body');
+        //var J_subpageContainer = angular.element('.subpage-container');
         return {
-            confirm: function (msg, callback) {
-                $modal.open({
-                    templateUrl: './views/_widgets/dialog/confirm.html',
-                    controller: 'DialogConfirmCtrl',
-                    size: 'md',
-                    backdrop: 'static',
-                    resolve: {
-                        msg: function () {
-                            return msg;
-                        }
-                    }
+            confirm: function (options) {
+                var confirmDOM = angular.element('<dialog-confirm></dialog-confirm>');
+                confirmDOM.attr({
+                    content:options.content,
+                    action:'action'
                 })
-                    .result.then(callback);
+                var scope = (options.scope || $rootScope).$new();
+                angular.extend(scope,options);
+                var compiledDOM = $compile(confirmDOM)(scope);
+                J_body.append(compiledDOM);
             },
-            complexBox: function (userOptions) {
-                var options = angular.extend({}, complexBoxDefaultOptions, userOptions);
-                options.resolve = {
-                    'onComplete': function () {
-                        return options.onComplete;
-                    }
-                };
-                $modal.open(options)
+            subpage: function (options) {
+                var tplPromise = templateService.get(options.templateUrl);
+                tplPromise.success(function (tpl) {
+                    var confirmDOM = angular.element('<dialog-subpage></dialog-subpage>');
+                    confirmDOM.attr({
+                        'on-complete':'onComplete(subScope)',
+                        'direction':options.direction || 'left'
+                    }).html(tpl);
+                    var scope = (options.scope || $rootScope).$new();
+                    angular.extend(scope,options);
+                    J_body.append(confirmDOM);
+                    $compile(confirmDOM)(scope);
+                });
+
             }
         };
-    })
-    .controller('DialogConfirmCtrl', function ($scope, $modalInstance, msg) {
-        $scope.msg = msg;
-        $scope.ok = function () {
-            $modalInstance.close();
-        };
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-        };
-    })
-    .controller('DialogComplexBoxCtrl', function ($scope, $modalInstance, onComplete) {
-        onComplete($scope, $modalInstance);
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-        };
-    })
-    ;
+    });

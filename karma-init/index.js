@@ -5,28 +5,16 @@ var chalk = require('chalk');
 
 module.exports = yeoman.generators.Base.extend({
     initializing: function () {
-        var generatorCfg = this.config.getAll();
-        var mod_ngTouch = 'angular-touch/angular-touch.js';
-        var mod_ngRoute = 'angular-route/angular-route.js';
-        var mod_UIRouter = 'angular-ui-router/angular-ui-router.js';
-        var mod_LocalStorage = 'angular-local-storage/dist/angular-local-storage.js';
         var enabledComponents = [
+            'jquery/dist/jquery.js',
             'angular/angular.js',
-            'angular-mocks/angular-mocks.js',
+            'angular-touch/angular-touch.js',
+            'angular-route/angular-route.js',
+            'angular-animate/angular-animate.js',
             'angular-sanitize/angular-sanitize.js',
-            'angular-bootstrap/ui-bootstrap-tpls.js'
+            'angular-local-storage/dist/angular-local-storage.js',
+            'angular-mocks/angular-mocks.js'
         ];
-        if(generatorCfg.initBaseServiceAndLayout){
-            enabledComponents.push(mod_LocalStorage);
-        }
-        if(generatorCfg.isMobileApp){
-            enabledComponents.splice(2,0,mod_ngTouch);
-        }
-        if(generatorCfg.uiRouter){
-            enabledComponents.splice(2,0,mod_UIRouter);
-        }else{
-            enabledComponents.splice(2,0,mod_ngRoute);
-        }
         this.invoke('karma:app', {
             options: {
 //                'skip-install': this.options['skip-install'],

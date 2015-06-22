@@ -1,0 +1,31 @@
+'use strict';
+/**
+ * @ngdoc directive
+ * @name <%= scriptAppName %>.directive:msg
+ * @description
+ * # msg
+ */
+angular.module('<%= scriptAppName %>')
+    .directive('msg', function ($timeout) {
+        return {
+            restrict:'E',
+            replace:true,
+            templateUrl:'./views/_widgets/msg/msg.html',
+            scope:{
+                msgData:'='
+            },
+            link: function ($scope,$element,attrs) {
+                var timer = $timeout(destory,3000);
+                $scope.close = function () {
+                    $timeout.cancel(timer);
+                    destory();
+                };
+                function destory(){
+                    $scope.$destroy();
+                    $element.fadeOut(200, function () {
+                        $element.remove();
+                    });
+                }
+            }
+        }
+    });

@@ -1,77 +1,46 @@
 'use strict';
-
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.utilService
+ * @name <%= scriptAppName %>.util
  * @description
- * # utilService 所有的工具函数，在此管理
+ * # util
  * Factory in the <%= scriptAppName %>.
  */
 angular.module('<%= scriptAppName %>')
-    .factory('utilService', function () {
-        var extend = angular.extend,
-            isFunction = angular.isFunction;
+    .factory('utilService', function ($rootScope) {
+
         return {
             /*
-             [{value:1,label:'A'},{value:2,label:'b'}]
-             ==>{'1':'A','2':'B'}
+             list = [{value:1,label:'A'},{value:2,label:'b'}]
+             key = 'value'
+             ==>{'1':{value:1,label:'A'},'2':{value:2,label:'b'}}
              */
-            extractMapData: function (arr, keyLeft, keyRight) {
+            extractMapFromList: function (list,key) {
+                key = key || 'value';
                 var o = {};
-                keyLeft = keyLeft || 'value';
-                keyRight = keyRight || 'label';
-                angular.forEach(arr, function (el) {
-                    var k = el[keyLeft];
-                    o[k] = el[keyRight];
-                });
+                list.forEach(function (el) {
+                    var k = el[key]
+                    o[k] = el;
+                })
                 return o;
             },
             /*
-             [{a:1,b:'A'},{a:2,b:'b'}]
-             ==>[{value:1,label:'A'},{value:2,label:'b'}]
-             */
-            extractSelectList: function (arr, label, value) {
-                var o = [];
-                angular.forEach(arr, function (el) {
-                    var k = {}
-                    k.value = el[value];
-                    k.label = el[label];
-                    o.push(k);
-                });
-                return o;
+            * 扩充第一个数组，把第二个元素，依次加入到第一个数组中
+            * argument[0] = [1,2]
+            * argument[1] = [4,5]
+            * ==> [1,2,4,5]
+            * */
+            concatArrays: function (oriArr,toExtractArr) {
+                toExtractArr.forEach(function (el) {
+                    oriArr.push(el);
+                })
             },
-            /*
-             [{value:1},{value:2}]
-             ==>{'1':true,'2':true}
-             */
-            extractCheckBoxData: function (arr, keyLeft) {
-                var o = {};
-                keyLeft = keyLeft || 'value';
-                angular.forEach(arr, function (el) {
-                    var k = el[keyLeft];
-                    o[k] = true;
-                });
-                return o;
-            },
-            /*
-             {'1':true,'2':false}
-             ==>[{value:1}]
-             */
-            extractCheckedData: function (map, keyLeft) {
-                var o = [];
-                keyLeft = keyLeft || 'value';
-                angular.forEach(map, function (v, k) {
-                    if (v) {
-                        var temp = {};
-                        temp[keyLeft] = k;
-                        o.push(temp);
-                    }
-                });
-                return o;
-            },
-            resultVal: function (val,context) {
-                var args = [].slice.call(arguments,2);
-                return isFunction(val) ? val.apply(context,args) : val;
+            safeApply: function (scope,fn) {
+                if($rootScope.$$phase){
+                    fn()
+                }else{
+                    scope.$apply(fn)
+                }
             }
         };
     });

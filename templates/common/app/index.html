@@ -4,7 +4,33 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <script>
+        (function (win,doc) {
+            var metaEl;
+            function setViewport() {
+                var psdWidth = 640;
+                var metaContent = ['width=' + psdWidth,'user-scalable=no'];
+                var scale = window.screen.width / psdWidth;
+                var ua = navigator.userAgent;
+                metaContent.push('minimum-scale=' + scale);
+                metaContent.push('maximum-scale=' + scale);
+                var match = ua.match(/Android (\d+\.\d+)/);
+                if (match){
+                    var ver = parseFloat(match[1]);
+                    if(ver && ver <= 2.3){
+                        metaContent.push('target-densitydpi=device-dpi');
+                    }
+                }
+                metaEl = metaEl || doc.createElement('meta');
+                metaEl.setAttribute('name', 'viewport');
+                metaEl.setAttribute('content',metaContent.join(','));
+                doc.documentElement.firstElementChild.appendChild(metaEl);
+            }
+            setViewport();
+            win.addEventListener('resize',setViewport , false);
+        })(window,document);
+    </script>
     <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon" />
     <!-- build:css(./bower_components) styles/vendor.css -->
     <!-- bower:css -->
@@ -12,94 +38,35 @@
     <link rel="stylesheet" href="../bower_components/fontawesome/css/font-awesome.css" />
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css(.tmp) styles/all.css -->
+    <!-- build:css(app) styles/all.css -->
+    <link rel="stylesheet" href="styles/sprites.css">
     <link rel="stylesheet" href="styles/all.css">
     <!-- endbuild -->
 </head>
 <body ng-app="<%= scriptAppName %>">
 
-<% if (!initBaseServiceAndLayout){ %>
 <!-- Add your site or application content here -->
+<div class="header">
+    <h2 class="text-muted"><%= scriptAppName %></h2>
+</div>
 <div class="container">
-    <div class="header"><% if(!isMobileApp) { %>
-        <ul class="nav nav-pills pull-right">
-            <li class="active"><a ng-href="#">Home</a></li>
-            <li><a ng-href="#">About</a></li>
-            <li><a ng-href="#">Contact</a></li>
-        </ul><% } %>
-        <h3 class="text-muted"><%= scriptAppName %></h3>
-    </div>
-    <br/><% if(uiRouter){ %>
-    <div ui-view></div><% } else { %>
-    <div ng-view></div><% } %>
+    <div ng-view></div>
 </div>
-<% } else {%>
-<header class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a href="/" class="navbar-brand"><i class="fa fa-thumbs-up"></i> <%= appName %>后台管理系统</a>
-        </div>
-        <nav class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right" ng-class="{'show':ROOT_loginData.isLogin}">
-                <li>
-                    <a href="#/myinfo/personal">您好，{{ROOT_loginData.loginUser.name}}</a>
-                </li>
-                <li>
-                    <a ng-click="ROOT_loginData.logout()" href="javascript:void(0)">退出</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</header>
-<div class="notify">
-    <div
-        class="messages alert alert-{{ROOT_messageData.globalMsg.type}} {{ROOT_messageData.globalMsg.show ? 'show' : ''}}">
-        <p ng-repeat="item in ROOT_messageData.globalMsg.messages" ng-bind="item.msg"></p>
-    </div>
-    <div class="loading alert alert-info" ng-class="{'show':ROOT_loadingStatData.showLoading}" ng-show="showLoading">
-        <i class="fa fa-spinner fa-spin"></i> 通讯中...
+<div class="loading-mask shown mui-flex center" ng-show="ROOT_loadingStatData.show">
+    <div class="loading-wrapper">
+        <i class="fa fa-spinner fa-spin fa-3x"></i><span ng-bind="ROOT_loadingStatData.loadingText"></span>请稍后...
     </div>
 </div>
-<!-- Add your site or application content here -->
-<% if(uiRouter){ %>
-<div class="container main-body">
-    <div ng-if="ROOT_loginData.isLogin === undefined">
-        <i class="fa fa-spinner fa-spin fa-4x"></i>
-    </div>
-    <div ui-view></div>
-</div>
-<% } else { %>
-<div class="container main-body" ng-switch on="ROOT_loginData.isLogin">
-    <div class="row" ng-switch-when="undefined">
-        <div class="col-xs-12"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
-    </div>
-    <div class="row" ng-switch-when="false">
-        <div class="col-xs-12">
-            <div ng-include="'./views/_common/login.html'"></div>
-        </div>
-    </div>
-    <div class="row" ng-switch-when="true">
-        <div class="col-xs-3">
-            <div ng-include="'./views/_common/side-menu.html'"></div>
-        </div>
-        <div class="col-xs-9 main-content">
-            <div ng-view></div>
-        </div>
-    </div>
-</div>
-<%   } %>
-<% } %>
 
 <!-- build:js(./bower_components) scripts/vendor.js -->
 <!-- bower:js -->
 <script src="../bower_components/jquery/dist/jquery.js"></script>
-<script src="../bower_components/angular/angular.js"></script><% if(uiRouter){ %>
-<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script><% } else{ %>
-<script src="../bower_components/angular-route/angular-route.js"></script><% } %>
-<script src="../bower_components/angular-sanitize/angular-sanitize.js"></script><% if(isMobileApp){ %>
-<script src="../bower_components/angular-touch/angular-touch.js"></script><% } %>
-<script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script><% if(baseServiceModules.bower['angular-local-storage']){ %>
-<script src="../bower_components/angular-local-storage/dist/angular-local-storage.js"></script><% } %>
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-touch/angular-touch.js"></script>
+<script src="../bower_components/angular-route/angular-route.js"></script>
+<script src="../bower_components/angular-animate/angular-animate.js"></script>
+<script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="../bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 

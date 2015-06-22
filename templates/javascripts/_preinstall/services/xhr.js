@@ -1,14 +1,14 @@
 'use strict';
-
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.ajaxService
+ * @name <%= scriptAppName %>.xhr
  * @description
- * # ajaxService 封装http请求，开发业务时，只需关心成功结果，统一处理不正常的后台返回结果
+ * # xhr
  * Factory in the <%= scriptAppName %>.
  */
 angular.module('<%= scriptAppName %>')
-    .factory('ajaxService', function ($q, $http, $log, msgService, loadingService, rootDataService, $modalStack) {
+    .factory('xhrService', function ($q, $http, $log, $location,$window,localStorageService,msgService, loadingService, rootDataService) {
+        var history = $window.history;
         var REST = {
             'post': 'POST',
             'patch': 'PATCH',
@@ -16,7 +16,7 @@ angular.module('<%= scriptAppName %>')
             'del': 'DELETE',
             'put': 'PUT'
         };
-        var ROOT_loginData = rootDataService.data('ROOT_loginData');
+        //var ROOT_loginData = rootDataService.data('ROOT_loginData');
         return {
             request: $http,
             setRequest: function (customRequest) {
@@ -28,19 +28,19 @@ angular.module('<%= scriptAppName %>')
                 // 调用的地方，只需要关心业务上的成功失败，http级别的error在这里统一处理，所以需要重新创建一个defer对象，而不能直接返回http的defer（这个defer只能触发http的失败）
                 var deferred = $q.defer();
 
-                if (options.ids) {
-                    options.ids.forEach(function (id, index) {
-                        options.url = options.url.replace('{' + index + '}', id);
-                    });
-                }
+                //if (options.ids) {
+                //    options.ids.forEach(function (id, index) {
+                //        options.url = options.url.replace('{' + index + '}', id);
+                //    });
+                //}
 
                 var method = REST[options.method] || 'GET';
                 options.url += '?_method=' + method;
                 options.method = (method === 'GET' ? 'GET' : 'POST');
+                options.headers = options.headers || {};
+                options.headers['X-Requested-With'] = 'XMLHttpRequest';
                 if (options.method !== 'GET') {
-                    options.headers = {
-                        contentType: 'application/json; charset=utf-8'
-                    }
+                    options.headers['contentType'] = 'application/json; charset=utf-8';
                 }
                 self.request(options)
                     .success(function (res, status, headers, config) {
@@ -53,9 +53,12 @@ angular.module('<%= scriptAppName %>')
                                 }
                                 break;
                             case 'LOGIN_TIMEOUT':
-                                ROOT_loginData.set('isLogin', false);
-                                $modalStack.dismissAll('cancel');//关闭所有弹窗
-                                msgService.warn('登陆超时,请重新登陆');
+                                localStorageService.set('pathBeforeLogin',$location.path());
+                                $location.path('/login');
+                                //history.pushState('')
+                                //ROOT_loginData.set('isLogin', false);
+                                //$modalStack.dismissAll('cancel');//关闭所有弹窗
+                                //msgService.warn('登陆超时,请重新登陆');
                                 deferred.reject(res);
                                 break;
                             default:
@@ -68,7 +71,7 @@ angular.module('<%= scriptAppName %>')
                         }
                     })
                     .error(function (res, status, headers, config) {
-                        $log.log('请求失败：' + res);
+                        $log.error('请求失败：' + res,'请尝试检查响应结果格式。');
                         msgService.error('请求失败：' + res);
                         deferred.reject(res, status, headers, config);
                     })

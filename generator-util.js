@@ -63,7 +63,7 @@ function importLess(appPath,name,generatorInst) {
     var content = fs.readFileSync(filePath, 'utf8');
     content += "\n@import '" + name + "';"
     fs.writeFileSync(filePath, content);
-    generatorInst.log(chalk.blue('less imported into all.less: ') + name + '.less');
+    generatorInst.log(chalk.cyan('less imported into all.less: ') + name + '.less');
 }
 function addAppNameSuffix(appname) {
     return appname + 'App';
