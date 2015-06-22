@@ -122,7 +122,7 @@ function addScriptToIndex(appPath,script,generatorInst) {
                 '<script src="./' + transformSlash(script) + '"></script>'
         ]
     });
-    generatorInst.log(chalk.green('script added into index.html: ') + script);
+    generatorInst.log(chalk.green('script tag added into index.html: ') + script);
 }
 
 function isDirEmpty(dir) {

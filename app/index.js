@@ -20,6 +20,7 @@ module.exports = yeoman.generators.Base.extend({
         this.classedName = this._.classify(this.name);
         this.cameledName = this._.camelize(this.name);
         this.appPath = 'app';
+        this.preinstallScripts = [];
     },
 
     prompting: function () {
@@ -103,31 +104,37 @@ module.exports = yeoman.generators.Base.extend({
                 sourceDir,
                 this.destinationPath('app/styles')
             );
+        },
+        preinstall: function () {
+            this.sourceRoot(path.join(__dirname, '../templates/javascripts/_preinstall'));
+            //scripts
+            //this._templateAndPreinstall('filters');
+            this._templateAndPreinstall('services');
+            this._templateAndPreinstall('directives');
+            //views
+            this.sourceRoot(path.join(__dirname, '../templates/views'));
+            this.directory(
+                '_preinstall',
+                this.destinationPath('app/views')
+            );
         }
-    },
-    _preinstall: function () {
-        this.sourceRoot(path.join(__dirname, '../templates/javascripts/_preinstall'));
-        //scripts
-        //this._templateAndPreinstall('filters');
-        this._templateAndPreinstall('services');
-        this._templateAndPreinstall('directives');
-        //views
-        this.sourceRoot(path.join(__dirname, '../templates/views'));
-        this.directory(
-            '_preinstall',
-            this.destinationPath('app/views')
-        );
     },
     _templateAndPreinstall: function (subDir) {
         generatorUtil.readFiles(path.join(this.sourceRoot(),subDir), function (f,fullPath) {
             var destPath = path.join('app/scripts',subDir,f);
             this.template(fullPath,this.destinationPath(destPath));
-            generatorUtil.addScriptToIndex(this.appPath,path.join('scripts',subDir,f),this);
+            this.preinstallScripts.push(path.join('scripts',subDir,f));
+            //generatorUtil.addScriptToIndex(this.appPath,path.join('scripts',subDir,f),this);
         },this);
 
     },
+    _addPreinstallScriptsToIndex: function () {//被迫的，如果靠前执行，会访问不到index.html囧
+        this.preinstallScripts.forEach(function (script) {
+            generatorUtil.addScriptToIndex(this.appPath,script,this);
+        },this);
+    },
     install: function () {
-        this._preinstall();
+        this._addPreinstallScriptsToIndex();
         if(this.options['skip-install']){
             return;
         }
@@ -139,9 +146,6 @@ module.exports = yeoman.generators.Base.extend({
         });
     },
     end: function () {
-        this.invoke('ngstone:route',{
-            args:['main']
-        });
         this.log(chalk.green('Initialization has been done. Have fun!'));
     }
 })
