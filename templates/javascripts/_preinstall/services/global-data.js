@@ -4,7 +4,7 @@
  * @name <%= scriptAppName %>.globalData
  * @description
  * # globalData
- * Factory in the LianzhongOnlineShopApp.
+ * Factory in the <%= scriptAppName %>.
  */
 angular.module('<%= scriptAppName %>')
     .factory('rootDataService', function ($rootScope) {

@@ -1,12 +1,12 @@
 'use strict';
 /**
  * @ngdoc service
- * @name LianzhongOnlineShopApp.resourcePool
+ * @name <%= scriptAppName %>.resourcePool
  * @description
  * # resourcePool
- * Factory in the LianzhongOnlineShopApp.
+ * Factory in the <%= scriptAppName %>.
  */
-angular.module('LianzhongOnlineShopApp')
+angular.module('<%= scriptAppName %>')
     .factory('resourcePool', function (resourceService) {
         var create = resourceService.create;//do not modify this line.it is used for generator
         return {
