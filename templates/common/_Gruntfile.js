@@ -6,10 +6,12 @@
 // 'test/spec/{,*/}*.js'
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
+var os = require('os');
+var fs = require('fs');
 var path = require('path');
 
 module.exports = function (grunt) {
-
+    var gruntTaskParams = require('./grunt-task-params');
     // Load grunt tasks automatically
     require('load-grunt-tasks')(grunt);
 
@@ -22,7 +24,25 @@ module.exports = function (grunt) {
         app: require('./bower.json').appPath || 'app',
         dist: 'dist'
     };
-    function mockMiddleware(req, res, next) {//用于mock数据
+    /**
+     * Get ip(v4) address
+     * @return {String} the ipv4 address or 'localhost'
+     */
+    var getIPAddress = function () {
+        var ifaces = os.networkInterfaces();
+        var ip = '';
+        for (var dev in ifaces) {
+            ifaces[dev].forEach(function (details) {
+                if (ip === '' && details.family === 'IPv4' && !details.internal) {
+                    ip = details.address;
+                    return;
+                }
+            });
+        }
+        return ip || "127.0.0.1";
+    };
+    function mockMiddleware(req, res, next) {
+        //用于mock数据
         grunt.log.writeln('request from client:' + req.url);
         var urlReg = /^\/(.+)\?_method=(GET|POST|PATCH|DELETE|PUT).*$/;// /users/5.json?_method=GET
         var match = req.url.match(urlReg);// ['...','users/5','GET']
@@ -118,7 +138,8 @@ module.exports = function (grunt) {
             options: {
                 port: 9000,
                 // Change this to '0.0.0.0' to access the server from outside.
-                hostname: '*',
+                hostname: getIPAddress(),//connect似乎不能配置自动获取IP的方式打开地址,从anywhere偷了代码来
+                open:true,
                 livereload: 35729
             },
             livereload: {
@@ -126,6 +147,25 @@ module.exports = function (grunt) {
                     open:'http://localhost:9000',
                     middleware: function (connect) {
                         return [
+                            function (req, res, next) {//首页注入脚本
+                                if(req.originalUrl !== '/'){
+                                    return next();
+                                }
+                                var indexHTMLPath = appConfig.app + '/index.html';
+                                var indexHTML = grunt.file.read(indexHTMLPath);
+                                var serveScripts = gruntTaskParams.serveScripts;
+                                var scriptTags = [''];
+                                serveScripts.forEach(function (script) {
+                                    scriptTags.push('<script src="' + script + '"></script>');
+                                });
+                                var injectedHTML = indexHTML.replace(/<\/body>/, function(w) {
+                                    return (scriptTags.concat([w])).join('\n');
+                                });
+                                res.end(injectedHTML);
+                            },
+                            function (req, res, next) {//其他中间件逻辑
+                                return next();
+                            },
                             connect().use(
                                 '/bower_components',
                                 connect.static('./bower_components')
@@ -154,7 +194,6 @@ module.exports = function (grunt) {
             dist: {
                 options: {
                     port: 9002,
-                    open: 'http://localhost:9002',
                     middleware: function (connect) {
                         return [
                             connect.static('dist'),
@@ -214,7 +253,7 @@ module.exports = function (grunt) {
 
         // Performs rewrites based on filerev and the useminPrepare configuration
         usemin: {
-            html: ['<%%= yeoman.dist %>/{,*/}*.html', '<%%= yeoman.dist %>/scripts/scripts*.js'],//后面这一项是给打包好的模板里的图片等加后缀的
+            html: ['<%%= yeoman.dist %>/{,*/}*.html', '<%%= yeoman.dist %>/scripts/scripts*.js'],//added by stone 后面这一项是给打包好的模板里的图片等加后缀的
             css: ['<%%= yeoman.dist %>/styles/{,*/}*.css'],
             options: {
                 assetsDirs: ['<%%= yeoman.dist %>', '<%%= yeoman.dist %>/images']
@@ -316,10 +355,12 @@ module.exports = function (grunt) {
                 src: ['<%%= yeoman.app %>/images/**/*.png',
                      '!<%%= yeoman.app %>/images/_tmp/**/*.png',
                      '!<%%= yeoman.app %>/images/spritesheet.png',//不排除的话，这个图片会重复，越来越大，因为本身也是png
-                     '!<%%= yeoman.app %>/images/yeoman.png'],//排除logo图片
+                     '!<%%= yeoman.app %>/images/yeoman.png']//排除logo图片
+                    .concat(gruntTaskParams.spriteSrcEX),
                 dest: '<%%= yeoman.app %>/images/spritesheet.png',
                 destCss: '<%%= yeoman.app %>/styles/sprites.css',
-                cssTemplate:'sprite.css.handlebars'
+                cssTemplate:'sprite.css.handlebars',
+                padding:2
             }
         },
         ngtemplates: {//后期添加，打包模板
