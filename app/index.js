@@ -69,6 +69,10 @@ module.exports = yeoman.generators.Base.extend({
                 this.destinationPath('Gruntfile.js')
             );
             this.template(
+                this.templatePath('grunt-task-params.js'),
+                this.destinationPath('grunt-task-params.js')
+            );
+            this.template(
                 this.templatePath('sprite.css.handlebars'),
                 this.destinationPath('sprite.css.handlebars')
             );
