@@ -7,6 +7,9 @@
  * Factory in the ngCustomBase.
  */
 angular.module('ngCustomBase')
+    .config(function (rootDataServiceProvider) {
+        rootDataServiceProvider.register('ROOT_loadingStatData');
+    })
     .factory('loadingService', function (rootDataService) {
         var ROOT_loadingStatData = rootDataService.data('ROOT_loadingStatData')
         return {
