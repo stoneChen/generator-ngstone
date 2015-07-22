@@ -1,12 +1,12 @@
 'use strict';
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.pageTitle
+ * @name ngCustomBase.pageTitle
  * @description
  * # pageTitle
- * Factory in the <%= scriptAppName %>.
+ * Factory in the ngCustomBase.
  */
-angular.module('<%= scriptAppName %>')
+angular.module('ngCustomBase')
     .factory('pageTitleService', function ($document) {
         var J_body = angular.element('body');
         var J_iframe = $('<iframe src="images/favicon.ico"></iframe>');

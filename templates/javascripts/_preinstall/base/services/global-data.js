@@ -1,12 +1,12 @@
 'use strict';
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.globalData
+ * @name ngCustomBase.globalData
  * @description
  * # globalData
- * Factory in the <%= scriptAppName %>.
+ * Factory in the ngCustomBase.
  */
-angular.module('<%= scriptAppName %>')
+angular.module('ngCustomBase')
     .factory('rootDataService', function ($rootScope) {
         var RootData = function () {};
         RootData.prototype = {

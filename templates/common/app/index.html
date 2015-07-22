@@ -17,10 +17,7 @@
                 metaContent.push('maximum-scale=' + scale);
                 var match = ua.match(/Android (\d+\.\d+)/);
                 if (match){
-                    var ver = parseFloat(match[1]);
-                    if(ver && ver <= 2.3){
-                        metaContent.push('target-densitydpi=device-dpi');
-                    }
+                    metaContent.push('target-densitydpi=device-dpi');
                 }
                 metaEl = metaEl || doc.createElement('meta');
                 metaEl.setAttribute('name', 'viewport');
@@ -47,7 +44,7 @@
 
 <!-- Add your site or application content here -->
 <div class="header">
-    <h2 class="text-muted"><%= scriptAppName %></h2>
+    <h2 class="text-center"><%= scriptAppName %></h2>
 </div>
 <div class="container">
     <div ng-view></div>
@@ -71,7 +68,6 @@
 <!-- endbuild -->
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
-<script src="./scripts/app.js"></script>
 <!-- endbuild -->
 </body>
 </html>

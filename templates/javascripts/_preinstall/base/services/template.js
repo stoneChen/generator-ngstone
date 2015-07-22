@@ -1,12 +1,12 @@
 'use strict';
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.template
+ * @name ngCustomBase.template
  * @description
  * # template
- * Factory in the <%= scriptAppName %>.
+ * Factory in the ngCustomBase.
  */
-angular.module('<%= scriptAppName %>')
+angular.module('ngCustomBase')
     .factory('templateService', function ($http, $templateCache) {
         return {
             get: function (templateUrl) {

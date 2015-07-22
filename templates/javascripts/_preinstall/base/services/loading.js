@@ -1,12 +1,12 @@
 'use strict';
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.loading
+ * @name ngCustomBase.loading
  * @description
  * # loading
- * Factory in the <%= scriptAppName %>.
+ * Factory in the ngCustomBase.
  */
-angular.module('<%= scriptAppName %>')
+angular.module('ngCustomBase')
     .factory('loadingService', function (rootDataService) {
         var ROOT_loadingStatData = rootDataService.data('ROOT_loadingStatData')
         return {

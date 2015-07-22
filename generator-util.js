@@ -104,11 +104,15 @@ function clearDir(path,skipBowerAndNpmDir) {
 function readFiles(directory,handler,context) {
     var files = fs.readdirSync(directory);
     files.forEach(function (f) {
-        var fullPath = path.join(directory,f);
-        if(fs.statSync(fullPath).isDirectory()){
+        if(f.indexOf('.DS_Store') !== -1){
             return;
         }
-        handler.call(context,f,fullPath);
+        var fullPath = path.join(directory,f);
+        if(fs.statSync(fullPath).isDirectory()){
+            readFiles(fullPath,handler,context);
+        }else{
+            handler.call(context,f,fullPath);
+        }
     })
 }
 
@@ -119,7 +123,7 @@ function addScriptToIndex(appPath,script,generatorInst) {
         file: fullPath,
         needle: '<!-- endbuild -->',
         splicable: [
-                '<script src="./' + transformSlash(script) + '"></script>'
+                '<script src="' + transformSlash(script) + '"></script>'
         ]
     });
     generatorInst.log(chalk.green('script tag added into index.html: ') + script);

@@ -113,8 +113,13 @@ module.exports = yeoman.generators.Base.extend({
             this.sourceRoot(path.join(__dirname, '../templates/javascripts/_preinstall'));
             //scripts
             //this._templateAndPreinstall('filters');
+            //this.preinstallScripts.push(path.join('scripts',subDir,f));
+            //this._templateAndPreinstall('base/directives');
+            //this._templateAndPreinstall('base/services');
+            //this._templateAndPreinstall('services');
+            this._templateAndPreinstall('base');
+            this.preinstallScripts.push(path.join('scripts','app.js'));//放在ngCustomBase后
             this._templateAndPreinstall('services');
-            this._templateAndPreinstall('directives');
             //views
             this.sourceRoot(path.join(__dirname, '../templates/views'));
             this.directory(
@@ -125,12 +130,13 @@ module.exports = yeoman.generators.Base.extend({
     },
     _templateAndPreinstall: function (subDir) {
         generatorUtil.readFiles(path.join(this.sourceRoot(),subDir), function (f,fullPath) {
-            var destPath = path.join('app/scripts',subDir,f);
+            var paths = fullPath.split('_preinstall/');//无奈初次下策
+            var relativePath = paths[1];
+            var destPath = path.join('app/scripts',relativePath);
             this.template(fullPath,this.destinationPath(destPath));
-            this.preinstallScripts.push(path.join('scripts',subDir,f));
+            this.preinstallScripts.push(path.join('scripts',relativePath));
             //generatorUtil.addScriptToIndex(this.appPath,path.join('scripts',subDir,f),this);
         },this);
-
     },
     _addPreinstallScriptsToIndex: function () {//被迫的，如果靠前执行，会访问不到index.html囧
         this.preinstallScripts.forEach(function (script) {

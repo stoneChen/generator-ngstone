@@ -1,12 +1,12 @@
 'use strict';
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.xhr
+ * @name ngCustomBase.xhr
  * @description
  * # xhr
- * Factory in the <%= scriptAppName %>.
+ * Factory in the ngCustomBase.
  */
-angular.module('<%= scriptAppName %>')
+angular.module('ngCustomBase')
     .factory('xhrService', function ($q, $http, $log, $location,$window,localStorageService,msgService, loadingService, rootDataService) {
         var history = $window.history;
         var REST = {

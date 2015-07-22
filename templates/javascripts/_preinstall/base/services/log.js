@@ -1,12 +1,12 @@
 'use strict';
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.log
+ * @name ngCustomBase.log
  * @description 为了配合weinre的log功能，重新写了一个log服务
  * # log
- * Factory in the <%= scriptAppName %>.
+ * Factory in the ngCustomBase.
  */
-angular.module('<%= scriptAppName %>')
+angular.module('ngCustomBase')
     .factory('logService', function () {
         var methods = ['log','warn','error'];//这三个api一般够用
         var api = {};

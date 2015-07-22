@@ -1,12 +1,12 @@
 'use strict';
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.dialog
+ * @name ngCustomBase.dialog
  * @description
  * # dialog
- * Factory in the <%= scriptAppName %>.
+ * Factory in the yoHeader
  */
-angular.module('<%= scriptAppName %>')
+angular.module('ngCustomBase')
     .factory('dialogService', function ($compile,$rootScope,templateService) {
         var J_body = angular.element('body');
         //var J_subpageContainer = angular.element('.subpage-container');

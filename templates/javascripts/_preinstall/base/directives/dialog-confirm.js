@@ -1,11 +1,11 @@
 'use strict';
 /**
  * @ngdoc directive
- * @name <%= scriptAppName %>.directive:dialogConfirm
+ * @name ngCustomBase.directive:dialogConfirm
  * @description
  * # dialogConfirm
  */
-angular.module('<%= scriptAppName %>')
+angular.module('ngCustomBase')
     .directive('dialogConfirm', function () {
         return {
             restrict:'E',

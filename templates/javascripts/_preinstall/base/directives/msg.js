@@ -1,11 +1,11 @@
 'use strict';
 /**
  * @ngdoc directive
- * @name <%= scriptAppName %>.directive:msg
+ * @name ngCustomBase.directive:msg
  * @description
  * # msg
  */
-angular.module('<%= scriptAppName %>')
+angular.module('ngCustomBase')
     .directive('msg', function ($timeout) {
         return {
             restrict:'E',

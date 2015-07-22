@@ -1,12 +1,12 @@
 'use strict';
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.resource
+ * @name ngCustomBase.resource
  * @description
  * # resource
- * Factory in the <%= scriptAppName %>.
+ * Factory in the ngCustomBase.
  */
-angular.module('<%= scriptAppName %>')
+angular.module('ngCustomBase')
     .factory('resourceService', function (xhrService) {
         var noop = angular.noop,
             forEach = angular.forEach,

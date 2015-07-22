@@ -1,12 +1,12 @@
 'use strict';
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.msg
+ * @name ngCustomBase.msg
  * @description
  * # msg
- * Factory in the <%= scriptAppName %>.
+ * Factory in the ngCustomBase.
  */
-angular.module('<%= scriptAppName %>')
+angular.module('ngCustomBase')
     .factory('msgService', function ($rootScope,$compile) {
         //var ROOT_msgData = rootDataService.data('ROOT_msgData');
         //ROOT_msgData.set('hideMsg', function () {

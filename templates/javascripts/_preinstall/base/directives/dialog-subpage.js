@@ -1,11 +1,11 @@
 'use strict';
 /**
  * @ngdoc directive
- * @name <%= scriptAppName %>.directive:dialogSubpage
+ * @name ngCustomBase.directive:dialogSubpage
  * @description
  * # dialogSubpage
  */
-angular.module('<%= scriptAppName %>')
+angular.module('ngCustomBase')
     .directive('dialogSubpage', function ($window,utilService,$timeout) {
         var J_win = angular.element($window),
             J_body = angular.element('body');

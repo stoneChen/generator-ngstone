@@ -13,6 +13,7 @@ angular
         'ngAnimate',
         'ngRoute',
         'ngSanitize',
+        'ngCustomBase',
         'LocalStorageModule'
     ])
     .config(function ($routeProvider) {

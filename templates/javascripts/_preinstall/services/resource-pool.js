@@ -8,12 +8,11 @@
  */
 angular.module('<%= scriptAppName %>')
     .factory('resourcePool', function (resourceService) {
-        var create = resourceService.create;//do not modify this line.it is used for generator
+        var create = resourceService.create;
         return {
             _url:{//非资源级别的直接写url
 
             }
             ,session: create('/member/session')
-            //do not delete this line.it is used for generator to find this line
         }
     });

@@ -144,7 +144,7 @@ module.exports = function (grunt) {
             },
             livereload: {
                 options: {
-                    open:'http://localhost:9000',
+                    open:true,
                     middleware: function (connect) {
                         return [
                             function (req, res, next) {//首页注入脚本
