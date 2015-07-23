@@ -1,6 +1,6 @@
 {
     "name": "generator-ngstone",
-    "version": "0.2.15",
+    "version": "0.2.16",
     "description": "Yeoman generator",
     "license": "MIT",
     "main": "app/index.js",
