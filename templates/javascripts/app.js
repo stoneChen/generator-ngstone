@@ -9,11 +9,11 @@
  */
 angular
     .module('<%= scriptAppName %>', [
-        'ngTouch',
-        'ngAnimate',
         'ngRoute',
+        'ngAnimate',
         'ngSanitize',
         'ngCustomBase',
+        'hmTouchEvents',
         'LocalStorageModule'
     ])
     .config(function ($routeProvider) {

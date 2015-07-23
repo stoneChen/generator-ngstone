@@ -7,11 +7,11 @@
         "bootstrap": "3.3.4",
         "fontawesome": "~4.2.0",
         "angular": "~1.4.0",
-        "angular-touch":"~1.4.0",
         "angular-animate":"~1.4.0",
         "angular-sanitize": "~1.4.0",
         "angular-route": "~1.4.0",
-        "angular-local-storage":"~0.1.0"
+        "angular-local-storage":"~0.1.0",
+        "ryanmullins-angular-hammer":"~2.1.0"
     },
     "devDependencies": {
         "angular-mocks": "~1.4.0"
