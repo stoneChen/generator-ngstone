@@ -2,7 +2,7 @@
 /**
  * @ngdoc directive
  * @name ngCustomBase.directive:msg
- * @description
+ * @description 提示信息指令
  * # msg
  */
 angular.module('ngCustomBase')

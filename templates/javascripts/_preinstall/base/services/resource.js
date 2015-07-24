@@ -2,7 +2,7 @@
 /**
  * @ngdoc service
  * @name ngCustomBase.resource
- * @description
+ * @description 基于官方angular-resource改造的resource
  * # resource
  * Factory in the ngCustomBase.
  */

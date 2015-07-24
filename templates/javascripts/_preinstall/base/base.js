@@ -2,7 +2,7 @@
 /**
  * @ngdoc overview
  * @name ngCustomBase
- * @description
+ * @description 定义base模块
  * # ngCustomBase
  *
  * base module declaration.

@@ -2,7 +2,7 @@
 /**
  * @ngdoc service
  * @name ngCustomBase.dialog
- * @description
+ * @description 封装确认框组件与滑入式子页面组件
  * # dialog
  * Factory in the yoHeader
  */

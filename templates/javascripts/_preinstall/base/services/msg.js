@@ -2,7 +2,7 @@
 /**
  * @ngdoc service
  * @name ngCustomBase.msg
- * @description
+ * @description 提示信息组件
  * # msg
  * Factory in the ngCustomBase.
  */

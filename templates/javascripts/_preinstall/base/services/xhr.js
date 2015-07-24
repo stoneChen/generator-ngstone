@@ -2,7 +2,7 @@
 /**
  * @ngdoc service
  * @name ngCustomBase.xhr
- * @description
+ * @description 封装$http服务，统一处理业务外围逻辑
  * # xhr
  * Factory in the ngCustomBase.
  */
@@ -27,12 +27,6 @@ angular.module('ngCustomBase')
                 loadingService.show(!hideLoading);
                 // 调用的地方，只需要关心业务上的成功失败，http级别的error在这里统一处理，所以需要重新创建一个defer对象，而不能直接返回http的defer（这个defer只能触发http的失败）
                 var deferred = $q.defer();
-
-                //if (options.ids) {
-                //    options.ids.forEach(function (id, index) {
-                //        options.url = options.url.replace('{' + index + '}', id);
-                //    });
-                //}
 
                 var method = REST[options.method] || 'GET';
                 options.url += '?_method=' + method;

@@ -20,7 +20,7 @@ module.exports = function (grunt) {
 
     // Configurable paths for the application
     var appConfig = {
-        projectName: require('./bower.json').name + 'App',//added by stone
+        projectName: require('./bower.json').name + 'App',
         app: require('./bower.json').appPath || 'app',
         dist: 'dist'
     };
@@ -138,7 +138,7 @@ module.exports = function (grunt) {
             options: {
                 port: 9000,
                 // Change this to '0.0.0.0' to access the server from outside.
-                hostname: getIPAddress(),//connect似乎不能配置自动获取IP的方式打开地址,从anywhere偷了代码来
+                hostname: gruntTaskParams.serverBoundWithIP ? getIPAddress() : 'localhost',//connect似乎不能配置自动获取IP的方式打开地址,从anywhere偷了代码来
                 open:true,
                 livereload: 35729
             },
@@ -253,7 +253,7 @@ module.exports = function (grunt) {
 
         // Performs rewrites based on filerev and the useminPrepare configuration
         usemin: {
-            html: ['<%%= yeoman.dist %>/{,*/}*.html', '<%%= yeoman.dist %>/scripts/scripts*.js'],//added by stone 后面这一项是给打包好的模板里的图片等加后缀的
+            html: ['<%%= yeoman.dist %>/{,*/}*.html', '<%%= yeoman.dist %>/scripts/scripts*.js'],//后面这一项是给打包好的模板里的图片等加后缀的
             css: ['<%%= yeoman.dist %>/styles/{,*/}*.css'],
             options: {
                 assetsDirs: ['<%%= yeoman.dist %>', '<%%= yeoman.dist %>/images']
@@ -309,8 +309,7 @@ module.exports = function (grunt) {
                         src: [
                             '*.{ico,png,txt}',
                             '*.html',
-//                            'views/{,*/}*.html',//因为使用了js模板打包，就不需要复制模板了
-                            'images/**/*.*',//modified by stone //imagesmin注释掉后，images目录不复制了
+                            'images/**/*.*',
                             '!images/_tmp/*.*',//_tmp临时目录不复制
                             '!images/yeoman.png'//logo不复制
                         ]
@@ -420,7 +419,7 @@ module.exports = function (grunt) {
         'clean:dist',
         'less',//打包时，编译一次，防止【服务没启动时，less做过修改而不生效】
         'postcss',
-        'ngtemplates',//added by stone
+        'ngtemplates',
         'useminPrepare',
         'concat:generated',
         'concat:ngtemplates',

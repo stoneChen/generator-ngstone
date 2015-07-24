@@ -2,7 +2,7 @@
 /**
  * @ngdoc service
  * @name ngCustomBase.util
- * @description
+ * @description 各种工具方法
  * # util
  * Factory in the ngCustomBase.
  */

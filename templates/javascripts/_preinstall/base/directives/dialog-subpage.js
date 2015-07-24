@@ -2,7 +2,7 @@
 /**
  * @ngdoc directive
  * @name ngCustomBase.directive:dialogSubpage
- * @description
+ * @description 滑入式子页面指令
  * # dialogSubpage
  */
 angular.module('ngCustomBase')

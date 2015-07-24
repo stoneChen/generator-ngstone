@@ -2,7 +2,7 @@
 /**
  * @ngdoc directive
  * @name ngCustomBase.directive:dialogConfirm
- * @description
+ * @description 确认框指令
  * # dialogConfirm
  */
 angular.module('ngCustomBase')

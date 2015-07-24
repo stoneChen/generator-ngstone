@@ -2,7 +2,7 @@
 /**
  * @ngdoc service
  * @name ngCustomBase.rootData
- * @description
+ * @description 封装$rootScope下对象的存取
  * # rootData
  * Factory in the ngCustomBase.
  */
@@ -23,7 +23,6 @@ angular.module('ngCustomBase')
             keys = angular.isArray(keys) ? keys : [keys];
             rootKeys = rootKeys.concat(keys);
         };
-        //register(['ROOT_loginData', 'ROOT_loadingStatData','ROOT_pageData']);//必须一次性添加，不可动态添加单个，这样可以很方便的在一共地方查看所有rootScope下的变量
         this.$get = ['$rootScope',function ($rootScope) {
             rootKeys.forEach(function (key) {
                 $rootScope[key] = new RootData();

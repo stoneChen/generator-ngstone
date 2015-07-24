@@ -2,7 +2,7 @@
 /**
  * @ngdoc service
  * @name ngCustomBase.template
- * @description
+ * @description 为了使打包进js的模板，也能被获取，抽象出此服务
  * # template
  * Factory in the ngCustomBase.
  */

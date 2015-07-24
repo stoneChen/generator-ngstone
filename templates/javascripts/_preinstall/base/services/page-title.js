@@ -2,7 +2,7 @@
 /**
  * @ngdoc service
  * @name ngCustomBase.pageTitle
- * @description
+ * @description 用于修改title，微信等webview仅仅修改document.title，将无法修改title，知乎上找到了此黑魔法[黑线]
  * # pageTitle
  * Factory in the ngCustomBase.
  */

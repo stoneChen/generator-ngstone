@@ -2,7 +2,7 @@
 /**
  * @ngdoc service
  * @name <%= scriptAppName %>.resourcePool
- * @description
+ * @description 资源池，用于存放业务模块的资源类
  * # resourcePool
  * Factory in the <%= scriptAppName %>.
  */

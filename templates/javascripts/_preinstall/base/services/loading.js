@@ -2,7 +2,7 @@
 /**
  * @ngdoc service
  * @name ngCustomBase.loading
- * @description
+ * @description 管理页面loading状态的显示
  * # loading
  * Factory in the ngCustomBase.
  */
