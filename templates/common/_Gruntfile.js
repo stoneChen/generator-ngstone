@@ -6,10 +6,12 @@
 // 'test/spec/{,*/}*.js'
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
+var os = require('os');
+var fs = require('fs');
 var path = require('path');
 
 module.exports = function (grunt) {
-
+    var gruntTaskParams = require('./grunt-task-params');
     // Load grunt tasks automatically
     require('load-grunt-tasks')(grunt);
 
@@ -18,11 +20,62 @@ module.exports = function (grunt) {
 
     // Configurable paths for the application
     var appConfig = {
-        projectName: require('./bower.json').name + 'App',//added by stone
+        projectName: require('./bower.json').name + 'App',
         app: require('./bower.json').appPath || 'app',
         dist: 'dist'
     };
-
+    /**
+     * Get ip(v4) address
+     * @return {String} the ipv4 address or 'localhost'
+     */
+    var getIPAddress = function () {
+        var ifaces = os.networkInterfaces();
+        var ip = '';
+        for (var dev in ifaces) {
+            ifaces[dev].forEach(function (details) {
+                if (ip === '' && details.family === 'IPv4' && !details.internal) {
+                    ip = details.address;
+                    return;
+                }
+            });
+        }
+        return ip || "127.0.0.1";
+    };
+    function mockMiddleware(req, res, next) {
+        //用于mock数据
+        grunt.log.writeln('request from client:' + req.url);
+        var urlReg = /^\/(.+)\?_method=(GET|POST|PATCH|DELETE|PUT).*$/;// /users/5.json?_method=GET
+        var match = req.url.match(urlReg);// ['...','users/5','GET']
+        if(!match){
+            grunt.log.writeln('not matched,passed...');
+            return next();
+        }
+        var fileNameSegments = [];
+        var segments = match[1].split('/');
+        segments.forEach(function (pathName) {
+            if(/\D+/.test(pathName)){//非数字
+                fileNameSegments.push(pathName)
+            }else if(/\d+/.test(pathName)){//数字
+                fileNameSegments.push('N')
+            }
+        });
+        var fileName = fileNameSegments.join('.');// user.N
+        fileName += '#' + match[2].toUpperCase() + '.json';// user.N#GET.json
+        grunt.log.writeln('parsed fileName:' + fileName);
+        var filePath = path.join('mock',segments[0],fileName);
+        grunt.log.writeln('parsed filePath:' + filePath);
+        var result = '';
+        if(grunt.file.exists(filePath)){
+            result = grunt.file.read(filePath);
+        }else{
+            result = JSON.stringify({
+                stat:'ERROR',
+                errors:'mock data file:[' + filePath + '] doesn\'t exist!'
+            })
+        }
+        grunt.log.writeln(result);
+        res.end(result);
+    }
     // Define the configuration for all the tasks
     grunt.initConfig({
 
@@ -49,11 +102,11 @@ module.exports = function (grunt) {
             },
             less:{
                 files: "<%%= yeoman.app %>/styles/*.less",
-                tasks: ["less"]
+                tasks: ["less","postcss"]
             }
         },
         less: {
-            development: {
+            all: {
                 options: {
                     paths: ["<%%= yeoman.app %>/styles"],
                     yuicompress: true
@@ -63,59 +116,62 @@ module.exports = function (grunt) {
                 }
             }
         },
+        //为css添加浏览器前缀
+        postcss: {
+            options: {
+                //map: true,
+                processors: [
+                    require('autoprefixer-core')({browsers: '> 1%, last 2 versions, Firefox ESR, Opera 12.1'})
+                ]
+            },
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%%= yeoman.app %>/styles/',
+                    src: 'all.css',
+                    dest: '<%%= yeoman.app %>/styles/' //即使在开发环境下，希望也能够自动添加浏览器前缀，以便在开发环境下测试浏览器兼容性
+                }]
+            }
+        },
         // The actual grunt server settings
         connect: {
             options: {
                 port: 9000,
                 // Change this to '0.0.0.0' to access the server from outside.
-                hostname: '*',
+                hostname: gruntTaskParams.serverBoundWithIP ? getIPAddress() : 'localhost',//connect似乎不能配置自动获取IP的方式打开地址,从anywhere偷了代码来
+                open:true,
                 livereload: 35729
             },
             livereload: {
                 options: {
-                    open:'http://localhost:9000',
+                    open:true,
                     middleware: function (connect) {
                         return [
-//                            connect.static('.tmp'),
+                            function (req, res, next) {//首页注入脚本
+                                if(req.originalUrl !== '/'){
+                                    return next();
+                                }
+                                var indexHTMLPath = appConfig.app + '/index.html';
+                                var indexHTML = grunt.file.read(indexHTMLPath);
+                                var serveScripts = gruntTaskParams.serveScripts;
+                                var scriptTags = [''];
+                                serveScripts.forEach(function (script) {
+                                    scriptTags.push('<script src="' + script + '"></script>');
+                                });
+                                var injectedHTML = indexHTML.replace(/<\/body>/, function(w) {
+                                    return (scriptTags.concat([w])).join('\n');
+                                });
+                                res.end(injectedHTML);
+                            },
+                            function (req, res, next) {//其他中间件逻辑
+                                return next();
+                            },
                             connect().use(
                                 '/bower_components',
                                 connect.static('./bower_components')
                             ),
                             connect.static(appConfig.app),
-                            function mockMiddleware(req, res, next) {//用于mock数据
-                                grunt.log.writeln('request from client:' + req.url);
-                                var urlReg = /^\/(.+)\.json\?_method=(GET|POST|PATCH|DELETE|PUT).*$/;// /users/5.json?_method=GET
-                                var match = req.url.match(urlReg);// ['...','users/5','GET']
-                                if(!match){
-                                    grunt.log.writeln('not matched,passed...');
-                                    return next();
-                                }
-                                var fileNameSegments = [];
-                                var segments = match[1].split('/');
-                                segments.forEach(function (pathName) {
-                                    if(/\D+/.test(pathName)){//非数字
-                                        fileNameSegments.push(pathName)
-                                    }else if(/\d+/.test(pathName)){//数字
-                                        fileNameSegments.push('N')
-                                    }
-                                });
-                                var fileName = fileNameSegments.join('.');// user.N
-                                fileName += '#' + match[2].toUpperCase() + '.json';// user.N#GET.json
-                                grunt.log.writeln('parsed fileName:' + fileName);
-                                var filePath = path.join('mock',segments[0],fileName);
-                                grunt.log.writeln('parsed filePath:' + filePath);
-                                var result = '';
-                                if(grunt.file.exists(filePath)){
-                                    result = grunt.file.read(filePath);
-                                }else{
-                                    result = JSON.stringify({
-                                        stat:'ERROR',
-                                        errors:'mock data file:【' + filePath + '】 does not exist!'
-                                    })
-                                }
-                                grunt.log.writeln(result);
-                                res.end(result);
-                            }
+                            mockMiddleware
                         ];
                     }
                 }
@@ -125,7 +181,6 @@ module.exports = function (grunt) {
                     port: 9001,
                     middleware: function (connect) {
                         return [
-//                            connect.static('.tmp'),
                             connect.static('test'),
                             connect().use(
                                 '/bower_components',
@@ -138,32 +193,16 @@ module.exports = function (grunt) {
             },
             dist: {
                 options: {
-                    open: true,
-                    base: '<%%= yeoman.dist %>'
+                    port: 9002,
+                    middleware: function (connect) {
+                        return [
+                            connect.static('dist'),
+                            mockMiddleware
+                        ];
+                    }
                 }
             }
         },
-
-        // Make sure code styles are up to par and there are no obvious mistakes
-        jshint: {
-            options: {
-                jshintrc: '.jshintrc',
-                reporter: require('jshint-stylish')
-            },
-            all: {
-                src: [
-                    'Gruntfile.js',
-                    '<%%= yeoman.app %>/scripts/**/*.js'
-                ]
-            },
-            test: {
-                options: {
-                    jshintrc: 'test/.jshintrc'
-                },
-                src: ['test/spec/{,*/}*.js']
-            }
-        },
-
         // Empties folders to start fresh
         clean: {
             dist: {
@@ -224,6 +263,7 @@ module.exports = function (grunt) {
         htmlmin: {
             dist: {
                 options: {
+                    minifyJS:true,
                     collapseWhitespace: true,
                     conservativeCollapse: true,
                     collapseBooleanAttributes: true,
@@ -269,16 +309,10 @@ module.exports = function (grunt) {
                         src: [
                             '*.{ico,png,txt}',
                             '*.html',
-//                            'views/{,*/}*.html',//因为使用了js模板打包，就不需要复制模板了
-                            'images/**/*.*',//modified by stone //imagesmin注释掉后，images目录不复制了
-                            'fonts/*'
+                            'images/**/*.*',
+                            '!images/_tmp/*.*',//_tmp临时目录不复制
+                            '!images/yeoman.png'//logo不复制
                         ]
-                    },
-                    {
-                        expand: true,
-                        cwd: '<%%= yeoman.app %>/images',
-                        dest: '<%%= yeoman.dist %>/images',
-                        src: ['*/*']
                     },
                     {
                         expand: true,
@@ -294,28 +328,8 @@ module.exports = function (grunt) {
                     }
                     //more copies
                 ]
-            },
-            styles: {
-                expand: true,
-                cwd: '<%%= yeoman.app %>/styles',
-                dest: '.tmp/styles/',
-                src: 'all.css'//只复制一个all.css，all.less已经包含了其他所有less
             }
         },
-
-        // Run some tasks in parallel to speed up the build process
-        concurrent: {
-            server: [
-                'copy:styles'
-            ],
-            test: [
-                'copy:styles'
-            ],
-            dist: [
-                'copy:styles'
-            ]
-        },
-
         // Test settings
         karma: {
             unit: {
@@ -332,6 +346,20 @@ module.exports = function (grunt) {
             ngtemplates: {
                 src: ['.tmp/concat/scripts/scripts.js', '.tmp/ngtemplates/ngtemplates.js'],
                 dest: '.tmp/concat/scripts/scripts.js'
+            }
+        },
+
+        sprite:{//合并sprite
+            all: {
+                src: ['<%%= yeoman.app %>/images/**/*.png',
+                     '!<%%= yeoman.app %>/images/_tmp/**/*.png',
+                     '!<%%= yeoman.app %>/images/spritesheet.png',//不排除的话，这个图片会重复，越来越大，因为本身也是png
+                     '!<%%= yeoman.app %>/images/yeoman.png']//排除logo图片
+                    .concat(gruntTaskParams.spriteSrcEX),
+                dest: '<%%= yeoman.app %>/images/spritesheet.png',
+                destCss: '<%%= yeoman.app %>/styles/sprites.css',
+                cssTemplate:'sprite.css.handlebars',
+                padding:2
             }
         },
         ngtemplates: {//后期添加，打包模板
@@ -368,9 +396,8 @@ module.exports = function (grunt) {
         }
 
         grunt.task.run([
-            'clean:server',
             'less',//启动时，编译一次，防止【服务没启动时，less做过修改而不生效】
-//            'concurrent:server',
+            'postcss',
             'connect:livereload',
             'watch'
         ]);
@@ -391,9 +418,9 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'less',//打包时，编译一次，防止【服务没启动时，less做过修改而不生效】
-        'ngtemplates',//added by stone
+        'postcss',
+        'ngtemplates',
         'useminPrepare',
-        'concurrent:dist',
         'concat:generated',
         'concat:ngtemplates',
         'ngAnnotate',

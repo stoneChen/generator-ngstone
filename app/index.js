@@ -20,13 +20,7 @@ module.exports = yeoman.generators.Base.extend({
         this.classedName = this._.classify(this.name);
         this.cameledName = this._.camelize(this.name);
         this.appPath = 'app';
-        this.initBaseServiceAndLayout = true;
-        this.uiRouter = true;
-        this.baseServiceModules = {
-            bower:{},
-            npm:{}
-        };
-
+        this.preinstallScripts = [];
     },
 
     prompting: function () {
@@ -36,63 +30,11 @@ module.exports = yeoman.generators.Base.extend({
                 'Welcome to the swell ' + chalk.red('Angular-stone') + ' generator!'
         ));
         var isCwdEmpty = generatorUtil.isDirEmpty(process.cwd());
-//        if(!isCwdEmpty){
-//            this.prompt(, function (props) {
-//                if(props.needEmptyCwd){
-//                    //清空当前目录
-//                    generatorUtil.clearDir(process.cwd(),true);
-//                }
-//            }.bind(this));
-//        }
-//
         var prompts = [
             {
                 type: 'confirm',
                 name: 'needEmptyCwd',
                 message: '当前目录非空，是否清空(bower_components与node_modules将跳过)?\n',
-                default: true
-            },
-            {
-                type: 'confirm',
-                name: 'isMobileApp',
-                message: '是否为mobileApp?',
-                default: true
-            },
-            {
-                type: 'list',
-                name: 'router',
-                message: '希望使用哪一个路由组件?\n',
-                choices: [
-                    {
-                        value: 'ngRoute',
-                        name: 'angular-route',
-                        selected: false
-                    },
-                    {
-                        value: 'uiRouter',
-                        name: 'angular-ui-router',
-                        selected: true
-                    }
-
-                ],
-                default: 'router'
-            },
-            {
-                type: 'confirm',
-                name: 'unitTest',
-                message: '是否需要单元测试文件?(运行单元测试需要额外初始化单元测试环境)',
-                default: true
-            },
-            {
-                type: 'confirm',
-                name: 'e2eTest',
-                message: '是否需要e2e测试文件?(运行e2e测试需要自行安装全局protractor)',
-                default: true
-            },
-            {
-                type: 'confirm',
-                name: 'initBaseServiceAndLayout',
-                message: '是否初始化基础服务与布局?',
                 default: true
             }
         ];
@@ -104,31 +46,11 @@ module.exports = yeoman.generators.Base.extend({
                 //清空当前目录
                 generatorUtil.clearDir(process.cwd(),true);
             }
-            this.isMobileApp = props.isMobileApp;
-            this.initBaseServiceAndLayout = props.initBaseServiceAndLayout;
-            this.unitTest = props.unitTest;
-            this.e2eTest = props.e2eTest;
-            this.uiRouter = (props.router === 'uiRouter');
-            this.config.set({
-                initBaseServiceAndLayout:props.initBaseServiceAndLayout,
-                unitTest:props.unitTest,
-                e2eTest:props.e2eTest,
-                uiRouter:(props.router === 'uiRouter')
-            });
             done();
         }.bind(this));
     },
-//    _initModules: function () {
-//        this.appModules = ['bootstrap','fontawesome','jquery','angular','angular-route','angular-sanitize','angular-animate','angular-bootstrap'];
-//    },
-    _pushModule: function (m) {
-        this.appModules.push(m);
-    },
     writing: {
         common: function () {
-            if(this.initBaseServiceAndLayout){
-                this.baseServiceModules.bower['angular-local-storage'] = true;
-            }
             this.sourceRoot(path.join(__dirname, '../templates/common'));
             this.template(
                 this.templatePath('_package.json'),
@@ -147,13 +69,17 @@ module.exports = yeoman.generators.Base.extend({
                 this.destinationPath('Gruntfile.js')
             );
             this.template(
+                this.templatePath('grunt-task-params.js'),
+                this.destinationPath('grunt-task-params.js')
+            );
+            this.template(
+                this.templatePath('sprite.css.handlebars'),
+                this.destinationPath('sprite.css.handlebars')
+            );
+            this.template(
                 this.templatePath('app/index.html'),
                 this.destinationPath('app/index.html')
             );
-//            this.template(
-//                this.templatePath('app/favicon.ico'),
-//                this.destinationPath('app/favicon.ico')
-//            );
             this.directory(
                 'app/images',
                 this.destinationPath('app/images')
@@ -166,90 +92,59 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('app.js'),
                 this.destinationPath('app/scripts/app.js')
             );
-            if(this.unitTest){
-                this.template(
-                    this.templatePath('unit-mock/mock.js'),
+            this.template(
+                this.templatePath('unit-mock/mock.js'),
                 this.destinationPath('test/unit-mock/mock.js')
             );
-            }
-            if(this.e2eTest){
-                this.template(
-                    this.templatePath('e2e/protractor.conf.js'),
-                    this.destinationPath('test/protractor.conf.js')
-                );
-            }
-        },
-        views: function () {
-            if(!this.uiRouter){
-                return;
-            }
-            this.sourceRoot(path.join(__dirname, '../templates/views'));
             this.template(
-                this.templatePath('_common/mainland.html'),
-                this.destinationPath('app/views/_common/mainland.html')
+                this.templatePath('e2e/protractor.conf.js'),
+                this.destinationPath('test/protractor.conf.js')
             );
         },
         styles: function () {
             this.sourceRoot(path.join(__dirname, '../templates/styles'));
-            var sourceDir = '_preinstall';
-            if(!this.initBaseServiceAndLayout){
-                sourceDir = 'simple';
-            }
+            var sourceDir = 'simple';
             this.directory(
                 sourceDir,
                 this.destinationPath('app/styles')
             );
         },
-        mocks: function () {
-            if(!this.initBaseServiceAndLayout){
-                return;
-            }
-            this.sourceRoot(path.join(__dirname, '../templates/mock'));
-            this.directory(
-                '_preinstall',
-                this.destinationPath('mock')
-            );
-        },
-        biz: function () {
-            if(!this.initBaseServiceAndLayout){
-                return;
-            }
-            this.sourceRoot(path.join(__dirname, '../templates/biz'));
-            this.directory(
-                '_preinstall',
-                this.destinationPath('biz')
-            );
-        }
-    },
-    _preinstall: function () {
-        if(!this.initBaseServiceAndLayout){
-            return;
-        }
-//        this.on('end', function () {//不用on end的话，执行addScriptToIndex会报index.html找不到
+        preinstall: function () {
             this.sourceRoot(path.join(__dirname, '../templates/javascripts/_preinstall'));
             //scripts
-            this._templateAndPreinstall('filters');
+            //this._templateAndPreinstall('filters');
+            //this.preinstallScripts.push(path.join('scripts',subDir,f));
+            //this._templateAndPreinstall('base/directives');
+            //this._templateAndPreinstall('base/services');
+            //this._templateAndPreinstall('services');
+            this._templateAndPreinstall('base');
+            this.preinstallScripts.push(path.join('scripts','app.js'));//放在ngCustomBase后
             this._templateAndPreinstall('services');
-            this._templateAndPreinstall('directives');
-            this._templateAndPreinstall('controllers');
             //views
-        this.sourceRoot(path.join(__dirname, '../templates/views'));
+            this.sourceRoot(path.join(__dirname, '../templates/views'));
             this.directory(
                 '_preinstall',
                 this.destinationPath('app/views')
             );
-//        });
+        }
     },
     _templateAndPreinstall: function (subDir) {
         generatorUtil.readFiles(path.join(this.sourceRoot(),subDir), function (f,fullPath) {
-            var destPath = path.join('app/scripts',subDir,f);
+            var paths = fullPath.split('_preinstall/');//无奈初次下策
+            var relativePath = paths[1];
+            var destPath = path.join('app/scripts',relativePath);
             this.template(fullPath,this.destinationPath(destPath));
-            generatorUtil.addScriptToIndex(this.appPath,path.join('scripts',subDir,f),this);
+            this.preinstallScripts.push(path.join('scripts',relativePath));
+            //generatorUtil.addScriptToIndex(this.appPath,path.join('scripts',subDir,f),this);
         },this);
-
+    },
+    _addPreinstallScriptsToIndex: function () {//被迫的，如果靠前执行，会访问不到index.html囧
+        this.preinstallScripts.forEach(function (script) {
+            generatorUtil.addScriptToIndex(this.appPath,script,this);
+        },this);
     },
     install: function () {
-        this._preinstall();
+        this._addPreinstallScriptsToIndex();
         if(this.options['skip-install']){
             return;
         }
@@ -261,9 +156,6 @@ module.exports = yeoman.generators.Base.extend({
         });
     },
     end: function () {
-
-        this.invoke('ngstone:route',{
-            args:['main']
-        });
+        this.log(chalk.green('Initialization has been done. Have fun!'));
     }
-});
+})

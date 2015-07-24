@@ -1,21 +1,20 @@
-{<% var ngVer = "1.2.0" %>
+{
     "name": "<%= appName %>",
     "version": "0.0.1",
     "appPath": "<%= appPath %>",
     "dependencies": {
         "jquery":"~2.1.0",
-        "bootstrap": "3.3.0",
+        "bootstrap": "3.3.4",
         "fontawesome": "~4.2.0",
-        "angular": "~<%= ngVer %>",
-        "angular-sanitize": "~<%= ngVer %>",<% if(isMobileApp){ %>
-        "angular-touch":"~<%= ngVer %>",<% } if(uiRouter){ %>
-        "angular-ui-router":"~0.2.1",<% } else{ %>
-        "angular-route": "~<%= ngVer %>",<% } %>
-        "angular-bootstrap":"~0.12.0"<% if(baseServiceModules.bower['angular-local-storage']){ %>,
-        "angular-local-storage":"~0.1.0"<% } %>
+        "angular": "~1.4.0",
+        "angular-animate":"~1.4.0",
+        "angular-sanitize": "~1.4.0",
+        "angular-route": "~1.4.0",
+        "angular-local-storage":"~0.1.0",
+        "ryanmullins-angular-hammer":"~2.1.0"
     },
     "devDependencies": {
-        "angular-mocks": "~<%= ngVer %>"
+        "angular-mocks": "~1.4.0"
     }
 }
 

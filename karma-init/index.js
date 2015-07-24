@@ -5,20 +5,17 @@ var chalk = require('chalk');
 
 module.exports = yeoman.generators.Base.extend({
     initializing: function () {
-        var bowerConfig = require(path.join(process.cwd(), 'bower.json'));
-        this.initBaseServiceAndLayout = bowerConfig.initBaseServiceAndLayout;
         var enabledComponents = [
+            'jquery/dist/jquery.js',
+            'hammerjs/hammer.js',
             'angular/angular.js',
-            'angular-mocks/angular-mocks.js',
-            'angular-animate/angular-animate.js',
             'angular-route/angular-route.js',
+            'angular-animate/angular-animate.js',
             'angular-sanitize/angular-sanitize.js',
-            'angular-bootstrap/ui-bootstrap-tpls.js',
-            'angular-local-storage/dist/angular-local-storage.js'
+            'ryanmullins-angular-hammer/angular.hammer.js',
+            'angular-local-storage/dist/angular-local-storage.js',
+            'angular-mocks/angular-mocks.js'
         ];
-        if(!this.initBaseServiceAndLayout){
-            enabledComponents.pop();
-        }
         this.invoke('karma:app', {
             options: {
 //                'skip-install': this.options['skip-install'],

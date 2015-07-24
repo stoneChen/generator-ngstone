@@ -1,18 +1,18 @@
 'use strict';
-
 /**
  * @ngdoc service
- * @name <%= scriptAppName %>.resources
- * @description
- * # resources 资源池
+ * @name <%= scriptAppName %>.resourcePool
+ * @description 资源池，用于存放业务模块的资源类
+ * # resourcePool
  * Factory in the <%= scriptAppName %>.
  */
 angular.module('<%= scriptAppName %>')
     .factory('resourcePool', function (resourceService) {
-        var create = resourceService.create;//do not modify this line.it is used for generator
+        var create = resourceService.create;
         return {
-            session: create('/session')
-            ,user: create('/user/{id}')
-            //do not delete this line.it is used for generator to find this line
+            _url:{//非资源级别的直接写url
+
+            }
+            ,session: create('/member/session')
         }
     });

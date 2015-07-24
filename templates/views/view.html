@@ -1,11 +1,13 @@
 <% if(options['route']) {
-%><div class="jumbotron">
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">
-        <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    </p>
-    <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-    <p>this is the <strong style="font-size: 50px;color:#428bca"><%= name %></strong> view. to be continued...</p>
+%><div class="page-<%= dashedName %>">
+    <div class="jumbotron">
+        <h1>'Allo, 'Allo!</h1>
+        <p class="lead">
+            <img src="images/yeoman.png" alt="I'm Yeoman"><br>
+        </p>
+        <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
+        <p>this is the <strong style="font-size: 50px;color:#428bca"><%= name %></strong> view. to be continued...</p>
+    </div>
 </div><%
 } else {
 %><p>this is the <strong style="font-size: 30px;color:#428bca"><%= name %></strong> view. to be continued...</p><% } %>
